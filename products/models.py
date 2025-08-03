@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from categories.models import Category, Brand
 
@@ -7,6 +8,90 @@ from categories.models import Category, Brand
 
 def product_image_upload_path(instance, filename):
     return f'products/{instance.slug}/{filename}'
+
+class FeatureOption(models.Model):
+    class Feature(models.TextChoices):
+        Color = 'c', _('Color')
+        Size = 's', _('Size')
+    class Color(models.TextChoices):
+        RED = 'red', _('red')
+        BLUE = 'blue', _('blue')
+        GREEN = 'green', _('green')
+        BLACK = 'black', _('black')
+        WHITE = 'white', _('white')
+        YELLOW = 'yellow', _('yellow')
+        ORANGE = 'orange', _('orange')
+        PURPLE = 'purple', _('purple')
+        PINK = 'pink', _('pink')
+        BROWN = 'brown', _('brown')
+        GRAY = 'gray', _('gray')
+        SILVER = 'silver', _('silver')
+        GOLD = 'gold', _('gold')
+        BEIGE = 'beige', _('beige')
+        MAROON = 'maroon', _('maroon')
+        NAVY = 'navy', _('navy')
+        TEAL = 'teal', _('teal')
+        TURQUOISE = 'turquoise', _('turquoise')
+        CYAN = 'cyan', _('cyan')
+        MAGENTA = 'magenta', _('magenta')
+        LIME = 'lime', _('lime')
+        OLIVE = 'olive', _('olive')
+        INDIGO = 'indigo', _('indigo')
+        VIOLET = 'violet', _('violet')
+        CORAL = 'coral', _('coral')
+        SALMON = 'salmon', _('salmon')
+        KHAKI = 'khaki', _('khaki')
+        MINT = 'mint', _('mint')
+        PEACH = 'peach', _('peach')
+        IVORY = 'ivory', _('ivory')
+        LAVENDER = 'lavender', _('lavender'),
+
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='feature_options',
+        verbose_name=_('product'),
+    )
+    feature = models.CharField(
+        _('feature'),
+        max_length=1,
+        choices=Feature.choices
+    )
+    color = models.CharField(
+        _('color'), max_length=20,
+        choices=Color.choices,
+        blank=True,
+        help_text=_('If this feature is a color, fill this field and leave the value field empty.')
+    )
+    value = models.CharField(
+        _('value'),
+        max_length=55,
+        blank=True,
+        help_text=_('If this feature is a size, fill this field and leave the color field empty.')
+    )
+
+    def __str__(self):
+        if self.Feature == self.Feature.Color:
+            return f"{self.feature}: {self.color}"
+        else:
+            return f"{self.feature}: {self.value}"
+
+    def clean(self):
+        if self.feature == self.Feature.Color:
+            if not self.color:
+                raise ValidationError(_("Color feature must have a color value."))
+            if self.value:
+                raise ValidationError(_("Color feature must not have a size value."))
+        elif self.feature == self.Feature.Size:
+            if not self.value:
+                raise ValidationError(_("Size feature must have a size value."))
+            if self.color:
+                raise ValidationError(_("Size feature must not have a color value."))
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(
