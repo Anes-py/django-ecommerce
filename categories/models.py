@@ -44,7 +44,7 @@ class Brand(models.Model):
         _("slug"),
         max_length=255,
         unique=True,
-        blank=True,
+        allow_unicode=True,
     )
     description = models.CharField(_("description"), max_length=255)
     created_at = models.DateTimeField(_("created_at"), auto_now_add=True)
