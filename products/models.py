@@ -8,6 +8,18 @@ from categories.models import Category, Brand
 def product_image_upload_path(instance, filename):
     return f'products/{instance.slug}/{filename}'
 
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='images'
+    )
+    image = models.ImageField(upload_to=product_image_upload_path)
+
+    def __str__(self):
+        return self.image.name
+
+
 class Product(models.Model):
     class ProductStatus(models.TextChoices):
         AVAILABLE = 'a',  _('Available'),
