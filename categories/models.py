@@ -35,3 +35,24 @@ class Category(models.Model):
     class Meta:
         verbose_name = _("category")
         verbose_name_plural = _("categories")
+
+
+
+class Brand(models.Model):
+    name = models.CharField(_("name"), max_length=155)
+    slug = models.SlugField(
+        _("slug"),
+        max_length=255,
+        unique=True,
+        blank=True,
+    )
+    description = models.CharField(_("description"), max_length=255)
+    created_at = models.DateTimeField(_("created_at"), auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = _("Brand")
+        verbose_name_plural = _("Brands")
