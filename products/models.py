@@ -1,12 +1,57 @@
 from django.db import models
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.text import gettext_lazy as _
 from django.shortcuts import reverse
 
-
 from categories.models import Category, Brand
+
+def get_all_category(category):
+    subs = [category]
+    for category in category.children.all():
+        subs += get_all_category(category)
+    return subs
+
+class ProductManager(models.Manager):
+    def active(self):
+        return self.get_queryset().filter(is_active=True).prefetch_related('images')
+
+    def newest(self):
+        return self.active().order_by('-created_at').select_related('discount')
+
+    def with_discount(self):
+        now = timezone.now()
+        return self.active().filter(
+            Q(discount__start_date__lte=now) | Q(discount__start_date__isnull=True),
+            Q(discount__expire_date__gte=now) | Q(discount__expire_date__isnull=True),
+            discount__is_active=True,
+        ).select_related('discount').order_by('-discount__value')
+
+    def by_category(self, category_slug):
+        try:
+            category = Category.objects.prefetch_related("children").get(slug=category_slug)
+        except Category.DoesNotExist:
+            return self.none()
+        subcategories = get_all_category(category)
+        return self.active().filter(category__in=subcategories)
+
+    def by_brand(self, brand_slug):
+        return self.active().filter(brand__slug=brand_slug)
+
+    def search(self, query):
+        return self.active().filter(
+            Q(name__icontains=query) |
+            Q(short_description__icontains=query) | Q(description__icontains=query)
+        )
+
+    def most_expensive(self):
+        return self.active().order_by('-price')
+
+    def cheapest(self):
+        return self.active().order_by('price')
+
 
 
 class FeatureOption(models.Model):
@@ -188,6 +233,8 @@ class Product(models.Model):
         ordering = ['-created_at']
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
+
+    objects = ProductManager()
 
 
 class Discount(models.Model):
