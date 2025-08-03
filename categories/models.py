@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.text import gettext_lazy as _, slugify
-from django.utils import timezone
 
 
 class Category(models.Model):
@@ -22,7 +21,7 @@ class Category(models.Model):
         allow_unicode=True,
     )
     image = models.ImageField(_("image"), upload_to='categories/')
-    created_at = models.DateTimeField(_("created_at"), default=timezone.now)
+    created_at = models.DateTimeField(_("created_at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("updated_at"), auto_now=True)
 
     def __str__(self):
@@ -36,4 +35,3 @@ class Category(models.Model):
     class Meta:
         verbose_name = _("category")
         verbose_name_plural = _("categories")
-
