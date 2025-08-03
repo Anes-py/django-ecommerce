@@ -93,6 +93,25 @@ class FeatureOption(models.Model):
         super().save(*args, **kwargs)
 
 
+class ProductSpecification(models.Model):
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='specifications',
+        verbose_name=_('product'),
+    )
+    key = models.CharField(_('key'), max_length=55)
+    value = models.CharField(_('value'), max_length=155)
+
+    def __str__(self):
+        return f"{self.key}: {self.value}"
+
+    class Meta:
+        unique_together = ('product', 'key')
+        verbose_name = _("Product Specification")
+        verbose_name_plural = _("Product Specifications")
+
+
 class ProductImage(models.Model):
     product = models.ForeignKey(
         'Product',
