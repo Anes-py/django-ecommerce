@@ -198,4 +198,4 @@ class Discount(models.Model):
 
     class Meta:
         verbose_name = _("Discount")
-        verbose_name_plural = _("Discount")
+        verbose_name_plural = _("Discounts")
