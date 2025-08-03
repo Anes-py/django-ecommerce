@@ -2,9 +2,9 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.text import gettext_lazy as _
+from django.shortcuts import reverse
 
 from categories.models import Category, Brand
-
 
 
 class FeatureOption(models.Model):
@@ -170,6 +170,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_final_price(self):
+        if self.has_valid_discount():
+            return self.discount.apply_discount(self.price)
+        return self.price
+
+    def has_valid_discount(self):
+        return self.discount and self.discount.is_valid()
+
+    def get_absolute_url(self):
+        return reverse('product-detail', args=[self.slug])
 
     class Meta:
         ordering = ['-created_at']
