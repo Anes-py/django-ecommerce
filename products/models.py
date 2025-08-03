@@ -1,13 +1,11 @@
 from django.db import models
-from django.utils.text import gettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.utils import timezone
+from django.utils.text import gettext_lazy as _
 
 from categories.models import Category, Brand
 
 
-
-def product_image_upload_path(instance, filename):
-    return f'products/{instance.slug}/{filename}'
 
 class FeatureOption(models.Model):
     class Feature(models.TextChoices):
@@ -112,6 +110,9 @@ class ProductSpecification(models.Model):
         verbose_name_plural = _("Product Specifications")
 
 
+def product_image_upload_path(instance, filename):
+    return f'products/{instance.slug}/{filename}'
+
 class ProductImage(models.Model):
     product = models.ForeignKey(
         'Product',
@@ -174,3 +175,27 @@ class Product(models.Model):
         ordering = ['-created_at']
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
+
+
+class Discount(models.Model):
+    value = models.DecimalField(_("value"), max_digits=5, decimal_places=2)
+    is_active = models.BooleanField(_("is active"), default=True)
+    start_date = models.DateTimeField(_("start date"), null=True, blank=True)
+    expire_date = models.DateTimeField(_("expire date"), null=True, blank=True)
+
+    def __str__(self):
+        status = "Active" if self.is_valid() else "InActive"
+        return f"{self.value}% ({status})"
+
+    def is_valid(self):
+        now = timezone.now()
+        return self.is_active and (self.start_date is None or self.start_date <= now) and (self.expire_date is None or self.expire_date >= now)
+
+    def apply_discount(self, price):
+        if not self.is_valid():
+            return price
+        return max(price * (1 - self.value / 100), 0)
+
+    class Meta:
+        verbose_name = _("Discount")
+        verbose_name_plural = _("Discount")
