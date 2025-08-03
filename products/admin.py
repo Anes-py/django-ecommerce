@@ -2,6 +2,24 @@ from django.contrib import admin
 
 from .models import *
 
+class ProductOptionsInline(admin.TabularInline):
+    model = FeatureOption
+    extra = 1
+    max_num = 20
+
+
+class SpecificationInline(admin.TabularInline):
+    model = ProductSpecification
+    extra = 1
+    max_num = 15
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
+    min_num = 1
+    max_num = 20
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
