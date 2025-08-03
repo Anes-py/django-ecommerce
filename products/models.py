@@ -1,8 +1,10 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.text import gettext_lazy as _
 from django.shortcuts import reverse
+
 
 from categories.models import Category, Brand
 
@@ -210,3 +212,25 @@ class Discount(models.Model):
     class Meta:
         verbose_name = _("Discount")
         verbose_name_plural = _("Discounts")
+
+
+class Comment(models.Model):
+    class CommentStatus(models.TextChoices):
+        APPROVED = 'aprv', _('APPROVED'),
+        DRAFT = 'drf', _('draft'),
+        REJECTED = 'rjk', _('rejected')
+
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='replies', null=True, blank=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='user_comments', null=True, blank=True)
+    display_name = models.CharField(max_length=55)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_comments', null=True, blank=True)
+    title = models.CharField(max_length=55)
+    text = models.TextField()
+    recommend = models.BooleanField()
+    status = models.CharField(max_length=4, choices=CommentStatus.choices, default=CommentStatus.DRAFT)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return f"comment by: {self.display_name} on {self.product} - {self.status}"
