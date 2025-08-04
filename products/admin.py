@@ -17,7 +17,6 @@ class SpecificationInline(admin.TabularInline):
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
-    min_num = 1
     max_num = 20
 
 
@@ -31,7 +30,6 @@ class CommentInline(admin.TabularInline):
         'text',
         'recommend',
         'status',
-        'is_active',
         'created_at',
     ]
     readonly_fields = [
@@ -53,21 +51,23 @@ class ProductAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     ]
-    readonly_fields = ['created_at', 'updated_at']
     list_display_links = ['name']
     list_per_page = 20
     list_max_show_all = 30
     list_editable = ['status', 'is_active']
     list_filter = ['status', 'is_active', 'category']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
     autocomplete_fields = ['category', 'brand']
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ['name', 'short_description']
     ordering = ['-created_at', 'stock']
+
     inlines = [
-        'ProductOptionsInline',
-        'SpecificationInline',
-        'ProductImageInline',
-        'CommentInline',
+        ProductOptionsInline,
+        SpecificationInline,
+        ProductImageInline,
+        CommentInline,
     ]
 
 
@@ -78,16 +78,19 @@ class DiscountAdmin(admin.ModelAdmin):
         'is_active',
         'start_date',
         'expire_date',
+        'created_at',
     ]
     list_editable = ['is_active',]
     list_filter = ['is_active']
     list_display_links = ['value']
     ordering = ['is_active']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
     list_per_page = 20
     list_max_show_all = 30
 
 
-
+@admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = [
         'title',
@@ -101,5 +104,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display_links = ['title']
     list_filter = ['parent', 'product', 'user', 'status']
     list_editable = ['status']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
     list_per_page = 20
     list_max_show_all = 30
