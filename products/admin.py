@@ -69,3 +69,18 @@ class ProductAdmin(admin.ModelAdmin):
         'ProductImageInline',
         'CommentInline',
     ]
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = [
+        'value',
+        'is_active',
+        'start_date',
+        'expire_date',
+    ]
+    list_editable = ['is_active',]
+    list_filter = ['is_active']
+    list_display_links = ['value']
+    list_per_page = 20
+    list_max_show_all = 30
+    ordering = ['is_active']
