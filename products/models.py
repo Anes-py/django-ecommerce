@@ -53,7 +53,6 @@ class ProductManager(models.Manager):
         return self.active().order_by('price')
 
 
-
 class FeatureOption(models.Model):
     class Feature(models.TextChoices):
         Color = 'c', _('Color')
@@ -261,6 +260,11 @@ class Discount(models.Model):
         verbose_name_plural = _("Discounts")
 
 
+class CommentManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True, status=Comment.CommentStatus.APPROVED)
+
+
 class Comment(models.Model):
     class CommentStatus(models.TextChoices):
         APPROVED = 'aprv', _('APPROVED'),
@@ -278,6 +282,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     objects = models.Manager()
+    active = CommentManager()
 
     def __str__(self):
         return f"comment by: {self.display_name} on {self.product} - {self.status}"
