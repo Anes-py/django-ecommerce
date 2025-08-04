@@ -21,6 +21,24 @@ class ProductImageInline(admin.TabularInline):
     max_num = 20
 
 
+class CommentInline(admin.TabularInline):
+    model = Comment
+    fields = [
+        'parent',
+        'user',
+        'display_name',
+        'title',
+        'text',
+        'recommend',
+        'status',
+        'is_active',
+        'created_at',
+    ]
+    readonly_fields = [
+        'created_at',
+    ]
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = [
@@ -43,3 +61,9 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ['name', 'short_description']
     ordering = ['-created_at', 'stock']
+    inlines = [
+        'ProductOptionsInline',
+        'SpecificationInline',
+        'ProductImageInline',
+        'CommentInline',
+    ]
