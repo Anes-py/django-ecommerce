@@ -37,6 +37,8 @@ class CommentInline(admin.TabularInline):
     readonly_fields = [
         'created_at',
     ]
+    extra = 1
+    min_num = 0
 
 
 @admin.register(Product)
