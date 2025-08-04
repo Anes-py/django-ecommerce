@@ -262,7 +262,7 @@ class Discount(models.Model):
 
 class CommentManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_active=True, status=Comment.CommentStatus.APPROVED)
+        return super().get_queryset().filter(status=Comment.CommentStatus.APPROVED)
 
 
 class Comment(models.Model):

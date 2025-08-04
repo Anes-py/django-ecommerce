@@ -70,6 +70,7 @@ class ProductAdmin(admin.ModelAdmin):
         'CommentInline',
     ]
 
+
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):
     list_display = [
@@ -81,6 +82,24 @@ class DiscountAdmin(admin.ModelAdmin):
     list_editable = ['is_active',]
     list_filter = ['is_active']
     list_display_links = ['value']
+    ordering = ['is_active']
     list_per_page = 20
     list_max_show_all = 30
-    ordering = ['is_active']
+
+
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = [
+        'title',
+        'parent',
+        'user',
+        'display_name',
+        'product',
+        'status',
+        'created_at',
+    ]
+    list_display_links = ['title']
+    list_filter = ['parent', 'product', 'user', 'status']
+    list_editable = ['status']
+    list_per_page = 20
+    list_max_show_all = 30
