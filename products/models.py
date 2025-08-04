@@ -241,6 +241,7 @@ class Discount(models.Model):
     is_active = models.BooleanField(_("is active"), default=True)
     start_date = models.DateTimeField(_("start date"), null=True, blank=True)
     expire_date = models.DateTimeField(_("expire date"), null=True, blank=True)
+    created_at = models.DateTimeField(_("created_at"), auto_now_add=True)
 
     def __str__(self):
         status = "Active" if self.is_valid() else "InActive"
