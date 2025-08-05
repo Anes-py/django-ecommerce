@@ -56,7 +56,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_max_show_all = 30
     list_editable = ['status', 'is_active']
     list_filter = ['status', 'is_active', 'category']
-    readonly_fields = ['created_at']
+    readonly_fields = ['created_at', 'updated_at']
     date_hierarchy = 'created_at'
     autocomplete_fields = ['category', 'brand']
     prepopulated_fields = {"slug": ("name",)}
