@@ -203,6 +203,14 @@ class Product(models.Model):
     short_description = models.CharField(_('short description'),max_length=155)
     description = models.TextField(_('description'))
     price = models.PositiveIntegerField(_('price'), default=0)
+    discount = models.OneToOneField(
+        'Discount',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='discount_products',
+        verbose_name=_("discount")
+    )
     stock = models.PositiveIntegerField(_('stock'), default=0)
     status = models.CharField(
         _('status'),
