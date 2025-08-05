@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from django.utils.text import gettext_lazy as _
+from django.utils.text import gettext_lazy as _, slugify
 from django.shortcuts import reverse
 
 from categories.models import Category, Brand
@@ -224,6 +224,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name, allow_unicode=True)
+        super().save(*args, **kwargs)
 
     def get_final_price(self):
         if self.has_valid_discount():
