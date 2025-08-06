@@ -20,7 +20,7 @@ class Category(models.Model):
         blank=True,
         allow_unicode=True,
     )
-    image = models.ImageField(_("image"), upload_to='categories/', null=True, blank=True)
+    image = models.ImageField(_("image"), upload_to='categories/')
     created_at = models.DateTimeField(_("created_at"), auto_now_add=True)
     updated_at = models.DateTimeField(_("updated_at"), auto_now=True)
 
