@@ -21,12 +21,16 @@ class SiteSettings(models.Model):
 
 class BaseBanner(models.Model):
     site_setting = models.ForeignKey(SiteSettings, on_delete=models.CASCADE, related_name='+')
+    title = models.CharField(max_length=155)
     image = models.ImageField(_('image'), upload_to='banners/')
     url = models.URLField(_('url'), blank=True, null=True)
     is_active = models.BooleanField(_('is_active'), default=True)
     ordering = models.PositiveIntegerField(_('ordering'), default=0)
     created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('updated_at'), auto_now=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         ordering = ['ordering', 'created_at']
