@@ -155,17 +155,13 @@ class ProductSpecification(models.Model):
         verbose_name = _("Product Specification")
         verbose_name_plural = _("Product Specifications")
 
-
-def product_image_upload_path(instance, filename):
-    return f'products/{instance.slug}/{filename}'
-
 class ProductImage(models.Model):
     product = models.ForeignKey(
         'Product',
         on_delete=models.CASCADE,
-        related_name='images'
+        related_name='images',
     )
-    image = models.ImageField(upload_to=product_image_upload_path)
+    image = models.ImageField(upload_to='products/')
 
     def __str__(self):
         return self.image.name
@@ -199,7 +195,7 @@ class Product(models.Model):
         allow_unicode=True,
     )
 
-    main_image = models.ImageField(upload_to=product_image_upload_path)
+    main_image = models.ImageField(upload_to='products/')
     short_description = models.CharField(_('short description'),max_length=155)
     description = models.TextField(_('description'))
     price = models.PositiveIntegerField(_('price'), default=0)
