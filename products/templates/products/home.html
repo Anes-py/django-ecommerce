@@ -96,17 +96,17 @@
                     >
                       <!-- image -->
                       <div class="mb-2 md:mb-5" draggable="false">
-                        <a href='{{ product.get_absolute_url }}'>
+                        <a href=''>
                           <img
                             alt="{{ product.name }}"
                             class="mx-auto w-32 rounded-lg md:w-auto"
-                            src="{{ main_image_url_prefix }}{{ product.main_image }}"
+                            src="{{ product.main_image.url }}"
                           />
                         </a>
                       </div>
                       <!-- title -->
                       <div class="mb-2">
-                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
+                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href=''>
                           {{ product.name|truncatewords:7 }}
                         </a>
                       </div>
@@ -187,17 +187,17 @@
                     >
                       <!-- image -->
                       <div class="mb-2 md:mb-5" draggable="false">
-                        <a href='{{ product.get_absolute_url }}'>
+                        <a href=''>
                           <img
                             alt="{{ product.name }}"
                             class="mx-auto w-32 rounded-lg md:w-auto"
-                            src="{{ main_image_url_prefix }}{{ product.main_image }}"
+                            src="{{ product.main_image.url }}"
                           />
                         </a>
                       </div>
                       <!-- title -->
                       <div class="mb-2">
-                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
+                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href=''>
                           {{ product.name }}
                         </a>
                       </div>
@@ -333,7 +333,7 @@
                     >
                       <!-- image -->
                       <div class="mb-2 md:mb-5" draggable="false">
-                        <a href='{{ product.get_absolute_url }}'>
+                        <a href=''>
                           <img
                             alt=""
                             class="mx-auto w-32 rounded-lg md:w-auto"
@@ -343,7 +343,7 @@
                       </div>
                       <!-- title -->
                       <div class="mb-2">
-                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
+                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href=''>
                           کفش پیاده روی مردانه نیو بالانس مدل Mdrftlm2
                         </a>
                       </div>
