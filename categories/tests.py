@@ -17,9 +17,10 @@ class TestCategoryModel(TestCase):
             name="category test",
             image=self.image
         )
+        self.assertEqual(str(category), category.name)
         self.assertEqual(category.name, 'category test')
-        self.assertTrue(category.slug)
         self.assertEqual(category.slug, 'category-test')
+        self.assertTrue(category.slug)
 
     def test_persian_slug(self):
         category = Category.objects.create(name="لپتاپ ایسوس", image=self.image)
@@ -41,6 +42,7 @@ class TestBrandModel(TestCase):
     def test_create_brand(self):
         brand = Brand.objects.create(name='brand name')
         self.assertEqual(brand.slug, 'brand-name')
+        self.assertEqual(str(brand), brand.name)
 
     def test_ordering_by_created_at(self):
         brand1 = Brand.objects.create(name='brand1')

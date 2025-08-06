@@ -32,6 +32,12 @@ class TestProductModel(TestCase):
         self.assertTrue(self.product.slug)
         self.assertEqual(self.product.slug, 'test-product')
 
+    def test_persian_slug(self):
+        self.product.name= 'محصول تستی'
+        self.product.slug = ''
+        self.product.save()
+        self.assertEqual(self.product.slug, 'محصول-تستی')
+
     def test_get_final_price_with_discount(self):
         final_price = self.product.get_final_price()
         expected_price = self.product.price * (1 - self.product.discount.value / 100)
@@ -51,6 +57,10 @@ class TestProductModel(TestCase):
     def test_product_with_discount_manager(self):
         products_with_discount = Product.objects.with_discount()
         self.assertIn(self.product, products_with_discount)
+
+    def test_get_final_price_with_expired_discount(self):
+        self.product.discount.expire_date = timezone.now() - timezone.timedelta(days=2)
+        self.assertEqual(self.product.get_final_price(), self.product.price)
 
     def test_product_ordering(self):
         p2 = Product.objects.create(
