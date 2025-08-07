@@ -1681,7 +1681,7 @@
       <div class="main-scroll h-[450px] w-full overflow-auto" dir="ltr">
         <div class="flex flex-grow p-5" dir="rtl" id="mega-menu-childs">
           {% for category in categories %}
-            {% if category.children.exists %}
+            {% if category.children.all %}
             <!-- UNIQUE CHILD BOX -->
            <div class="child-box hidden" id="child-{{ forloop.counter }}">
               <!-- Head -->
@@ -1704,17 +1704,6 @@
                       <use xlink:href="#chevron-left"></use>
                     </svg>
                   </a>
-                  {% if child.children %}
-                  <ul>
-                    {% for grandchild in child.children.all %}
-                    <li>
-                      <a href="" class="block py-2 text-sm text-text/90 hover:text-primary">
-                        {{ grandchild.name }}
-                      </a>
-                    </li>
-                    {% endfor %}
-                  </ul>
-                  {% endif %}
                 </div>
                 {% endfor %}
               </div>
