@@ -122,11 +122,10 @@
                         </div>
                         <div class="flex items-center justify-between">
                           <div>
-                            <p
-                              class="w-9 rounded-full bg-warning py-px text-center text-sm text-white"
-                            >
-                           {{ product.discount.value }} %
-                            </p>
+                          <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
+                              {{ product.discount.value|floatformat:0 }}%
+                          </p>
+
                           </div>
                           <!-- New price -->
                           <div
@@ -218,11 +217,9 @@
                         <div class="flex items-center justify-between">
                            {% if product.has_valid_discount %}
                           <div>
-                            <p
-                              class="w-9 rounded-full bg-warning py-px text-center text-sm text-white"
-                            >
-                              {{ product.discount.value }} %
-                            </p>
+                                 <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
+                              {{ product.discount.value|floatformat:0 }}%
+                          </p>
                           </div>
                           {% endif %}
                           <!-- New price -->

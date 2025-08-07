@@ -1666,7 +1666,7 @@
           {% for category in categories %}
           <li>
             <a
-              href="{% url 'product-list' %}?category_slug={{ category.slug }}"
+              href=""
               class="flex py-4 pr-4"
               data-child-id="child-{{ forloop.counter }}"
             >
@@ -1686,7 +1686,7 @@
            <div class="child-box hidden" id="child-{{ forloop.counter }}">
               <!-- Head -->
               <div class="mb-4">
-                <a href="{% url 'product-list' %}" class="flex items-center gap-x-1 py-2 text-sm text-primary">
+                <a href="" class="flex items-center gap-x-1 py-2 text-sm text-primary">
                   <div>مشاهده همه</div>
                   <svg class="h-5 w-5">
                     <use xlink:href="#chevron-left"></use>
@@ -1697,7 +1697,7 @@
               <div class="flex flex-grow flex-wrap gap-x-14 gap-y-8">
                 {% for child in category.children.all %}
                 <div class="space-y-2">
-                  <a href="{% url 'product-list' %}?category_slug={{ child.slug }}" class="flex items-center gap-x-2 hover:text-primary">
+                  <a href="" class="flex items-center gap-x-2 hover:text-primary">
                     <span class="h-5 w-0.5 rounded-full bg-primary"></span>
                     <div>{{ child.name }}</div>
                     <svg class="h-5 w-5">
@@ -1708,7 +1708,7 @@
                   <ul>
                     {% for grandchild in child.children.all %}
                     <li>
-                      <a href="{% url 'product-list' %}?category_slug={{ grandchild.slug }}" class="block py-2 text-sm text-text/90 hover:text-primary">
+                      <a href="" class="block py-2 text-sm text-text/90 hover:text-primary">
                         {{ grandchild.name }}
                       </a>
                     </li>
