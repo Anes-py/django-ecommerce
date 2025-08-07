@@ -16,7 +16,7 @@ def get_all_category(category):
 
 class ProductManager(models.Manager):
     def active(self):
-        return self.get_queryset().filter(is_active=True).prefetch_related('images')
+        return self.get_queryset().filter(is_active=True)
 
     def newest(self):
         return self.active().order_by('-created_at').select_related('discount')
