@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.utils import timezone
+from django.shortcuts import reverse
 
 from categories.models import Category, Brand
+from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from .models import Product, Discount
 
 
@@ -74,3 +76,53 @@ class TestProductModel(TestCase):
         ordered = list(Product.objects.newest())
         self.assertEqual(ordered[0], p2)
 
+
+class TestHomeView(TestCase):
+    def setUp(self):
+
+        self.parent_category = Category.objects.create(name='test category', image='test.jpg')
+
+        discount = Discount.objects.create(
+            value=30,
+            is_active=True,
+            start_date=timezone.now() - timezone.timedelta(days=1),
+            expire_date=timezone.now() + timezone.timedelta(days=1),
+        )
+
+        Product.objects.create(
+            name='test product',
+            price=100,
+            main_image='product.jpg',
+            short_description='short description',
+            description='description',
+            category=self.parent_category,
+            discount=discount,
+        )
+
+    def test_home_view_url(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_home_view_context_data_with_site_settings(self):
+        site_setting = SiteSettings.objects.create(site_name='Test Shop name')
+
+        SliderBanners.objects.create(site_setting=site_setting, title="slider", image="slider.jpg")
+        SideBanners.objects.create(site_setting=site_setting, title="side", image="side.jpg")
+        MiddleBanners.objects.create(site_setting=site_setting, title="middle", image="middle.jpg")
+
+        response = self.client.get(reverse('home'))
+        self.assertIn('slider_banners', response.context)
+        self.assertIn('side_banners', response.context)
+        self.assertIn('middleBanners', response.context)
+        self.assertIn('discounted_products', response.context)
+        self.assertIn('newest_products', response.context)
+        self.assertIn('top_categories', response.context)
+
+    def test_home_view_context_data_without_site_settings_obj(self):
+        response = self.client.get(reverse('home'))
+        self.assertNotIn('slider_banners', response.context)
+        self.assertNotIn('side_banners', response.context)
+        self.assertNotIn('middleBanners', response.context)
+        self.assertIn('discounted_products', response.context)
+        self.assertIn('newest_products', response.context)
+        self.assertIn('top_categories', response.context)
