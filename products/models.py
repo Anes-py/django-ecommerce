@@ -8,12 +8,6 @@ from django.shortcuts import reverse
 
 from categories.models import Category, Brand
 
-def get_all_category(category):
-    subs = [category]
-    for category in category.children.all():
-        subs += get_all_category(category)
-    return subs
-
 class ProductManager(models.Manager):
     def active(self):
         return self.get_queryset().filter(is_active=True)
@@ -30,12 +24,9 @@ class ProductManager(models.Manager):
         ).select_related('discount').order_by('-discount__value')
 
     def by_category(self, category_slug):
-        try:
-            category = Category.objects.prefetch_related("children").get(slug=category_slug)
-        except Category.DoesNotExist:
-            return self.none()
-        subcategories = get_all_category(category)
-        return self.active().filter(category__in=subcategories)
+
+        return self.active().filter(Q(category__slug=category_slug) | Q(category__parent__slug=category_slug))\
+            .select_related('category')
 
     def by_brand(self, brand_slug):
         return self.active().filter(brand__slug=brand_slug)
