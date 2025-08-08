@@ -19,6 +19,7 @@ class SiteSettings(models.Model):
     def __str__(self):
         return self.site_name
 
+
 class BaseBanner(models.Model):
     site_setting = models.ForeignKey(SiteSettings, on_delete=models.CASCADE, related_name='+')
     title = models.CharField(max_length=155)
