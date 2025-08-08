@@ -4,7 +4,7 @@ from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from core.services.site_cache import get_site_context
 from categories.models import Category
 
-from .models import Product
+from .models import Product, FeatureOption
 
 
 class HomeView(generic.TemplateView):
@@ -27,3 +27,39 @@ class HomeView(generic.TemplateView):
         return context
 
 
+class ProductDetailView(generic.DetailView):
+    template_name = 'products/product_detail.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get_queryset(self):
+        return Product.objects.active().select_related('discount', 'brand').prefetch_related('images', 'specifications')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        related_products = Product.objects.by_category(category_slug=self.object.category.slug).exclude(id=self.object.id)
+
+
+        color_qs = (self.object.feature_options
+                    .filter(feature=FeatureOption.Feature.Color).distinct())
+        color_options = [
+            {'code': option.color, 'name': option.get_color_display()}
+            for option in color_qs
+        ]
+
+        size_options = list(
+            self.object.feature_options
+            .filter(feature=FeatureOption.Feature.Size)
+            .values_list('value', flat=True)
+            .distinct()
+        )
+
+        context.update({
+            'related_products':related_products,
+            'color_options':color_options,
+            'size_options':size_options,
+        })
+
+
+        return context
