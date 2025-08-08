@@ -96,7 +96,7 @@
                     >
                       <!-- image -->
                       <div class="mb-2 md:mb-5" draggable="false">
-                        <a href=''>
+                        <a href='{{ product.get_absolute_url }}'>
                           <img
                             alt="{{ product.name }}"
                             class="mx-auto w-32 rounded-lg md:w-auto"
@@ -106,7 +106,7 @@
                       </div>
                       <!-- title -->
                       <div class="mb-2">
-                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href=''>
+                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
                           {{ product.name|truncatewords:7 }}
                         </a>
                       </div>
@@ -186,7 +186,7 @@
                     >
                       <!-- image -->
                       <div class="mb-2 md:mb-5" draggable="false">
-                        <a href=''>
+                        <a href='{{ product.get_absolute_url }}'>
                           <img
                             alt="{{ product.name }}"
                             class="mx-auto w-32 rounded-lg md:w-auto"
@@ -196,7 +196,7 @@
                       </div>
                       <!-- title -->
                       <div class="mb-2">
-                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href=''>
+                        <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
                           {{ product.name }}
                         </a>
                       </div>
