@@ -262,8 +262,8 @@ class Discount(models.Model):
 
 
 class CommentManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(status=Comment.CommentStatus.APPROVED)
+    def active(self):
+        return self.get_queryset().filter(status=Comment.CommentStatus.APPROVED)
 
 
 class Comment(models.Model):
@@ -282,8 +282,7 @@ class Comment(models.Model):
     status = models.CharField(max_length=4, choices=CommentStatus.choices, default=CommentStatus.DRAFT)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    objects = models.Manager()
-    active = CommentManager()
+    objects = CommentManager()
 
     def __str__(self):
         return f"comment by: {self.display_name} on {self.product} - {self.status}"

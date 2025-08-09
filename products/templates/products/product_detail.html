@@ -1,6 +1,7 @@
 {% extends '_base.html' %}
 
 {% load humanize %}
+{% load jalali_tags %}
 {% block page_title %} {{ product.name }} {% endblock %}
 
 
@@ -854,7 +855,7 @@
                     <span
                       class="absolute -left-5 -top-4 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs text-white dark:bg-emerald-600 xs:text-sm"
                     >
-                      2
+                      {{ comments.count }}
                     </span>
                   </a>
                 </li>
@@ -1089,13 +1090,14 @@
                         <ul
                           class="mb-8 space-y-4 divide-y divide-gray-200 dark:divide-white/10"
                         >
+                          {% for comment in comments %}
                           <li class="space-y-2">
                             <div class="py-6">
                               <div
                                 class="flex items-center justify-between gap-2"
                               >
                                 <h5 class="mb-4 leading-relaxed xl:text-lg">
-                                  با این قیمت کاملا مناسب و خوبه
+                                  {{ comment.title }}
                                 </h5>
                                 <button
                                   data-modal-target="submit-answers-to-comments-drawer-navigation"
@@ -1122,45 +1124,29 @@
                                 </div>
                                 <div class="flex items-center gap-x-2">
                                   <div class="text-sm text-text/60">
-                                    10 شهریور 1403
+                                  {{ comment.created_at|to_jalali:'%y/%m/%d _ %H:%M:%S' }}
                                   </div>
                                   <span
                                     class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
                                   ></span>
+                                  {% if comment.user %}
                                   <div class="text-sm text-text/60">خریدار</div>
+                                  {% elif comment.user.is_staff %}
+                                  <div class="text-sm text-text/60">ادمین</div>
+                                  {% else %}
+                                  <div class="text-sm text-text/60">کاربر مهمان</div>
+                                  {% endif %}
                                 </div>
                               </div>
                               <div class="mb-6 border-b pb-6">
                                 <p class="line-clamp-4 text-sm text-text/90">
-                                  برا کسایی که نمیخوان هزینه بالایی کنن گزینه
-                                  خیلی خوبیه
+                                  {{ comment.text }}
                                 </p>
-                              </div>
-                              <div
-                                class="flex items-center justify-end gap-x-8"
-                              >
-                                <div class="text-sm text-text/60">
-                                  آیا این دیدگاه برایتان مفید بود؟
-                                </div>
-                                <button
-                                  class="flex items-center gap-x-2 text-primary transition-all duration-200 hover:text-emerald-400 hover:dark:text-primary"
-                                >
-                                  <span class="text-sm"> 32 </span>
-                                  <svg class="h-6 w-6">
-                                    <use xlink:href="#like" />
-                                  </svg>
-                                </button>
-                                <button
-                                  class="flex items-center gap-x-2 text-red-500 transition-all duration-200 hover:text-red-400 dark:text-red-400 hover:dark:text-red-500"
-                                >
-                                  <span class="text-sm"> 76 </span>
-                                  <svg class="h-6 w-6">
-                                    <use xlink:href="#dislike" />
-                                  </svg>
-                                </button>
                               </div>
                             </div>
                             <!-- Answers -->
+                            {% if comment.replies %}
+                            {% for reply in comment.replies.all %}
                             <ul class="space-y-2">
                               <li>
                                 <div
@@ -1170,7 +1156,7 @@
                                     class="flex items-center justify-between"
                                   >
                                     <h5 class="mb-4 leading-relaxed xl:text-lg">
-                                      با این قیمت کاملا مناسب و خوبه
+                                    {{ reply.title }}
                                     </h5>
                                     <button
                                       data-modal-target="submit-answers-to-comments-drawer-navigation"
@@ -1189,13 +1175,19 @@
                                   >
                                     <div class="flex items-center gap-x-2">
                                       <div class="text-sm text-text/60">
-                                        10 شهریور 1403
+                                        {{ reply.created_at|to_jalali:'%y/%m/%d _ %H:%M:%S' }}
                                       </div>
                                       <span
                                         class="h-3 w-px rounded-full bg-grauy-200 /10"
                                       ></span>
                                       <div class="text-sm text-text/60">
-                                        خریدار
+                                  {% if reply.user %}
+                                  <div class="text-sm text-text/60">کاربر آنی کالا</div>
+                                  {% elif reply.user.is_staff %}
+                                  <div class="text-sm text-text/60">ادمین</div>
+                                  {% else %}
+                                  <div class="text-sm text-text/60">کاربر مهمان</div>
+                                  {% endif %}
                                       </div>
                                     </div>
                                   </div>
@@ -1203,135 +1195,19 @@
                                     <p
                                       class="line-clamp-4 text-sm text-text/90"
                                     >
-                                      برا کسایی که نمیخوان هزینه بالایی کنن
-                                      گزینه خیلی خوبیه
+                                    {{ reply.text }}
                                     </p>
-                                  </div>
-                                  <div
-                                    class="flex items-center justify-end gap-x-8"
-                                  >
-                                    <div class="text-sm text-text/60">
-                                      آیا این دیدگاه برایتان مفید بود؟
-                                    </div>
-                                    <button
-                                      class="flex items-center gap-x-2 text-primary transition-all duration-200 hover:text-emerald-400 hover:dark:text-primary"
-                                    >
-                                      <span class="text-sm"> 32 </span>
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#like" />
-                                      </svg>
-                                    </button>
-                                    <button
-                                      class="flex items-center gap-x-2 text-red-500 transition-all duration-200 hover:text-red-400 dark:text-red-400 hover:dark:text-red-500"
-                                    >
-                                      <span class="text-sm"> 76 </span>
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#dislike" />
-                                      </svg>
-                                    </button>
                                   </div>
                                 </div>
                               </li>
                             </ul>
+                            {% endfor %}
+                            {% endif %}
                           </li>
-                          <li>
-                            <div class="py-6">
-                              <h5 class="mb-4 leading-relaxed xl:text-lg">
-                                با این قیمت اصلا مناسب نیست
-                              </h5>
-                              <div
-                                class="mb-6 flex items-center gap-x-4 border-b pb-6"
-                              >
-                                <div
-                                  class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
-                                >
-                                  <svg class="h-5 w-5">
-                                    <use xlink:href="#dislike" />
-                                  </svg>
-                                  پیشنهاد نمیکنم
-                                </div>
-                                <div class="flex items-center gap-x-2">
-                                  <div class="text-sm text-text/60">
-                                    10 شهریور 1403
-                                  </div>
-                                  <span
-                                    class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                                  ></span>
-                                  <div class="text-sm text-text/60">خریدار</div>
-                                </div>
-                              </div>
-                              <div class="mb-6 border-b pb-6">
-                                <p class="line-clamp-4 text-sm text-text/90">
-                                  اصلا خوب نیست
-                                </p>
-                              </div>
-                              <div
-                                class="flex items-center justify-end gap-x-8"
-                              >
-                                <div class="text-sm text-text/60">
-                                  آیا این دیدگاه برایتان مفید بود؟
-                                </div>
-                                <button
-                                  class="flex items-center gap-x-2 text-primary transition-all duration-200 hover:text-emerald-400 hover:dark:text-primary"
-                                >
-                                  <span class="text-sm"> 32 </span>
-                                  <svg class="h-6 w-6">
-                                    <use xlink:href="#like" />
-                                  </svg>
-                                </button>
-                                <button
-                                  class="flex items-center gap-x-2 text-red-500 transition-all duration-200 hover:text-red-400 dark:text-red-400 hover:dark:text-red-500"
-                                >
-                                  <span class="text-sm"> 76 </span>
-                                  <svg class="h-6 w-6">
-                                    <use xlink:href="#dislike" />
-                                  </svg>
-                                </button>
-                              </div>
-                            </div>
-                          </li>
+                          {% endfor %}
                         </ul>
                         <!-- Pagination -->
-                        <div
-                          class="flex items-center justify-center gap-x-4 md:justify-end"
-                        >
-                          <!-- Previous page-->
-                          <a
-                            class="pagination-button flex items-center justify-center"
-                            href="#"
-                          >
-                            <svg class="h-6 w-6">
-                              <use xlink:href="#chevron-right"></use>
-                            </svg>
-                          </a>
 
-                          <!-- Pages -->
-                          <div class="flex items-center gap-x-2">
-                            <a
-                              class="pagination-button pagination-button-active"
-                              href="#"
-                            >
-                              1
-                            </a>
-                            <p class="text-sm text-text/60">...</p>
-
-                            <a class="pagination-button" href="#"> 3 </a>
-                            <a class="pagination-button" href="#"> 4 </a>
-
-                            <p class="text-sm text-text/60">...</p>
-
-                            <a class="pagination-button" href="#"> 10 </a>
-                          </div>
-                          <!-- Next page-->
-                          <a
-                            class="flex h-8 w-8 items-center justify-center rounded-full bg-muted transition-all duration-200 hover:bg-primary hover:text-white hover:dark:bg-emerald-600"
-                            href="#"
-                          >
-                            <svg class="h-6 w-6">
-                              <use xlink:href="#chevron-left"></use>
-                            </svg>
-                          </a>
-                        </div>
                       </div>
                       <!-- Mobile Comments -->
                       <div class="md:hidden">

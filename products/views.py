@@ -4,7 +4,7 @@ from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from core.services.site_cache import get_site_context
 from categories.models import Category
 
-from .models import Product, FeatureOption
+from .models import Product, FeatureOption, Comment
 
 
 class HomeView(generic.TemplateView):
@@ -39,7 +39,8 @@ class ProductDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         related_products = Product.objects.by_category(category_slug=self.object.category.slug).exclude(id=self.object.id)
-
+        comments = Comment.objects.active().filter(product=self.object).prefetch_related('replies').\
+            select_related('user')
 
         color_qs = (self.object.feature_options
                     .filter(feature=FeatureOption.Feature.Color))
@@ -58,7 +59,9 @@ class ProductDetailView(generic.DetailView):
             'related_products':related_products,
             'color_options':color_options,
             'size_options':size_options,
+            'comments':comments
         })
+
 
 
         return context
