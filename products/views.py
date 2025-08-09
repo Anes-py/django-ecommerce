@@ -2,9 +2,8 @@ from django.views import generic
 
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from core.services.site_cache import get_site_context
-from categories.models import Category
-
 from .models import Product, FeatureOption, Comment
+from .forms import CommentForm
 
 
 class HomeView(generic.TemplateView):
@@ -59,7 +58,8 @@ class ProductDetailView(generic.DetailView):
             'related_products':related_products,
             'color_options':color_options,
             'size_options':size_options,
-            'comments':comments
+            'comments':comments,
+            'comment_form':CommentForm
         })
 
 
