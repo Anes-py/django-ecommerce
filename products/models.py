@@ -79,7 +79,7 @@ class FeatureOption(models.Model):
         MINT = 'mint', _('mint')
         PEACH = 'peach', _('peach')
         IVORY = 'ivory', _('ivory')
-        LAVENDER = 'lavender', _('lavender'),
+        LAVENDER = 'lavender', _('lavender')
 
     product = models.ForeignKey(
         'Product',
@@ -106,7 +106,7 @@ class FeatureOption(models.Model):
     )
 
     def __str__(self):
-        if self.Feature == self.Feature.Color:
+        if self.feature == self.Feature.Color:
             return f"{self.feature}: {self.color}"
         else:
             return f"{self.feature}: {self.value}"
