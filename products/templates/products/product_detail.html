@@ -288,9 +288,9 @@
                           {% for option in color_options %}
                               <div>
                                 <input
-                                  checked
+
                                   type="radio"
-                                  name="{{ cart_form.color.name }}"
+                                  name="color"
                                   value="{{ option.name }}"
                                   id="color-desktop-{{ forloop.counter }}"
                                   class="peer hidden"
@@ -325,7 +325,7 @@
                                 <input
                                   checked
                                   type="radio"
-                                  name="{{ cart_form.size.name }}"
+                                  name="size"
                                   value="{{ size }}"
                                   id="size-desktop-{{ forloop.counter }}"
                                   class="peer hidden"
