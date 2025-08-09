@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'categories',
     'products',
 
+
+    'jalali_date',
     "debug_toolbar",
 
 ]
