@@ -42,7 +42,7 @@ class ProductDetailView(generic.DetailView):
 
 
         color_qs = (self.object.feature_options
-                    .filter(feature=FeatureOption.Feature.Color).distinct())
+                    .filter(feature=FeatureOption.Feature.Color))
         color_options = [
             {'code': option.color, 'name': option.get_color_display()}
             for option in color_qs
@@ -52,7 +52,6 @@ class ProductDetailView(generic.DetailView):
             self.object.feature_options
             .filter(feature=FeatureOption.Feature.Size)
             .values_list('value', flat=True)
-            .distinct()
         )
 
         context.update({
