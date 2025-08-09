@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 
 from categories.models import Category, Brand
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
-from .models import Product, Discount, FeatureOption
+from .models import Product, Discount, FeatureOption, Comment
 
 
 class TestProductModel(TestCase):
@@ -155,6 +155,15 @@ class ProductDetailViewTest(TestCase):
             stock=10,
         )
 
+        self.comment = Comment.objects.create(
+            product=self.product,
+            display_name='test name',
+            title='test title',
+            text='test text',
+            recommend=True,
+            status=Comment.CommentStatus.APPROVED,
+        )
+
         FeatureOption.objects.create(
             product=self.product,
             feature=FeatureOption.Feature.Color,
@@ -200,3 +209,7 @@ class ProductDetailViewTest(TestCase):
         response = self.client.get(reverse('product-detail', args=[self.product.slug]))
         size_options = response.context['size_options']
         self.assertIn('45', size_options)
+
+    def test_context_contains_comment(self):
+        response = self.client.get(reverse('product-detail', args=[self.product.slug]))
+        self.assertIn(self.comment, response.context['comments'])
