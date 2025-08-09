@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 
 from categories.models import Category, Brand
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
-from .models import Product, Discount
+from .models import Product, Discount, FeatureOption
 
 
 class TestProductModel(TestCase):
@@ -49,8 +49,8 @@ class TestProductModel(TestCase):
         self.product.discount = None
         self.assertEqual(self.product.get_final_price(), self.product.price)
 
-    # def test_get_absolute_url(self):
-    #     self.assertIn(self.product.slug, self.product.get_absolute_url())
+    def test_get_absolute_url(self):
+        self.assertIn(self.product.slug, self.product.get_absolute_url())
 
     def test_product_active_manager(self):
         active_products = Product.objects.active()
@@ -126,3 +126,77 @@ class TestHomeView(TestCase):
         self.assertIn('discounted_products', response.context)
         self.assertIn('newest_products', response.context)
         self.assertIn('top_categories', response.context)
+
+
+class ProductDetailViewTest(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name='test category', image='category.jpg')
+        discount = Discount.objects.create(
+            value=30,
+            is_active=True,
+            start_date=timezone.now() - timezone.timedelta(days=1),
+            expire_date=timezone.now() + timezone.timedelta(days=1),
+        )
+        discount_2 =Discount.objects.create(
+            value=30,
+            is_active=True,
+            start_date=timezone.now() - timezone.timedelta(days=1),
+            expire_date=timezone.now() + timezone.timedelta(days=1),
+        )
+
+        self.product = Product.objects.create(
+            category=self.category,
+            name='test product',
+            main_image='product.jpg',
+            short_description='test short dec',
+            description='test long dec',
+            price=100,
+            discount=discount,
+            stock=10,
+        )
+
+        FeatureOption.objects.create(
+            product=self.product,
+            feature=FeatureOption.Feature.Color,
+            color=FeatureOption.Color.BLUE,
+        )
+
+        FeatureOption.objects.create(
+            product=self.product,
+            feature=FeatureOption.Feature.Size,
+            value=45,
+        )
+        self.related_product = Product.objects.create(
+            category=self.category,
+            name='test product2',
+            main_image='product2.jpg',
+            short_description='test short dec2',
+            description='test long dec2',
+            price=100,
+            discount=discount_2,
+            stock=10,
+        )
+    def test_view_url(self):
+        response = self.client.get(reverse('product-detail', args=[self.product.slug]))
+        self.assertEqual(response.status_code, 200)
+
+    def test_context_contains_product(self):
+        response = self.client.get(reverse('product-detail', args=[self.product.slug]))
+        self.assertEqual(response.context['object'], self.product)
+
+    def test_context_contains_related_products(self):
+        response = self.client.get(reverse('product-detail', args=[self.product.slug]))
+        related_products = response.context['related_products']
+        self.assertIn(self.related_product, related_products)
+        self.assertNotIn(self.product, related_products)
+
+    def test_context_contains_color_options(self):
+        response = self.client.get(reverse('product-detail', args=[self.product.slug]))
+        color_options = response.context['color_options']
+        color =  [{'code': 'blue', 'name': 'blue'}]
+        self.assertEqual(color_options, color)
+
+    def test_context_contains_size_option(self):
+        response = self.client.get(reverse('product-detail', args=[self.product.slug]))
+        size_options = response.context['size_options']
+        self.assertIn('45', size_options)
