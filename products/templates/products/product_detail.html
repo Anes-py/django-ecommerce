@@ -970,19 +970,45 @@
                 </div>
 
                 <div>
+                  <form action="{% url 'comment-add' product.id %}" method="post">
+                      {% csrf_token %}
+
                   <div class="grid grid-cols-12 gap-y-8 md:gap-8">
                     <!-- Submit New Comment -->
+
                     <div class="col-span-12 md:col-span-4 lg:col-span-3">
                       <div class="grid grid-cols-2 gap-4 md:sticky md:top-32">
                         <div class="text-lg">ثبت دیدگاه</div>
                         <div class="col-span-2">
                           <label
-                            for="title"
+                            for="display_name"
+                            class="relative block rounded-lg border shadow-base"
+                          >
+                            <input
+                              required="required"
+                              type="text"
+                              id="display_name"
+                              name="{{ comment_form.display_name.name }}"
+                              class="peer w-full rounded-lg border-none bg-transparent px-4 py-3 placeholder-transparent focus:outline-none focus:ring-0"
+                              placeholder="نام نمایشی"
+                            />
+
+                            <span
+                              class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-muted px-2 py-0.5 text-sm text-text/90 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm"
+                            >
+                            نام نمایشی
+                            </span>
+                          </label>
+                        </div>
+                        <div class="col-span-2">
+                          <label
+                            for="comment_title"
                             class="relative block rounded-lg border shadow-base"
                           >
                             <input
                               type="text"
-                              id="title"
+                              id="comment_title"
+                              name="{{ comment_form.title.name }}"
                               class="peer w-full rounded-lg border-none bg-transparent px-4 py-3 placeholder-transparent focus:outline-none focus:ring-0"
                               placeholder="عنوان دیدگاه"
                             />
@@ -1005,8 +1031,8 @@
                             <div class="w-full">
                               <input
                                 type="radio"
-                                name="suggest"
-                                value="suggest-like"
+                                name="recommend"
+                                value="True"
                                 id="suggest-like"
                                 class="peer hidden"
                               />
@@ -1029,8 +1055,8 @@
                             <div class="w-full">
                               <input
                                 type="radio"
-                                name="suggest"
-                                value="suggest-dislike"
+                                name="recommend"
+                                value="False"
                                 id="suggest-dislike"
                                 class="peer hidden"
                               />
@@ -1053,13 +1079,14 @@
                         </div>
                         <div class="col-span-2">
                           <label
-                            for="comment"
+                            for="text"
                             class="relative block rounded-lg border shadow-base"
                           >
                             <textarea
                               type="text"
-                              id="comment"
+                              id="text"
                               rows="3"
+                              name="{{ comment_form.text.name }}"
                               class="main-scroll peer w-full rounded-lg border-none bg-transparent px-4 py-3 placeholder-transparent focus:outline-none focus:ring-0"
                               placeholder="متن دیدگاه"
                             ></textarea>
@@ -1080,6 +1107,8 @@
                         </div>
                       </div>
                     </div>
+
+                  </form>
                     <!-- Comments -->
                     <div
                       class="order-first col-span-12 mb-10 max-h-[500px] overflow-hidden md:order-last md:col-span-8 lg:col-span-9"

@@ -1,10 +1,10 @@
 from django.views import generic
+from django.shortcuts import redirect
 
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from core.services.site_cache import get_site_context
 from .models import Product, FeatureOption, Comment
 from .forms import CommentForm
-
 
 class HomeView(generic.TemplateView):
     template_name = 'products/home.html'
@@ -39,7 +39,7 @@ class ProductDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         related_products = Product.objects.by_category(category_slug=self.object.category.slug).exclude(id=self.object.id)
         comments = Comment.objects.active().filter(product=self.object).prefetch_related('replies').\
-            select_related('user')
+            select_related('user').order_by('-created_at')
 
         color_qs = (self.object.feature_options
                     .filter(feature=FeatureOption.Feature.Color))
@@ -62,6 +62,19 @@ class ProductDetailView(generic.DetailView):
             'comment_form':CommentForm
         })
 
-
-
         return context
+
+class CommentCreateView(generic.CreateView):
+    model = Comment
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        form = form.save(commit=False)
+        if self.request.user.is_authenticated:
+            form.user = self.request.user
+        form.product_id = self.kwargs['product_id']
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER', '/')
