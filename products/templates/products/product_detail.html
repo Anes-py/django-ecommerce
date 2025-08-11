@@ -154,7 +154,6 @@
                       />
                     </div>
                     <!-- Gallery -->
-                      {% if product.images.all.count > 0 %}
                     <div class="flex items-center justify-center gap-x-2">
                       <!-- image -->
                      <button
@@ -170,7 +169,7 @@
                           loading="lazy"
                         />
                       </button>
-
+                      {% if product.images.all %}
                       {% for image in product.images.all|slice:":4" %}
                       <button
                         type="button"
@@ -245,7 +244,7 @@
                           class="h-4 w-px rounded-full bg-background dark:bg-muted/10"
                         ></span>
                         <div>
-                          <a href="#"> 20 دیدگاه </a>
+                          <a href="#"> {{ comments|length }} دیدگاه </a>
                         </div>
                       </div>
                       <!-- users suggestion -->
@@ -475,28 +474,22 @@
                   <div class="swiper-wrapper">
                     <div class="swiper-slide">
                       <img
-                        src="assets/images/products/p1.png"
+                        src="{{ product.main_image.url }}"
                         alt=""
                         class="mx-auto"
                         loading="lazy"
                       />
                     </div>
+                    {% for image in product.images.all %}
                     <div class="swiper-slide">
                       <img
-                        src="assets/images/products/p2.png"
+                        src="{{ image.image.url }}"
                         alt=""
                         class="mx-auto"
                         loading="lazy"
                       />
                     </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="assets/images/products/p3.png"
-                        alt=""
-                        class="mx-auto"
-                        loading="lazy"
-                      />
-                    </div>
+                    {% endfor %}
                   </div>
                   <div class="swiper-pagination text-left"></div>
                 </div>
@@ -545,20 +538,15 @@
                 <div
                   class="flex items-center gap-x-1 text-sm font-light text-primary md:text-base"
                 >
-                  <a href="#">نایک</a>
+                  <a href="#">{{ product.brand }}</a>
                   <svg class="h-5 w-5">
                     <use xlink:href="#chevron-left" />
                   </svg>
                 </div>
-                <div
-                  class="line-clamp-1 text-sm font-light text-primary md:text-base"
-                >
-                  <a href="#"> کتونی ورزشی نایک </a>
-                </div>
               </div>
               <!-- title -->
               <div class="mb-4 font-semibold md:text-lg">
-                کفش پیاده روی مردانه نیو بالانس مدل Mdrftlm2
+                {{ product.title }}
               </div>
               <!-- comments & SKU -->
               <div
@@ -568,7 +556,7 @@
                   <a href="#"> کد کالا {{ product.id }}# </a>
                 </div>
                 <div>
-                  <a href="#"> 20 دیدگاه </a>
+                  <a href="#"> {{ comments|length }} دیدگاه </a>
                 </div>
               </div>
               <div class="my-4 h-px w-full bg-background"></div>
@@ -584,9 +572,8 @@
                 {% for option in color_options %}
                   <div>
                     <input
-                      checked
                       type="radio"
-                      name="{{ cart_form.color.name }}"
+                      name="color"
                       value="{{ option.name }}"
                       id="color-{{ forloop.counter }}"
                       class="peer hidden"
@@ -616,9 +603,8 @@
                   {% for size in size_options %}
                   <div>
                     <input
-                      checked
                       type="radio"
-                      name="{{ cart_form.size.name }}"
+                      name="size"
                       value="{{ size }}"
                       id="size-mobile-{{ forloop.counter }}"
                       class="peer hidden"
@@ -725,23 +711,25 @@
                 <!-- Price -->
                 <div class="space-y-1">
                   <!-- Old Price -->
+                  {% if product.has_valid_discount %}
                   <div class="flex items-center gap-x-2">
                     <div>
                       <del
                         class="text-sm text-text/60 decoration-warning md:text-base"
                       >
-                        10,000,000
+                      {{ product.price|intcomma }}
                       </del>
                     </div>
                     <div
                       class="flex w-10 items-center justify-center rounded-full bg-warning py-0.5 text-sm font-bold text-white dark:bg-red-600"
                     >
-                      50%
+                      {{ product.discount.value|floatformat:0 }}%
                     </div>
                   </div>
+                  {% endif %}
                   <!-- New Price -->
                   <div class="text-primary">
-                    <span class="font-semibold">1,200,000</span>
+                    <span class="font-semibold">{{ product.get_final_price|floatformat:0|intcomma }}</span>
                     <span class="text-sm font-light">تومان</span>
                   </div>
                 </div>
@@ -1110,7 +1098,6 @@
                         </div>
                       </div>
                     </div>
-
                   </form>
                     <!-- Comments -->
                     <div
@@ -1146,14 +1133,25 @@
                               <div
                                 class="mb-6 flex items-center gap-x-4 border-b pb-6"
                               >
-                                <div
-                                  class="flex items-center gap-x-2 text-primary"
-                                >
-                                  <svg class="h-5 w-5">
-                                    <use xlink:href="#like" />
-                                  </svg>
-                                  پیشنهاد میکنم
-                                </div>
+                               {% if comment.recommend %}
+                                  <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-x-2 text-primary">
+                                      <svg class="h-5 w-5">
+                                        <use xlink:href="#like" />
+                                      </svg>
+                                      پیشنهاد میکنم
+                                    </div>
+                                  </div>
+                                  {% else %}
+                                  <div
+                                  class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
+                                      >
+                                     <svg class="h-5 w-5">
+                                    <use xlink:href="#dislike" />
+                                   </svg>
+                                   پیشنهاد نمیکنم
+                                   </div>
+                                  {% endif %}
                                 <div class="flex items-center gap-x-2">
                                   <div class="text-sm text-text/60">
                                   {{ comment.created_at|to_jalali:'%y/%m/%d _ %H:%M:%S' }}
@@ -1161,14 +1159,15 @@
                                   <span
                                     class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
                                   ></span>
-                                  {% if comment.user %}
-                                  <div class="text-sm text-text/60">خریدار</div>
-                                  {% elif comment.user.is_staff %}
-                                  <div class="text-sm text-text/60">ادمین</div>
-                                  {% else %}
-                                  <div class="text-sm text-text/60">کاربر مهمان</div>
-                                  {% endif %}
-                                </div>
+                              {% if comment.user.is_staff %}
+                              <div class="text-sm text-text/60">ادمین</div>
+                              {% else %}
+                              <div class="text-sm text-text/60">کاربر آنی کالا</div>
+                              {% endif %}
+                              {% if comment.user %}
+                              {{ comment.user.username }}
+                              {% endif %}
+                                          </div>
                               </div>
                               <div class="mb-6 border-b pb-6">
                                 <p class="line-clamp-4 text-sm text-text/90">
@@ -1246,6 +1245,7 @@
                         <div class="swiper product-comments-swiper">
                           <div class="swiper-wrapper">
                             <!-- Comment -->
+                            {% for comment in comments %}
                             <div class="swiper-slide">
                               <div
                                 class="flex h-64 flex-col rounded-lg border px-4 py-6"
@@ -1254,14 +1254,26 @@
                                 <div
                                   class="flex items-center justify-between gap-2 mb-4"
                                 >
-                                  <div
-                                    class="flex items-center gap-x-2 text-primary"
-                                  >
-                                    <svg class="h-5 w-5">
-                                      <use xlink:href="#like" />
-                                    </svg>
-                                    پیشنهاد میکنم
-                                  </div>
+                                                  <!-- head -->
+                            {% if comment.recommend %}
+                            <div class="flex items-center justify-between mb-4">
+                              <div class="flex items-center gap-x-2 text-primary">
+                                <svg class="h-5 w-5">
+                                  <use xlink:href="#like" />
+                                </svg>
+                                پیشنهاد میکنم
+                              </div>
+                </div>
+                {% else %}
+                <div
+                class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
+                    >
+                   <svg class="h-5 w-5">
+                  <use xlink:href="#dislike" />
+                 </svg>
+                 پیشنهاد نمیکنم
+                 </div>
+                {% endif %}
                                   <button
                                     data-modal-target="submit-answers-to-comments-drawer-navigation"
                                     data-modal-toggle="submit-answers-to-comments-drawer-navigation"
@@ -1277,220 +1289,39 @@
                                 <!-- Comment -->
                                 <div class="flex-grow space-y-2">
                                   <h5 class="text-sm leading-relaxed">
-                                    با این قیمت کاملا مناسب و خوبه
+                                    {{ comment.title }}
                                   </h5>
 
                                   <p
                                     class="line-clamp-4 text-sm leading-relaxed text-text/90"
                                   >
-                                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه
-                                    خیلی خوبیه
+                                    {{ comment.text }}
                                   </p>
                                 </div>
                                 <!-- Footer -->
                                 <div class="flex items-center justify-between">
-                                  <div class="flex items-center gap-x-4">
-                                    <button class="relative text-primary">
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#like" />
-                                      </svg>
-                                      <span
-                                        class="absolute -right-2 top-6 text-sm"
-                                      >
-                                        32
-                                      </span>
-                                    </button>
-                                    <button
-                                      class="relative text-red-500 dark:text-red-400"
-                                    >
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#dislike" />
-                                      </svg>
-                                      <span
-                                        class="absolute -right-2 top-6 text-sm"
-                                      >
-                                        76
-                                      </span>
-                                    </button>
-                                  </div>
                                   <div class="flex items-center gap-x-2">
                                     <div class="text-xs text-text/60">
-                                      10 شهریور 1403
+                                    {{ comment.created_at|to_jalali:'%y/%m/%d _ %H:%M:%S' }}
                                     </div>
                                     <span
                                       class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
                                     ></span>
-                                    <div class="text-xs text-text/60">
-                                      خریدار
-                                    </div>
+                                {% if comment.user.is_staff %}
+                                <div class="text-sm text-text/60">ادمین</div>
+                                {% else %}
+                                <div class="text-sm text-text/60">کاربر آنی کالا</div>
+                                {% endif %}
+                                {% if comment.user.first_name %}
+                                {{ comment.user.first_name }}
+                                {% else %}
+                                {{ user.username }}
+                                {% endif %}
                                   </div>
                                 </div>
                               </div>
                             </div>
-                            <!-- Comment -->
-
-                            <div class="swiper-slide">
-                              <div
-                                class="flex h-64 flex-col rounded-lg border px-4 py-6"
-                              >
-                                <!-- head -->
-                                <div
-                                  class="flex items-center justify-between gap-2 mb-4"
-                                >
-                                  <div
-                                    class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
-                                  >
-                                    <svg class="h-5 w-5">
-                                      <use xlink:href="#dislike" />
-                                    </svg>
-                                    پیشنهاد نمیکنم
-                                  </div>
-                                  <button
-                                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                                    type="button"
-                                    class="btn-secondary-nobg"
-                                  >
-                                    پاسخ
-                                    <svg class="w-5 h-5">
-                                      <use xlink:href="#chevron-left" />
-                                    </svg>
-                                  </button>
-                                </div>
-                                <!-- Comment -->
-                                <div class="flex-grow space-y-2">
-                                  <h5 class="text-sm leading-relaxed">
-                                    با این قیمت اصلا مناسب نیست
-                                  </h5>
-                                  <p
-                                    class="line-clamp-4 text-sm leading-relaxed text-text/90"
-                                  >
-                                    اصلا خوب نیست
-                                  </p>
-                                </div>
-                                <!-- Footer -->
-                                <div class="flex items-center justify-between">
-                                  <div class="flex items-center gap-x-4">
-                                    <button class="relative text-primary">
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#like" />
-                                      </svg>
-                                      <span
-                                        class="absolute -right-2 top-6 text-sm"
-                                      >
-                                        100 +
-                                      </span>
-                                    </button>
-                                    <button
-                                      class="relative text-red-500 dark:text-red-400"
-                                    >
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#dislike" />
-                                      </svg>
-                                      <span
-                                        class="absolute -right-2 top-6 text-sm"
-                                      >
-                                        100 +
-                                      </span>
-                                    </button>
-                                  </div>
-                                  <div class="flex items-center gap-x-2">
-                                    <div class="text-xs text-text/60">
-                                      20 شهریور 1403
-                                    </div>
-                                    <span
-                                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                                    ></span>
-                                    <div class="text-xs text-text/60">
-                                      خریدار
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!-- Comment -->
-                            <div class="swiper-slide">
-                              <div
-                                class="flex h-64 flex-col rounded-lg border px-4 py-6"
-                              >
-                                <!-- head -->
-                                <div
-                                  class="flex items-center justify-between gap-2 mb-4"
-                                >
-                                  <div
-                                    class="flex items-center gap-x-2 text-primary"
-                                  >
-                                    <svg class="h-5 w-5">
-                                      <use xlink:href="#like" />
-                                    </svg>
-                                    پیشنهاد میکنم
-                                  </div>
-                                  <button
-                                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                                    type="button"
-                                    class="btn-secondary-nobg"
-                                  >
-                                    پاسخ
-                                    <svg class="w-5 h-5">
-                                      <use xlink:href="#chevron-left" />
-                                    </svg>
-                                  </button>
-                                </div>
-                                <!-- Comment -->
-                                <div class="flex-grow space-y-2">
-                                  <h5 class="text-sm leading-relaxed">
-                                    با این قیمت کاملا مناسب و خوبه
-                                  </h5>
-
-                                  <p
-                                    class="line-clamp-4 text-sm leading-relaxed text-text/90"
-                                  >
-                                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه
-                                    خیلی خوبیه
-                                  </p>
-                                </div>
-                                <!-- Footer -->
-                                <div class="flex items-center justify-between">
-                                  <div class="flex items-center gap-x-4">
-                                    <button class="relative text-primary">
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#like" />
-                                      </svg>
-                                      <span
-                                        class="absolute -right-2 top-6 text-sm"
-                                      >
-                                        32
-                                      </span>
-                                    </button>
-                                    <button
-                                      class="relative text-red-500 dark:text-red-400"
-                                    >
-                                      <svg class="h-6 w-6">
-                                        <use xlink:href="#dislike" />
-                                      </svg>
-                                      <span
-                                        class="absolute -right-2 top-6 text-sm"
-                                      >
-                                        76
-                                      </span>
-                                    </button>
-                                  </div>
-                                  <div class="flex items-center gap-x-2">
-                                    <div class="text-xs text-text/60">
-                                      10 شهریور 1403
-                                    </div>
-                                    <span
-                                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                                    ></span>
-                                    <div class="text-xs text-text/60">
-                                      خریدار
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
+                            {% endfor %}
                             <!-- Load More -->
                             <div class="swiper-slide">
                               <div
@@ -1550,7 +1381,7 @@
             <div class="px-4 py-5 sm:px-6">
               <div class="flex items-center justify-between">
                 <h3 class="line-clamp-1 md:text-lg">
-                  تصاویر محصول کفش پیاده روی مردانه نیو بالانس مدل Mdrftlm2
+                  تصاویر {{ product.name }}
                 </h3>
                 <button
                   class=" "
@@ -1570,6 +1401,15 @@
                 <div class="border-b p-6">
                   <div class="swiper product-image-desktop-swiper">
                     <div class="swiper-wrapper">
+                      <div class="swiper-slide">
+                        <img
+                          src="{{ product.main_image.url }}"
+                          alt=""
+                          class="mx-auto min-h-[500px] min-w-[500px]"
+                          loading="lazy"
+                        />
+                      </div>
+
                       {% for image in product.images.all %}
                       <div class="swiper-slide">
                         <img
@@ -1589,6 +1429,14 @@
                 <div class="p-6">
                   <div class="swiper product-image-desktop-2-swiper">
                     <div class="swiper-wrapper justify-center">
+                      <div class="swiper-slide rounded-lg border">
+                        <img
+                          src="{{ product.main_image.url }}"
+                          alt=""
+                          class="mx-auto h-25 w-25"
+                          loading="lazy"
+                        />
+                      </div>
                     {% for image in product.images.all %}
                       <div class="swiper-slide rounded-lg border">
                         <img
@@ -1636,9 +1484,11 @@
 
         <div class="h-full overflow-y-auto p-4 pb-32">
           <ul class="space-y-6">
+            {% for comment in comments %}
             <li>
               <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
                 <!-- head -->
+                {% if comment.recommend %}
                 <div class="flex items-center justify-between mb-4">
                   <div class="flex items-center gap-x-2 text-primary">
                     <svg class="h-5 w-5">
@@ -1658,498 +1508,47 @@
                     </svg>
                   </button>
                 </div>
+                {% else %}
+                <div
+                class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
+                    >
+                   <svg class="h-5 w-5">
+                  <use xlink:href="#dislike" />
+                 </svg>
+                 پیشنهاد نمیکنم
+                 </div>
+                {% endif %}
                 <!-- Comment -->
                 <div class="flex-grow space-y-2">
                   <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
+                  {{ comment.title }}
                   </h5>
                   <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
+                    {{ comment.text }}
                   </p>
                 </div>
                 <!-- Footer -->
                 <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
                   <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
+                    <div class="text-xs text-text/60">{{ commet.created_at|to_jalali:'%y/%m/%d _ %H:%M:%S' }}</div>
                     <span
                       class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
                     ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
+                    {% if comment.user.is_staff %}
+                    <div class="text-sm text-text/60">ادمین</div>
+                    {% else %}
+                    <div class="text-sm text-text/60">کاربر آنی کالا</div>
+                    {% endif %}
+                    {% if comment.user.first_name %}
+                    {{ comment.user.first_name }}
+                    {% else %}
+                    {{ user.username }}
+                    {% endif %}
                   </div>
                 </div>
               </div>
             </li>
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="flex h-64 flex-col rounded-lg border px-4 py-6">
-                <!-- head -->
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center gap-x-2 text-primary">
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#like" />
-                    </svg>
-                    پیشنهاد میکنم
-                  </div>
-                  <button
-                    data-modal-target="submit-answers-to-comments-drawer-navigation"
-                    data-modal-toggle="submit-answers-to-comments-drawer-navigation"
-                    type="button"
-                    class="btn-secondary-nobg"
-                  >
-                    پاسخ
-                    <svg class="w-5 h-5">
-                      <use xlink:href="#chevron-left" />
-                    </svg>
-                  </button>
-                </div>
-                <!-- Comment -->
-                <div class="flex-grow space-y-2">
-                  <h5 class="text-sm leading-relaxed">
-                    با این قیمت کاملا مناسب و خوبه
-                  </h5>
-                  <p class="line-clamp-4 text-sm leading-relaxed text-text/90">
-                    برا کسایی که نمیخوان هزینه بالایی کنن گزینه خیلی خوبیه
-                  </p>
-                </div>
-                <!-- Footer -->
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-x-4">
-                    <button class="relative text-primary">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#like" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 32 </span>
-                    </button>
-                    <button class="relative text-red-500 dark:text-red-400">
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#dislike" />
-                      </svg>
-                      <span class="absolute -right-2 top-6 text-sm"> 76 </span>
-                    </button>
-                  </div>
-                  <div class="flex items-center gap-x-2">
-                    <div class="text-xs text-text/60">10 شهریور 1403</div>
-                    <span
-                      class="h-3 w-px rounded-full bg-background dark:bg-muted/10"
-                    ></span>
-                    <div class="text-xs text-text/60">خریدار</div>
-                  </div>
-                </div>
-              </div>
-            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>

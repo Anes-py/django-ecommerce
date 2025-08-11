@@ -32,7 +32,7 @@ class ProductDetailView(generic.DetailView):
     slug_url_kwarg = 'slug'
 
     def get_queryset(self):
-        return Product.objects.active().select_related('discount', 'brand').prefetch_related('images', 'specifications', 'feature_options')
+        return Product.objects.active().select_related('discount', 'brand').prefetch_related('images', 'specifications', 'feature_options', 'product_comments')
 
 
     def get_context_data(self, **kwargs):
