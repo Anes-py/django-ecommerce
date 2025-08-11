@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.utils import timezone
 from django.shortcuts import reverse
+from django.contrib.auth import get_user_model
 
 from categories.models import Category, Brand
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
@@ -213,3 +214,56 @@ class ProductDetailViewTest(TestCase):
     def test_context_contains_comment(self):
         response = self.client.get(reverse('product-detail', args=[self.product.slug]))
         self.assertIn(self.comment, response.context['comments'])
+
+
+class CommentCreateView(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            username='test user',
+            password='pass123',
+
+        )
+        category = Category.objects.create(
+            name='test category',
+            image='test.jpg',
+        )
+        self.product = Product.objects.create(
+            category=category,
+            name='Test product',
+            price=100,
+            stock=10,
+        )
+        self.url = reverse('comment-add', args=[self.product.id])
+        self.referer_url = '/some-page/'
+
+    def test_create_comment_authenticated_user(self):
+        self.client.login(username='test user', password='pass123')
+        response = self.client.post(
+            self.url,
+            {
+                'display_name':'test name',
+                'title':'great product!',
+                'text':'really enjoyed it',
+                'recommend':True,
+            },
+            HTTP_REFERER=self.referer_url
+        )
+        comment = Comment.objects.get()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, self.referer_url)
+        self.assertEqual(comment.title, 'great product!')
+
+    def test_create_comment_anonymous_user(self):
+        response = self.client.post(
+            self.url,
+            {
+                'display_name':'test name2',
+                'title':'nice',
+                'text':'Good product',
+                'recommend':False,
+            },
+            HTTP_REFERER=self.referer_url,
+        )
+        comment = Comment.objects.get()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(comment.title, 'nice')
