@@ -69,11 +69,11 @@ class CommentCreateView(generic.CreateView):
     form_class = CommentForm
 
     def form_valid(self, form):
-        form = form.save(commit=False)
+        obj = form.save(commit=False)
         if self.request.user.is_authenticated:
-            form.user = self.request.user
-        form.product_id = self.kwargs['product_id']
-        form.save()
+            obj.user = self.request.user
+        obj.product_id = self.kwargs['product_id']
+        obj.save()
         return super().form_valid(form)
 
     def get_success_url(self):
