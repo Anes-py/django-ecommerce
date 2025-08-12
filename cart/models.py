@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import gettext_lazy as _
-from django.utils import timezone
 
 from products.models import Product
 
@@ -15,7 +14,7 @@ class Cart(models.Model):
         verbose_name=_('user'),
     )
     session_key = models.CharField(_('session_key'), max_length=40)
-    created_at = models.DateTimeField(_('created at'), default=timezone.now)
+    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
     class Meta:
