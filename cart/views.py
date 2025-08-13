@@ -27,22 +27,22 @@ class CartDetailView(generic.DetailView):
 
 class AddToCartView(generic.View):
 
-    def post(self):
-        form = AddToCartForm()
+    def post(self, request, *args, **kwargs):
+        form = AddToCartForm(request.POST)
         if not form.is_valid():
-            return redirect(self.request.get('HTTP_REFERER'))
+            return redirect(request.META.get('HTTP_REFERER', '/'))
         quantity = form.cleaned_data['quantity']
         color = form.cleaned_data['color']
         size = form.cleaned_data['size']
 
-        product_id = self.kwargs.get('product_id')
+        product_id = kwargs.get('product_id')
         product = get_object_or_404(Product, id=product_id)
-        if self.request.user.is_authenticated:
-            cart, _ = Cart.objects.get_or_create(user=self.request.user)
+        if request.user.is_authenticated:
+            cart, _ = Cart.objects.get_or_create(user=request.user)
         else:
-            if not self.request.session.session_key:
-                self.request.session.create()
-            cart, _ = Cart.objects.get_or_create(session_key=self.request.session.session_key)
+            if not request.session.session_key:
+                request.session.create()
+            cart, _ = Cart.objects.get_or_create(session_key=request.session.session_key)
 
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, color=color, size=size)
         if created:
