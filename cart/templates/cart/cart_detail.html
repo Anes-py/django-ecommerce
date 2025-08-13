@@ -146,7 +146,7 @@
                         <div
                           class="text-primary xs:col-span-2 sm:col-span-3 lg:text-lg xl:col-span-5"
                         >
-                          <span class="font-bold">{{ item.item_total_price|intcomma }}</span>
+                          <span class="font-bold">{{ item.item_final_price|floatformat:0|intcomma }}</span>
                           <span class="text-sm lg:text-base">تومان</span>
                         </div>
                       </div>
@@ -174,16 +174,18 @@
                   </div>
 
                   <!-- Discount -->
+                  {% if cart.cart_discount %}
                   <div class="flex items-center justify-between gap-x-2 py-6">
                     <div class="text-sm text-text/90 lg:text-base">تخفیف</div>
 
                     <div
                       class="text-sm font-medium text-red-500 dark:text-red-400 lg:text-base"
                     >
-                      <span class="font-bold">{{ cart.cart_discount }}</span>
+                      <span class="font-bold">{{ cart.cart_discount|floatformat:0|intcomma }}</span>
                       <span class="text-xs lg:text-sm">تومان</span>
                     </div>
                   </div>
+                  {% endif %}
                   <!-- Order final price -->
 
                   <div class="flex items-center justify-between gap-x-2 py-6">
@@ -192,7 +194,7 @@
                     </div>
 
                     <div class="text-sm text-primary lg:text-base">
-                      <span class="font-bold">2,400,000</span>
+                      <span class="font-bold">{{ cart.cart_final_price|floatformat:0|intcomma }}</span>
                       <span class="text-xs lg:text-sm">تومان</span>
                     </div>
                   </div>
