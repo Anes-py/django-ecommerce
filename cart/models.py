@@ -13,9 +13,18 @@ class Cart(models.Model):
         blank=True,
         verbose_name=_('user'),
     )
-    session_key = models.CharField(_('session_key'), max_length=40)
+    session_key = models.CharField(_('session_key'), max_length=40, null=True, blank=True,)
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
+
+    def cart_final_price(self):
+        return sum([item.item_final_price() for item in self.items.all()])
+
+    def cart_org_total(self):
+        return sum([item.get_item_org_total() for item in self.items.all()])
+
+    def cart_discount(self):
+        return self.cart_org_total() - self.cart_final_price()
 
     class Meta:
         verbose_name = _('Cart')
@@ -36,12 +45,19 @@ class CartItem(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name="products",
+        related_name="+",
         verbose_name=_("product"),
     )
     quantity = models.PositiveIntegerField(_("quantity"), default=1)
     color = models.CharField(_("color"), max_length=10, null=True, blank=True)
     size = models.CharField(_("size"), max_length=55, null=True, blank=True)
+
+    def item_final_price(self):
+        return self.quantity * self.product.get_final_price()
+
+    def get_item_org_total(self):
+        return self.quantity * self.product.price
+
 
     class Meta:
         verbose_name = _("Cart Item")
