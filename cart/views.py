@@ -1,9 +1,10 @@
 from django.db.models import Prefetch
 from django.views import generic
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from products.models import Product
 from .models import Cart, CartItem
+from .forms import AddToCartForm
 
 
 class CartDetailView(generic.DetailView):
@@ -25,7 +26,15 @@ class CartDetailView(generic.DetailView):
 
 
 class AddToCartView(generic.View):
+
     def post(self):
+        form = AddToCartForm()
+        if not form.is_valid():
+            return redirect(self.request.get('HTTP_REFERER'))
+        quantity = form.cleaned_data['quantity']
+        color = form.cleaned_data['color']
+        size = form.cleaned_data['size']
+
         product_id = self.kwargs.get('product_id')
         product = get_object_or_404(Product, id=product_id)
         if self.request.user.is_authenticated:
@@ -35,4 +44,8 @@ class AddToCartView(generic.View):
                 self.request.session.create()
             cart, _ = Cart.objects.get_or_create(session_key=self.request.session.session_key)
 
-        cart_item, created = CartItem.objects.get_or_create()
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, color=color, size=size)
+        if created:
+            cart_item.quantity = quantity
+        else:
+            cart_item.quantity += quantity
