@@ -218,7 +218,7 @@
                 <div class="flex flex-col items-center gap-y-1">
                   <div class="text-sm text-text/60">مبلغ قابل پرداخت</div>
                   <div class="text-text/90">
-                    <span class="font-bold">1,200,000</span>
+                    <span class="font-bold">{{ cart.cart_final_price|floatformat:0|intcomma }}</span>
                     <span class="text-sm">تومان</span>
                   </div>
                 </div>

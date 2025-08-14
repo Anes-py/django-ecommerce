@@ -49,3 +49,5 @@ class AddToCartView(generic.View):
             cart_item.quantity = quantity
         else:
             cart_item.quantity += quantity
+        cart_item.save()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
