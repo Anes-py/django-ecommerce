@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'core',
     'categories',
     'products',
+    'cart',
 
 
     'jalali_date',
