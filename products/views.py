@@ -1,8 +1,8 @@
 from django.views import generic
-from django.shortcuts import redirect
 
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from core.services.site_cache import get_site_context
+from cart.forms import AddToCartForm
 from .models import Product, FeatureOption, Comment
 from .forms import CommentForm
 
@@ -59,7 +59,8 @@ class ProductDetailView(generic.DetailView):
             'color_options':color_options,
             'size_options':size_options,
             'comments':comments,
-            'comment_form':CommentForm
+            'comment_form':CommentForm,
+            'cart_form':AddToCartForm,
         })
 
         return context

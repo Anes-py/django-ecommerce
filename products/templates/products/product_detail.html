@@ -273,7 +273,7 @@
                     </div>
 
                     <!-- left side -->
-                    <form action="" method="post">
+                    <form action="{% url 'cart-add' product.id %}" method="post">
                       {% csrf_token %}
                     <div class="col-span-1 flex flex-col">
                       <div class="flex-grow">
@@ -288,9 +288,9 @@
                           {% for option in color_options %}
                               <div>
                                 <input
-
+                                  checked
                                   type="radio"
-                                  name="color"
+                                  name="{{ cart_form.color.name }}"
                                   value="{{ option.name }}"
                                   id="color-desktop-{{ forloop.counter }}"
                                   class="peer hidden"
@@ -325,7 +325,7 @@
                                 <input
                                   checked
                                   type="radio"
-                                  name="size"
+                                  name="{{ cart_form.size.name }}"
                                   value="{{ size }}"
                                   id="size-desktop-{{ forloop.counter }}"
                                   class="peer hidden"
@@ -370,7 +370,7 @@
                             </button>
                             <input
                               value="1"
-                              name="quantity"
+                              name="{{ cart_form.quantity.name }}"
                               type="number"
                               class="flex h-6 w-6 w-full select-none items-center justify-center bg-transparent text-center outline-none"
                             />
@@ -561,7 +561,7 @@
               </div>
               <div class="my-4 h-px w-full bg-background"></div>
               <!-- variant -->
-              <form action="" method="post">
+              <form action="{% url 'cart-add' product.id %}" method="post">
                 {% csrf_token %}
                 <div class="mb-6 space-y-4">
                 <!-- Color -->
@@ -572,8 +572,9 @@
                 {% for option in color_options %}
                   <div>
                     <input
+                      checked
                       type="radio"
-                      name="color"
+                      name="{{ cart_form.color.name }}"
                       value="{{ option.name }}"
                       id="color-{{ forloop.counter }}"
                       class="peer hidden"
@@ -603,8 +604,9 @@
                   {% for size in size_options %}
                   <div>
                     <input
+                      checked
                       type="radio"
-                      name="size"
+                      name="{{ cart_form.size.name }}"
                       value="{{ size }}"
                       id="size-mobile-{{ forloop.counter }}"
                       class="peer hidden"
