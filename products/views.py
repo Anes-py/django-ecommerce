@@ -26,6 +26,21 @@ class HomeView(generic.TemplateView):
         return context
 
 
+class ProductListView(generic.ListView):
+    template_name = 'products/product_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Product.objects.active().select_related('discount').only(
+            'name',
+            'slug',
+            'main_image',
+            'category',
+            'brand',
+            'discount'
+        )
+
+
 class ProductDetailView(generic.DetailView):
     template_name = 'products/product_detail.html'
     slug_field = 'slug'
