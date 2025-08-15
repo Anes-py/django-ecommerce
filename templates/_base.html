@@ -1,6 +1,8 @@
 <!doctype html>
 <html dir="rtl" lang="fa">
+
 {% load static %}
+{% load humanize %}
 <!-- Mirrored from roti-preview.taymakz.ir/shop by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 24 Nov 2024 06:25:14 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
@@ -1362,7 +1364,7 @@
                       <span
                         class="absolute -right-2.5 -top-2.5 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-primary-btn text-sm font-bold text-white"
                       >
-                        10
+                        {{ cart.items.count }}
                       </span>
                     </button>
 
@@ -1373,7 +1375,7 @@
                       <!-- Head -->
                       <div class="flex items-center justify-between p-5 pb-2">
                         <div class="text-sm text-text/90">4 مورد</div>
-                        <a class='flex items-center gap-x-1 text-sm text-primary' href='checkout-cart.html'>
+                        <a class='flex items-center gap-x-1 text-sm text-primary' href="{% url 'cart-detail' %}">
                           <div>مشاهده سبد خرید</div>
                           <div>
                             <svg class="h-5 w-5">
@@ -1387,6 +1389,7 @@
                         <ul
                           class="main-scroll h-full space-y-2 divide-y overflow-y-auto p-5 pl-2"
                         >
+                          {% for item in cart.items.all %}
                           <li>
                             <div class="flex gap-x-2 py-5">
                               <!-- Product Image -->
@@ -1397,7 +1400,7 @@
                                     alt=""
                                     class="h-[120px] w-[120px]"
                                     loading="lazy"
-                                    src="{% static 'images/products/p1.png' %}"
+                                    src="{{ item.product.main_image.url }}"
                                   />
                                 </a>
                                 <button
@@ -1416,23 +1419,27 @@
                                 <!-- Product Title -->
 
                                 <a class='line-clamp-2 h-12' href='product-detail.html'>
-                                  تیشرت اسپورت مردانه
+                                  {{ item.product.name }}
                                 </a>
                                 <!-- Product Attribute -->
                                 <div
                                   class="flex items-center gap-x-2 text-sm text-text/60"
                                 >
-                                  <div>تعداد : 2</div>
+                                  {% if item.size %}
+                                  <div>تعداد : {{ item.size }}</div>
+                                  {% endif %}
                                   <div
                                     class="h-3 w-px rounded-full bg-background"
                                   ></div>
+                                  {% if item.color %}
                                   <div class="flex items-center gap-x-2">
                                     <span
                                       class="h-4 w-4 rounded-full"
                                       style="background: rgb(128, 128, 128)"
                                     ></span>
-                                    <span> طوسی</span>
+                                    <span>{{ item.color }}</span>
                                   </div>
+                                  {% endif %}
                                 </div>
                                 <div
                                   class="flex items-center justify-between gap-x-2"
@@ -1440,7 +1447,7 @@
                                   <!-- Product Price -->
                                   <div class="text-primary">
                                     <span class="text-lg font-bold"
-                                      >1,800,000</span
+                                      >{{ item.item_final_price }}</span
                                     >
                                     <span class="text-sm">تومان</span>
                                   </div>
@@ -1457,7 +1464,7 @@
                                       </svg>
                                     </button>
                                     <input
-                                      value="1"
+                                      value="{{ item.quantity }}"
                                       disabled
                                       type="number"
                                       class="flex h-5 w-full grow select-none items-center justify-center bg-transparent text-center text-sm outline-none"
@@ -1477,96 +1484,7 @@
                               </div>
                             </div>
                           </li>
-                          <li>
-                            <div class="flex gap-x-2 py-5">
-                              <!-- Product Image -->
-
-                              <div class="relative min-w-fit">
-                                <a href='product-detail.html'>
-                                  <img
-                                    alt=""
-                                    class="h-[120px] w-[120px]"
-                                    loading="lazy"
-                                    src="{% static 'images/products/p2.png' %}"
-                                  />
-                                </a>
-                                <button
-                                  class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
-                                  type="button"
-                                >
-                                  <svg
-                                    class="h-6 w-6 text-red-600 dark:text-red-500"
-                                  >
-                                    <use xlink:href="#close" />
-                                  </svg>
-                                </button>
-                              </div>
-
-                              <div class="w-full space-y-1.5">
-                                <!-- Product Title -->
-
-                                <a class='line-clamp-2 h-12' href='product-detail.html'>
-                                  کلاه اسپورت مردانه
-                                </a>
-                                <!-- Product Attribute -->
-                                <div
-                                  class="flex items-center gap-x-2 text-sm text-text/60"
-                                >
-                                  <div>تعداد : 2</div>
-                                  <div
-                                    class="h-3 w-px rounded-full bg-background"
-                                  ></div>
-                                  <div class="flex items-center gap-x-2">
-                                    <span
-                                      class="h-4 w-4 rounded-full"
-                                      style="background: rgb(128, 128, 128)"
-                                    ></span>
-                                    <span> طوسی</span>
-                                  </div>
-                                </div>
-                                <div
-                                  class="flex items-center justify-between gap-x-2"
-                                >
-                                  <!-- Product Price -->
-                                  <div class="text-primary">
-                                    <span class="text-lg font-bold"
-                                      >1,800,000</span
-                                    >
-                                    <span class="text-sm">تومان</span>
-                                  </div>
-                                  <!-- Product Quantity -->
-                                  <div
-                                    class="flex h-10 w-24 items-center justify-between rounded-lg border px-2 py-1"
-                                  >
-                                    <button
-                                      type="button"
-                                      data-action="increment"
-                                    >
-                                      <svg class="h-5 w-5 text-primary">
-                                        <use xlink:href="#plus" />
-                                      </svg>
-                                    </button>
-                                    <input
-                                      value="1"
-                                      disabled
-                                      type="number"
-                                      class="flex h-5 w-full grow select-none items-center justify-center bg-transparent text-center text-sm outline-none"
-                                    />
-                                    <button
-                                      type="button"
-                                      data-action="decrement"
-                                    >
-                                      <svg
-                                        class="h-5 w-5 text-red-600 dark:text-red-500"
-                                      >
-                                        <use xlink:href="#trash" />
-                                      </svg>
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </li>
+                          {% endfor %}
                         </ul>
                       </div>
 
@@ -1581,11 +1499,11 @@
                           </div>
 
                           <div class="text-text/90">
-                            <span class="font-bold">1,200,000</span>
+                            <span class="font-bold">{{ cart.cart_final_price|floatformat:0|intcomma}}</span>
                             <span class="text-sm">تومان</span>
                           </div>
                         </div>
-                        <a href="checkout-shipping.html">
+                        <a href="{% url 'cart-detail' %}">
                           <button
                             class="btn-primary w-32 py-3 text-sm"
                             type="button"
@@ -1686,7 +1604,7 @@
            <div class="child-box hidden" id="child-{{ forloop.counter }}">
               <!-- Head -->
               <div class="mb-4">
-                <a href="" class="flex items-center gap-x-1 py-2 text-sm text-primary">
+                <a href="{% url 'cart-detail' %}" class="flex items-center gap-x-1 py-2 text-sm text-primary">
                   <div>مشاهده همه</div>
                   <svg class="h-5 w-5">
                     <use xlink:href="#chevron-left"></use>
@@ -1848,7 +1766,7 @@
                     <span
                       class="absolute -right-2.5 -top-2.5 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-primary-btn text-sm font-bold text-white"
                     >
-                      10
+                      {{ cart.items.count }}
                     </span>
                   </button>
                 </div>
@@ -2539,24 +2457,25 @@
               <span class="sr-only">Close menu</span>
             </button>
             <h5 class="text-lg text-text/90">
-              سبد خرید <span class="text-sm">( 4 )</span>
+              سبد خرید <span class="text-sm">( {{ cart.items.count }} )</span>
             </h5>
           </div>
           <div class="h-full pb-[150px]">
             <ul
               class="main-scroll h-full space-y-2 divide-y overflow-y-auto p-4"
             >
+              {% for item in cart.items.all %}
               <li>
                 <div class="flex gap-x-2 py-5">
                   <!-- Product Image -->
 
                   <div class="relative min-w-fit">
-                    <a href='product-detail.html'>
+                    <a href='{{ item.product.get_absolute_url }}'>
                       <img
                         alt=""
                         class="h-20 w-20"
                         loading="lazy"
-                        src="{% static 'images/products/p1.png' %}"
+                        src="{{ item.product.main_image.url }}"
                       />
                     </a>
                     <button
@@ -2572,25 +2491,29 @@
                   <div class="w-full space-y-1.5">
                     <!-- Product Title -->
 
-                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
-                      تیشرت اسپورت مردانه
+                    <a class='line-clamp-2 h-10 text-sm' href='{{ item.product.get_absolute_url }}'>
+                      {{ item.product.name }}
                     </a>
                     <!-- Product Attribute -->
                     <div class="flex items-center gap-x-2 text-xs text-text/60">
-                      <div>تعداد : 2</div>
+                      {% if item.size %}
+                      <div>تعداد :{{ item.size }}</div>
+                      {% endif %}
                       <div class="h-3 w-px rounded-full bg-background"></div>
+                      {% if item.color %}
                       <div class="flex items-center gap-x-2">
                         <span
                           class="h-4 w-4 rounded-full"
                           style="background: rgb(128, 128, 128)"
                         ></span>
-                        <span> طوسی</span>
+                        <span>{{ item.color }}</span>
                       </div>
+                      {% endif %}
                     </div>
                     <div class="flex items-center justify-between gap-x-2">
                       <!-- Product Price -->
                       <div class="text-primary">
-                        <span class="font-bold">1,800,000</span>
+                        <span class="font-bold">{{ item.product.get_final_price|floatformat:0|intcomma }}</span>
                         <span class="text-xs">تومان</span>
                       </div>
                       <!-- Product Quantity -->
@@ -2603,7 +2526,7 @@
                           </svg>
                         </button>
                         <input
-                          value="1"
+                          value="{{ item.quantity }}"
                           disabled
                           type="number"
                           class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
@@ -2618,222 +2541,7 @@
                   </div>
                 </div>
               </li>
-              <li>
-                <div class="flex gap-x-2 py-5">
-                  <!-- Product Image -->
-
-                  <div class="relative min-w-fit">
-                    <a href='product-detail.html'>
-                      <img
-                        alt=""
-                        class="h-20 w-20"
-                        loading="lazy"
-                        src="{% static 'images/products/p2.png' %}"
-                      />
-                    </a>
-                    <button
-                      class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
-                      type="button"
-                    >
-                      <svg class="h-6 w-6 text-red-600 dark:text-red-500">
-                        <use xlink:href="#close" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div class="w-full space-y-1.5">
-                    <!-- Product Title -->
-
-                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
-                      کلاه اسپورت مردانه
-                    </a>
-                    <!-- Product Attribute -->
-                    <div class="flex items-center gap-x-2 text-xs text-text/60">
-                      <div>تعداد : 2</div>
-                      <div class="h-3 w-px rounded-full bg-background"></div>
-                      <div class="flex items-center gap-x-2">
-                        <span
-                          class="h-4 w-4 rounded-full"
-                          style="background: rgb(128, 128, 128)"
-                        ></span>
-                        <span> طوسی</span>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between gap-x-2">
-                      <!-- Product Price -->
-                      <div class="text-primary">
-                        <span class="font-bold">1,800,000</span>
-                        <span class="text-xs">تومان</span>
-                      </div>
-                      <!-- Product Quantity -->
-                      <div
-                        class="flex h-8 w-20 justify-between rounded-lg border px-2 py-1"
-                      >
-                        <button type="button" data-action="increment">
-                          <svg class="h-5 w-5 text-primary">
-                            <use xlink:href="#plus" />
-                          </svg>
-                        </button>
-                        <input
-                          value="1"
-                          disabled
-                          type="number"
-                          class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
-                        />
-                        <button type="button" data-action="decrement">
-                          <svg class="h-5 w-5 text-red-600 dark:text-red-500">
-                            <use xlink:href="#minus" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="flex gap-x-2 py-5">
-                  <!-- Product Image -->
-
-                  <div class="relative min-w-fit">
-                    <a href='product-detail.html'>
-                      <img
-                        alt=""
-                        class="h-20 w-20"
-                        loading="lazy"
-                        src="{% static 'images/products/p3.png' %}"
-                      />
-                    </a>
-                    <button
-                      class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
-                      type="button"
-                    >
-                      <svg class="h-6 w-6 text-red-600 dark:text-red-500">
-                        <use xlink:href="#close" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div class="w-full space-y-1.5">
-                    <!-- Product Title -->
-
-                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
-                      کفش اسپورت مردانه
-                    </a>
-                    <!-- Product Attribute -->
-                    <div class="flex items-center gap-x-2 text-xs text-text/60">
-                      <div>تعداد : 2</div>
-                      <div class="h-3 w-px rounded-full bg-background"></div>
-                      <div class="flex items-center gap-x-2">
-                        <span
-                          class="h-4 w-4 rounded-full"
-                          style="background: rgb(128, 128, 128)"
-                        ></span>
-                        <span> طوسی</span>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between gap-x-2">
-                      <!-- Product Price -->
-                      <div class="text-primary">
-                        <span class="font-bold">1,800,000</span>
-                        <span class="text-xs">تومان</span>
-                      </div>
-                      <!-- Product Quantity -->
-                      <div
-                        class="flex h-8 w-20 justify-between rounded-lg border px-2 py-1"
-                      >
-                        <button type="button" data-action="increment">
-                          <svg class="h-5 w-5 text-primary">
-                            <use xlink:href="#plus" />
-                          </svg>
-                        </button>
-                        <input
-                          value="1"
-                          disabled
-                          type="number"
-                          class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
-                        />
-                        <button type="button" data-action="decrement">
-                          <svg class="h-5 w-5 text-red-600 dark:text-red-500">
-                            <use xlink:href="#minus" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="flex gap-x-2 py-5">
-                  <!-- Product Image -->
-
-                  <div class="relative min-w-fit">
-                    <a href='product-detail.html'>
-                      <img
-                        alt=""
-                        class="h-20 w-20"
-                        loading="lazy"
-                        src="{% static 'images/products/p4.png' %}"
-                      />
-                    </a>
-                    <button
-                      class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
-                      type="button"
-                    >
-                      <svg class="h-6 w-6 text-red-600 dark:text-red-500">
-                        <use xlink:href="#close" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div class="w-full space-y-1.5">
-                    <!-- Product Title -->
-
-                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
-                      کفش اسپورت مردانه
-                    </a>
-                    <!-- Product Attribute -->
-                    <div class="flex items-center gap-x-2 text-xs text-text/60">
-                      <div>تعداد : 2</div>
-                      <div class="h-3 w-px rounded-full bg-background"></div>
-                      <div class="flex items-center gap-x-2">
-                        <span
-                          class="h-4 w-4 rounded-full"
-                          style="background: red"
-                        ></span>
-                        <span> قرمز</span>
-                      </div>
-                    </div>
-                    <div class="flex items-center justify-between gap-x-2">
-                      <!-- Product Price -->
-                      <div class="text-primary">
-                        <span class="font-bold">1,800,000</span>
-                        <span class="text-xs">تومان</span>
-                      </div>
-                      <!-- Product Quantity -->
-                      <div
-                        class="flex h-8 w-20 justify-between rounded-lg border px-2 py-1"
-                      >
-                        <button type="button" data-action="increment">
-                          <svg class="h-5 w-5 text-primary">
-                            <use xlink:href="#plus" />
-                          </svg>
-                        </button>
-                        <input
-                          value="1"
-                          disabled
-                          type="number"
-                          class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
-                        />
-                        <button type="button" data-action="decrement">
-                          <svg class="h-5 w-5 text-red-600 dark:text-red-500">
-                            <use xlink:href="#minus" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
+            {% endfor %}
             </ul>
           </div>
           <!-- Footer -->
@@ -2845,7 +2553,7 @@
               <div class="text-sm text-text/60">مبلغ قابل پرداخت</div>
 
               <div class="text-text/90">
-                <span class="font-bold">1,200,000</span>
+                <span class="font-bold">{{ cart.cart_final_price|floatformat:0|intcomma }}</span>
                 <span class="text-sm">تومان</span>
               </div>
             </div>
