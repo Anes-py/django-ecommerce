@@ -31,14 +31,20 @@ class ProductListView(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Product.objects.active().select_related('discount').only(
-            'name',
-            'slug',
-            'main_image',
-            'category',
-            'brand',
-            'discount'
-        )
+        sort_query_map = {
+            'newest':lambda: Product.objects.newest(),
+            'best-sell':lambda: Product.objects.active(),
+            'most-expensive':lambda: Product.objects.most_expensive(),
+            'cheapest':lambda: Product.objects.cheapest(),
+        }
+        sort_query = self.request.GET.get('sort_query')
+
+
+        if sort_query in sort_query_map:
+            queryset = sort_query_map[sort_query]()
+        else:
+            queryset = Product.objects.active()
+        return queryset
 
 
 class ProductDetailView(generic.DetailView):
