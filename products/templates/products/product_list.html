@@ -53,331 +53,128 @@
                   dir="ltr"
                   class="flex max-h-[calc(95vh_-_100px)] flex-col overflow-y-auto overflow-x-hidden px-4 py-3"
                 >
-                  <div dir="rtl">
-                    <!-- Title -->
-                    <div class="mb-6 flex items-center justify-between">
-                      <h3 class="xl:text-lg">فیلتر ها</h3>
-                      <button class="btn-primary-nobg py-2 text-sm">
-                        حذف همه
-                      </button>
-                    </div>
-                    <ul class="space-y-6">
-                      <!-- Search -->
-                      <li>
-                        <label class="sr-only">Shop search</label>
-                        <input
-                          class="w-full rounded-lg border-none bg-background px-2 py-3 text-text/90 outline-none placeholder:text-sm placeholder:text-text/60 focus:ring-0 placeholder:"
-                          placeholder="جستجو در بین نتایج ..."
-                          type="text"
-                        />
-                      </li>
-                      <!-- Price -->
-                      <li>
-                        <div>
-                          <p class="mb-4">محدوده قیمت</p>
-                          <div class="space-y-4">
-                            <div id="shop-price-slider"></div>
-                            <div class="flex items-center justify-between">
-                              <div class="text-primary">
-                                <span
-                                  class="text-xs font-bold xl:text-sm"
-                                  id="shop-price-slider-min"
-                                >
-                                </span>
-                                <span class="text-xs">تومان</span>
-                              </div>
-                              <div class="text-primary">
-                                <span
-                                  class="text-xs font-bold xl:text-sm"
-                                  id="shop-price-slider-max"
-                                >
-                                </span>
-                                <span class="text-xs">تومان</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- Categories -->
+<div dir="rtl" class="p-4 bg-white rounded-2xl shadow">
+  <!-- Title -->
+  <form id="filterForm" class="space-y-6">
 
-                      <li class="relative" data-accordion-item>
-                        <div
-                          class="w-full text-right cursor-pointer"
-                          data-accordion-button
-                        >
-                          <div
-                            class="flex items-center justify-between gap-2 text-sm md:text-base"
-                          >
-                            <span> دسته بندی ها </span>
-                            <div class="min-w-fit">
-                              <svg
-                                data-accordion-chevron
-                                class="h-5 w-5 duration-300"
-                              >
-                                <use xlink:href="#chevron-left"></use>
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="relative max-h-0 overflow-hidden transition-all duration-300"
-                          data-accordion-content
-                        >
-                          <div class="mt-4 max-h-60 overflow-y-auto pl-1">
-                            <ul class="space-y-2 rounded-lg">
-                              <li>
-                                <a
-                                  class="flex items-center gap-x-2 rounded-lg px-4 py-2"
-                                  href="#"
-                                >
-                                  <span> دسته بندی 1 </span>
-                                  <svg class="h-5 w-5">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </li>
-                              <li>
-                                <a
-                                  class="flex items-center gap-x-2 rounded-lg px-4 py-2"
-                                  href="#"
-                                >
-                                  <span> دسته بندی 2 </span>
-                                  <svg class="h-5 w-5">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </li>
-                              <li>
-                                <a
-                                  class="flex items-center gap-x-2 rounded-lg px-4 py-2"
-                                  href="#"
-                                >
-                                  <span> دسته بندی 3 </span>
-                                  <svg class="h-5 w-5">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- brands -->
+  <div class="mb-6 flex items-center justify-between">
+    <h3 class="text-lg font-semibold">فیلترها</h3>
+<button type="button" id="resetFilters" class="text-sm text-red-500 hover:underline">
+  حذف همه
+</button>
 
-                      <li class="relative" data-accordion-item>
-                        <div
-                          class="w-full text-right cursor-pointer"
-                          data-accordion-button
-                        >
-                          <div
-                            class="flex items-center justify-between gap-2 text-sm md:text-base"
-                          >
-                            <span> برند ها </span>
-                            <div class="min-w-fit">
-                              <svg
-                                data-accordion-chevron
-                                class="h-5 w-5 duration-300"
-                              >
-                                <use xlink:href="#chevron-left"></use>
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="relative max-h-0 overflow-hidden transition-all duration-300"
-                          data-accordion-content
-                        >
-                          <div class="mt-4 max-h-60 overflow-y-auto pl-1">
-                            <ul
-                              class="space-y-2 rounded-lg"
-                              id="brandListFilterDesktop"
-                            >
-                              <li class="p-2">
-                                <label class="sr-only">Brand search</label>
-                                <input
-                                  id="brandListFilterDesktopSearchInput"
-                                  class="w-full rounded-lg border border-none bg-background px-2 py-3 text-text/90 outline-none placeholder:text-sm placeholder:text-text/60 focus:ring-0 placeholder:"
-                                  placeholder="جستجوی برند ..."
-                                  type="text"
-                                />
-                              </li>
-                              <li>
-                                <div
-                                  class="flex w-full items-center gap-x-2 pr-4"
-                                >
-                                  <input
-                                    id="brand-nike"
-                                    type="checkbox"
-                                    value=""
-                                    class="h-4 w-4 cursor-pointer rounded-xl bg-background dark:border-gray-600 dark:bg-zinc-700"
-                                  />
-                                  <label
-                                    for="brand-nike"
-                                    class="flex w-full cursor-pointer items-center justify-between py-2 pl-4 font-medium text-text/90"
-                                  >
-                                    <span>نایک</span>
-                                    <span>nike</span>
-                                  </label>
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  class="flex w-full items-center gap-x-2 pr-4"
-                                >
-                                  <input
-                                    id="brand-adidas"
-                                    type="checkbox"
-                                    value=""
-                                    class="h-4 w-4 cursor-pointer rounded-xl bg-background dark:border-gray-600 dark:bg-zinc-700"
-                                  />
-                                  <label
-                                    for="brand-adidas"
-                                    class="flex w-full cursor-pointer items-center justify-between py-2 pl-4 font-medium text-text/90"
-                                  >
-                                    <span>آدیداس</span>
-                                    <span>adidas</span>
-                                  </label>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
+<script>
+  document.getElementById("resetFilters").addEventListener("click", () => {
+    // فقط آدرس اصلی صفحه بدون پارامتر
+    window.location.href = window.location.pathname;
+  });
+</script>
+  </div>
 
-                      <!-- colors -->
+    <!-- Price -->
+    <div>
+      <p class="mb-2 font-medium">محدوده قیمت (تومان)</p>
+      <div class="flex items-center gap-2">
+        <input
+          type="number"
+          name="min_price"
+          value="{{ request.GET.min_price }}"
+          placeholder="از"
+          class="w-full rounded-lg border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
+        />
+        <span>-</span>
+        <input
+          type="number"
+          name="max_price"
+          value="{{ request.GET.max_price }}"
+          placeholder="تا"
+          class="w-full rounded-lg border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+    </div>
 
-                      <li class="relative" data-accordion-item>
-                        <div
-                          class="w-full text-right cursor-pointer"
-                          data-accordion-button
-                        >
-                          <div
-                            class="flex items-center justify-between gap-2 text-sm md:text-base"
-                          >
-                            <span> رنگ ها </span>
-                            <div class="min-w-fit">
-                              <svg
-                                data-accordion-chevron
-                                class="h-5 w-5 duration-300"
-                              >
-                                <use xlink:href="#chevron-left"></use>
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="relative max-h-0 overflow-hidden transition-all duration-300"
-                          data-accordion-content
-                        >
-                          <div class="mt-4 max-h-60 overflow-y-auto pl-1">
-                            <ul
-                              class="space-y-2 rounded-lg"
-                              id="colorListFilterDesktop"
-                            >
-                              <li class="p-2">
-                                <label class="sr-only">Color search</label>
-                                <input
-                                  id="colorListFilterDesktopSearchInput"
-                                  class="w-full rounded-lg border border-none bg-background px-2 py-3 text-text/90 outline-none placeholder:text-sm placeholder:text-text/60 focus:ring-0 placeholder:"
-                                  placeholder="جستجوی رنگ ..."
-                                  type="text"
-                                />
-                              </li>
-                              <li>
-                                <div
-                                  class="flex w-full items-center gap-x-2 pr-4"
-                                >
-                                  <input
-                                    id="color-red"
-                                    type="checkbox"
-                                    value=""
-                                    class="h-4 w-4 cursor-pointer rounded-xl bg-background dark:border-gray-600 dark:bg-zinc-700"
-                                  />
-                                  <label
-                                    for="color-red"
-                                    class="flex w-full cursor-pointer items-center justify-between py-2 pl-4 font-medium text-text/90"
-                                  >
-                                    <span>قرمز</span>
-                                    <span
-                                      class="h-4 w-4 rounded-full ring-2 ring-gray-200 dark:ring-zinc-700"
-                                      style="background: red"
-                                    ></span>
-                                  </label>
-                                </div>
-                              </li>
-                              <li>
-                                <div
-                                  class="flex w-full items-center gap-x-2 pr-4"
-                                >
-                                  <input
-                                    id="color-blue"
-                                    type="checkbox"
-                                    value=""
-                                    class="h-4 w-4 cursor-pointer rounded-xl bg-background dark:border-gray-600 dark:bg-zinc-700"
-                                  />
-                                  <label
-                                    for="color-blue"
-                                    class="flex w-full cursor-pointer items-center justify-between py-2 pl-4 font-medium text-text/90"
-                                  >
-                                    <span>آبی</span>
-                                    <span
-                                      class="h-4 w-4 rounded-full ring-2 ring-gray-200 dark:ring-zinc-700"
-                                      style="background: blue"
-                                    ></span>
-                                  </label>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
+    <!-- Categories -->
+    <div>
+      <label for="categorySelect" class="mb-2 block font-medium">دسته‌بندی</label>
+      <select
+        id="categorySelect"
+        name="category_slug"
+        class="w-full rounded-lg border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
+      >
+        {% if request.GET.category_slug %}
+        <option value="">{{ request.GET.category_slug }}</option>
+        {% else %}
+        <option value="">انتخاب دسته بندی</option>
+        {% endif %}
+        {% for category in parent_categories %}
+        <option value="{{ category.slug }}">{{ category.name|truncatewords:5 }}</option>
+        {% empty %}
+        <option value="">دسته بندی ای یافت نشد</option>
+        {% endfor %}
+      </select>
+    </div>
 
-                      <!-- Available -->
-                      <li>
-                        <label
-                          class="flex cursor-pointer items-center justify-between py-3"
-                          for="onlyAvailableDesktop"
-                        >
-                          <div class=" ">فقط کالا های موجود</div>
-                          <div
-                            class="relative inline-flex cursor-pointer items-center"
-                          >
-                            <input
-                              class="peer sr-only"
-                              id="onlyAvailableDesktop"
-                              type="checkbox"
-                            />
+    <!-- Brands -->
+    <div>
+      <label for="brandSelect" class="mb-2 block font-medium">برند</label>
+      <select
+        id="brandSelect"
+        name="brand_slug"
+        class="w-full rounded-lg border bg-gray-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary"
+      >
+        {% if request.GET.brand_slug %}
+        <option value="{{ brand.slug }}">{{ request.GET.brand_slug }}</option>
+        {% else %}
+        <option value="">انتخاب برند</option>
+        {% endif %}
+        {% for brand in brands %}
+        <option value="{{ brand.slug }}">{{ brand.name }}</option>
+        {% empty %}
+        <option value="">برندی یافت نشد</option>
+        {% endfor %}
 
-                            <div
-                              class="peer h-6 w-11 rounded-full bg-background after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-muted after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-focus:ring-emerald-500 dark:bg-zinc-800 after: peer-checked: peer-focus:dark:ring-emerald-400"
-                            ></div>
-                          </div>
-                        </label>
-                      </li>
-                      <!-- Special -->
-                      <li>
-                        <label
-                          class="flex cursor-pointer items-center justify-between py-3"
-                          for="onlySpecialDesktop"
-                        >
-                          <div class=" ">فقط محصولات ویژه</div>
-                          <div
-                            class="relative inline-flex cursor-pointer items-center"
-                          >
-                            <input
-                              class="peer sr-only"
-                              id="onlySpecialDesktop"
-                              type="checkbox"
-                            />
+      </select>
+    </div>
 
-                            <div
-                              class="peer h-6 w-11 rounded-full bg-background after:absolute after:left-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-muted after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-focus:ring-emerald-500 dark:bg-zinc-800 after: peer-checked: peer-focus:dark:ring-emerald-400"
-                            ></div>
-                          </div>
-                        </label>
-                      </li>
-                    </ul>
-                  </div>
+    <!-- Toggles -->
+    <div class="space-y-3">
+      <label class="flex items-center justify-between cursor-pointer">
+        <span>فقط کالاهای موجود</span>
+        {% if request.GET.available %}
+        <input type="checkbox" name="available" class="h-4 w-4" checked />
+        {% else %}
+        <input type="checkbox" name="available" class="h-4 w-4" />
+        {% endif %}
+      </label>
+      <label class="flex items-center justify-between cursor-pointer">
+        <span>فقط محصولات ویژه</span>
+        {% if request.GET.special %}
+        <input type="checkbox" name="special" class="h-4 w-4" checked />
+        {% else %}
+        <input type="checkbox" name="special" class="h-4 w-4" />
+        {% endif %}
+      </label>
+    </div>
+
+    <!-- Submit -->
+    <div class="pt-4">
+      <button
+        type="submit"
+        class="w-full rounded-lg bg-primary px-4 py-2 text-white hover:bg-primary/90"
+      >
+        اعمال فیلتر
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Reset filters
+  document.getElementById("resetFilters").addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("filterForm").reset();
+  });
+</script>
                 </div>
               </div>
             </div>
@@ -498,12 +295,16 @@
                 {% endfor %}
               </div>
               <!-- Pagination -->
-              <div<div class="flex items-center justify-center gap-x-4 md:justify-end">
+              {% with query_params=request.GET.copy %}
+  {% if query_params.page %}
+    {% query_params.pop('page') %}
+      {% endif %}
+              <div class="flex items-center justify-center gap-x-4 md:justify-end">
   <!-- Previous page-->
   {% if page_obj.has_previous %}
     <a
       class="pagination-button flex items-center justify-center"
-      href="?page={{ page_obj.previous_page_number }}"
+      href="?page={{ page_obj.previous_page_number }}&{{ query_params.urlencode }}"
     >
       <svg class="h-6 w-6">
         <use xlink:href="#chevron-right"></use>
@@ -530,7 +331,7 @@
   {% if page_obj.has_next %}
     <a
       class="flex h-8 w-8 items-center justify-center rounded-full bg-muted transition-all duration-200 hover:bg-primary hover:text-white hover:dark:bg-emerald-600"
-      href="?page={{ page_obj.next_page_number }}"
+      href="?page={{ page_obj.next_page_number }}&{{ query_params.urlencode }}"
     >
       <svg class="h-6 w-6">
         <use xlink:href="#chevron-left"></use>

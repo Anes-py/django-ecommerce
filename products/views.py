@@ -1,7 +1,10 @@
+from django.db.models import Q
+from django.utils import timezone
 from django.views import generic
 
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from core.services.site_cache import get_site_context
+from categories.models import Category
 from cart.forms import AddToCartForm
 from .models import Product, FeatureOption, Comment
 from .forms import CommentForm
@@ -32,19 +35,48 @@ class ProductListView(generic.ListView):
 
     def get_queryset(self):
         sort_query_map = {
-            'newest':lambda: Product.objects.newest(),
-            'best-sell':lambda: Product.objects.active(),
-            'most-expensive':lambda: Product.objects.most_expensive(),
-            'cheapest':lambda: Product.objects.cheapest(),
+            'newest': lambda: Product.objects.newest(),
+            'best-sell': lambda: Product.objects.active(),
+            'most-expensive': lambda: Product.objects.most_expensive(),
+            'cheapest': lambda: Product.objects.cheapest(),
         }
+        queryset = Product.objects.active()
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+        category_slug = self.request.GET.get('category_slug')
+        brand_slug = self.request.GET.get('brand_slug')
+        available = self.request.GET.get('available')
+        special = self.request.GET.get('special')
+
         sort_query = self.request.GET.get('sort_query')
-
-
         if sort_query in sort_query_map:
             queryset = sort_query_map[sort_query]()
-        else:
-            queryset = Product.objects.active()
+
+        if min_price and max_price:
+            queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
+        if category_slug:
+            queryset = queryset.filter(category__slug=category_slug)
+        if brand_slug:
+            queryset = queryset.filter(brand__slug=brand_slug)
+        if available:
+            queryset = queryset.filter(status=Product.ProductStatus.AVAILABLE)
+        if special:
+            now = timezone.now()
+            queryset = queryset.filter(
+            Q(discount__start_date__lte=now) | Q(discount__start_date__isnull=True),
+            Q(discount__expire_date__gte=now) | Q(discount__expire_date__isnull=True),
+            discount__is_active=True,
+        ).select_related('discount').order_by('-discount__value')
+
+
         return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            'parent_categories': Category.objects.filter(parent__isnull=True).select_related('parent').prefetch_related('children'),
+        })
+        return context
 
 
 class ProductDetailView(generic.DetailView):
