@@ -70,7 +70,7 @@
 
             <div class="mb-4 flex items-center justify-between">
               <h3 class="font-medium md:text-lg lg:text-xl">پیشنهادات ویژه</h3>
-              <a class='flex items-center gap-x-2 py-2 text-sm text-primary lg:text-base' href="">
+              <a class='flex items-center gap-x-2 py-2 text-sm text-primary lg:text-base' href="{% url 'product-list' %}?sort_query=discounted">
                 مشاهده همه
                 <span>
                   <svg class="h-5 w-5 lg:h-6 lg:w-6">
@@ -162,7 +162,7 @@
               <h3 class="font-medium md:text-lg lg:text-xl">
                 جدیدترین محصولات
               </h3>
-              <a class='flex items-center gap-x-2 py-2 text-sm text-primary lg:text-base' href="">
+              <a class='flex items-center gap-x-2 py-2 text-sm text-primary lg:text-base' href="{% url 'product-list' %}?sort_query=newest">
                 مشاهده همه
                 <span>
                   <svg class="h-5 w-5 lg:h-6 lg:w-6">
@@ -308,8 +308,7 @@
               <h3 class="font-medium md:text-lg lg:text-xl">
                 پرفروش ترین محصولات
               </h3>
-              <a class='flex items-center gap-x-2 py-2 text-sm text-primary lg:text-base' href=''>
-                مشاهده همه
+              <a class='flex items-center gap-x-2 py-2 text-sm text-primary lg:text-base' href="{% url 'product-list' %}?sort_query=best_sell">
                 <span>
                   <svg class="h-5 w-5 lg:h-6 lg:w-6">
                     <use xlink:href="#chevron-left" />

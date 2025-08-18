@@ -39,6 +39,7 @@ class ProductListView(generic.ListView):
             'best-sell': lambda: Product.objects.active(),
             'most-expensive': lambda: Product.objects.most_expensive(),
             'cheapest': lambda: Product.objects.cheapest(),
+            'discounted': lambda: Product.objects.with_discount(),
         }
         queryset = Product.objects.active()
         min_price = self.request.GET.get('min_price')

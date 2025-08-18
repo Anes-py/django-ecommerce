@@ -214,6 +214,13 @@
                     پرفروش ترین
                   </button>
                     </a>
+                  <a href="?sort_query=discounted">
+                  <button
+                    class="{% if request.GET.sort_query == 'discounted' %} sort-button-active {% endif %} rounded-lg px-1 py-2 text-sm hover:bg-background hover: lg:px-4"
+                  >
+                    محصولات ویژه
+                  </button>
+                    </a>
                   <a href="?sort_query=most-expensive">
                   <button
                     class="{% if request.GET.sort_query == 'most-expensive' %} sort-button-active {% endif %} rounded-lg px-1 py-2 text-sm hover:bg-background hover: lg:px-4"
@@ -530,6 +537,18 @@
         <label class="relative block w-full cursor-pointer rounded-lg border p-4 shadow-base peer-checked:border-emerald-500 peer-checked:dark:border-emerald-400"
                for="sort-sale">
           <p class="text-center text-text/90">پرفروش ترین</p>
+        </label>
+      </div>
+      <div>
+        <input class="peer hidden"
+               id="sort-dis"
+               name="sort"
+               type="radio"
+               value="discounted"
+               {% if request.GET.sort_query == 'discounted' %}checked{% endif %}>
+        <label class="relative block w-full cursor-pointer rounded-lg border p-4 shadow-base peer-checked:border-emerald-500 peer-checked:dark:border-emerald-400"
+               for="sort-dis">
+          <p class="text-center text-text/90">محصولات ویژه</p>
         </label>
       </div>
 

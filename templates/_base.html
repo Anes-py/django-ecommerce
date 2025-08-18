@@ -1574,70 +1574,70 @@
                     <!-- Mega menu -->
 
                     <!-- Mega Menu Wrapper -->
-<div class="absolute top-full w-full max-w-[1000px] hidden group-hover:block">
-  <div class="relative rounded-b-lg bg-muted shadow-base" id="desktopMegamenu">
-    <div class="flex h-[450px] w-full overflow-hidden rounded-b-lg pt-0.5">
+                    <div class="absolute top-full w-full max-w-[1000px] hidden group-hover:block">
+                      <div class="relative rounded-b-lg bg-muted shadow-base" id="desktopMegamenu">
+                        <div class="flex h-[450px] w-full overflow-hidden rounded-b-lg pt-0.5">
 
-      <!-- RIGHT SIDE: Parents -->
-      <div class="main-scroll w-50 overflow-y-auto bg-background" dir="ltr">
-        <ul dir="rtl" id="mega-menu-parents">
-          {% for category in categories %}
-          <li>
-            <a
-              href=""
-              class="flex py-4 pr-4"
-              data-child-id="child-{{ forloop.counter }}"
-            >
-              {{ category.name }}
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+                          <!-- RIGHT SIDE: Parents -->
+                          <div class="main-scroll w-50 overflow-y-auto bg-background" dir="ltr">
+                            <ul dir="rtl" id="mega-menu-parents">
+                              {% for category in categories %}
+                              <li>
+                                <a
+                                  href="{% url 'product-list' %}?category_slug={{ category.slug }}"
+                                  class="flex py-4 pr-4"
+                                  data-child-id="child-{{ forloop.counter }}"
+                                >
+                                  {{ category.name }}
+                                </a>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
 
-      <!-- LEFT SIDE: Childs -->
-      <div class="main-scroll h-[450px] w-full overflow-auto" dir="ltr">
-        <div class="flex flex-grow p-5" dir="rtl" id="mega-menu-childs">
-          {% for category in categories %}
-            {% if category.children.all %}
-            <!-- UNIQUE CHILD BOX -->
-           <div class="child-box hidden" id="child-{{ forloop.counter }}">
-              <!-- Head -->
-              <div class="mb-4">
-                <a href="{% url 'cart-detail' %}" class="flex items-center gap-x-1 py-2 text-sm text-primary">
-                  <div>مشاهده همه</div>
-                  <svg class="h-5 w-5">
-                    <use xlink:href="#chevron-left"></use>
-                  </svg>
-                </a>
-              </div>
-              <!-- Child Items -->
-              <div class="flex flex-grow flex-wrap gap-x-14 gap-y-8">
-                {% for child in category.children.all %}
-                <div class="space-y-2">
-                  <a href="" class="flex items-center gap-x-2 hover:text-primary">
-                    <span class="h-5 w-0.5 rounded-full bg-primary"></span>
-                    <div>{{ child.name }}</div>
-                    <svg class="h-5 w-5">
-                      <use xlink:href="#chevron-left"></use>
-                    </svg>
-                  </a>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
-لهف شیی</div>
+                          <!-- LEFT SIDE: Childs -->
+                          <div class="main-scroll h-[450px] w-full overflow-auto" dir="ltr">
+                            <div class="flex flex-grow p-5" dir="rtl" id="mega-menu-childs">
+                              {% for category in categories %}
+                                {% if category.children.all %}
+                                <!-- UNIQUE CHILD BOX -->
+                               <div class="child-box hidden" id="child-{{ forloop.counter }}">
+                                  <!-- Head -->
+                                  <div class="mb-4">
+                                    <a href="{% url 'product-list' %}" class="flex items-center gap-x-1 py-2 text-sm text-primary">
+                                      <div>مشاهده همه</div>
+                                      <svg class="h-5 w-5">
+                                        <use xlink:href="#chevron-left"></use>
+                                      </svg>
+                                    </a>
+                                  </div>
+                                  <!-- Child Items -->
+                                  <div class="flex flex-grow flex-wrap gap-x-14 gap-y-8">
+                                    {% for child in category.children.all %}
+                                    <div class="space-y-2">
+                                      <a href="{% url 'product-list' %}?category_slug={{ child.slug }}" class="flex items-center gap-x-2 hover:text-primary">
+                                        <span class="h-5 w-0.5 rounded-full bg-primary"></span>
+                                        <div>{{ child.name }}</div>
+                                        <svg class="h-5 w-5">
+                                          <use xlink:href="#chevron-left"></use>
+                                        </svg>
+                                      </a>
+                                    </div>
+                                    {% endfor %}
+                                  </div>
+                                </div>
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    لهف شیی</div>
 
-                  </ul>
+                                      </ul>
 
                   <ul data-color-dark="#f87171" data-color-light="#ef4444">
-                    <a class="group" href="special-sale.html">
+                    <a class="group" href="{% url 'product-list' %}?sort_query=discounted">
                       <div class="p-2 pt-0">فروش ویژه</div>
                     </a>
                   </ul>
