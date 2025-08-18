@@ -11,7 +11,7 @@ def get_site_context(request):
             'site_settings':SiteSettings.objects.first(),
 
             'categories': Category.objects.all().select_related('parent').prefetch_related('children'),
-            'brands':Brand.objects.all().only('id', 'name'),
+            'brands':Brand.objects.all().only('id', 'name', 'slug'),
         }
         cache.set('site_context_data', cached_data, 3600) # 1 hour = 3600 seconds
     return cached_data
