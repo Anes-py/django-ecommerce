@@ -294,8 +294,127 @@
                 </div>
                 {% endfor %}
               </div>
+            <div
+        aria-labelledby="shop-filter-drawer-navigation-label"
+        class="fixed bottom-0 left-0 right-0 z-40 h-full w-full translate-y-full bg-muted transition-transform duration-300"
+        id="shop-filter-drawer-navigation"
+        tabindex="-1"
+      >
+        <div
+          class="flex items-center justify-between gap-x-4 border-b p-4 pb-5"
+        >
+          <h5 class="text-lg text-text/90">فیلتر محصولات</h5>
+          <button
+            aria-controls="user-account-drawer-navigation"
+            class="inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-text/90 hover:bg-zinc-100 hover:text-gray-900 dark:hover:bg-black dark:hover:text-white"
+            data-drawer-hide="shop-filter-drawer-navigation"
+            type="button"
+          >
+            <svg class="h-5 w-5">
+              <use xlink:href="#close" />
+            </svg>
+
+            <span class="sr-only">Close menu</span>
+          </button>
+        </div>
+              <div class="space-y-6 p-4">
+  <!-- Search -->
+  <div>
+    <input
+      type="text"
+      placeholder="جستجو محصول..."
+      class="w-full rounded-xl border bg-background px-3 py-2 text-sm shadow-sm focus:border-primary focus:ring-1 focus:ring-primary"
+    />
+  </div>
+
+  <!-- Price -->
+  <div>
+    <label class="block mb-2 text-sm font-medium">محدوده قیمت (تومان)</label>
+    <div class="flex items-center gap-2">
+      <input
+        type="number"
+        placeholder="از"
+        class="w-1/2 rounded-xl border px-3 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+      />
+      <input
+        type="number"
+        placeholder="تا"
+        class="w-1/2 rounded-xl border px-3 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+      />
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div>
+    <label class="block mb-2 text-sm font-medium">دسته‌بندی</label>
+    <select
+      class="w-full rounded-xl border px-3 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+    >
+      {% if request.GET.category_slug %}
+      <option>{{ request.GET.category_slug }}</option>
+      {% else %}
+      <option>همه</option>
+      {% endif %}
+      {% for category in parent_categories %}
+      <option value="{{ category.slug }}">{{ category.name }}</option>
+      {% empty %}
+      <option>دسته بندی ای یافت نشد</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Brands -->
+  <div>
+    <label class="block mb-2 text-sm font-medium">برند</label>
+    <select
+      class="w-full rounded-xl border px-3 py-2 text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+    >
+      {% if request.GET.brand_Slug %}
+      <option>{{ request.GET.brand_slug }}</option>
+      {% else %}
+      <option>همه</option>
+      {% endif %}
+      {% for brand in brands %}
+      <option value="{{ brand.slug }}">{{ brand.name }}</option>
+      {% empty %}
+      <option>برندی یافت نشد</option>
+      {% endfor %}
+
+    </select>
+  </div>
+
+  <!-- Toggles -->
+  <div class="flex items-center justify-between">
+    <label for="onlyAvailable" class="text-sm">فقط موجود</label>
+    <input id="onlyAvailable" type="checkbox" class="h-4 w-4 rounded border-primary text-primary" />
+  </div>
+
+  <div class="flex items-center justify-between">
+    <label for="onlySpecial" class="text-sm">فقط ویژه</label>
+    <input id="onlySpecial" type="checkbox" class="h-4 w-4 rounded border-primary text-primary" />
+  </div>
+
+  <!-- Button -->
+  <button class="btn-primary w-full rounded-xl py-3 text-sm font-medium">
+    مشاهده نتایج
+  </button>
+</div>
+
+
+        <!-- Footer -->
+
+        <div
+          class="sticky bottom-0 left-0 right-0 flex items-center justify-between border-t bg-muted p-4 px-6 py-4"
+        >
+          <button class="btn-primary w-full py-3 text-sm" type="button">
+            مشاهده 200 محصول
+          </button>
+        </div>
+      </div>
+
+
               <!-- Pagination -->
-              <div class="flex items-center justify-center gap-x-4 md:justify-end">
+<div class="flex items-center justify-center gap-x-4 md:justify-end">
   <!-- Previous page-->
   {% if page_obj.has_previous %}
     <a

@@ -68,7 +68,6 @@ class ProductListView(generic.ListView):
             discount__is_active=True,
         ).select_related('discount').order_by('-discount__value')
 
-
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
