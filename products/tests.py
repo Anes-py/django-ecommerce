@@ -129,6 +129,62 @@ class TestHomeView(TestCase):
         self.assertIn('top_categories', response.context)
 
 
+class TestProductListView(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name='test category', image='test.jpg')
+        self.brand = Brand.objects.create(name='test brand')
+
+        self.product1 = Product.objects.create(
+            category=self.category,
+            brand=self.brand,
+            name='test product1',
+            main_image='test.jpg',
+            short_description='test short description',
+            description='test long description',
+            price=100,
+            stock=5,
+            status=Product.ProductStatus.AVAILABLE,
+        )
+
+        self.product2 = Product.objects.create(
+            category=self.category,
+            brand=self.brand,
+            name='test product2',
+            main_image='test.jpg',
+            short_description='test short description',
+            description='test long description',
+            price=500000,
+            stock=5,
+            status=Product.ProductStatus.NOT_AVAILABLE,
+        )
+    def test_product_list_view_url(self):
+        response = self.client.get(reverse('product-list'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_filter_by_price_range(self):
+        response = self.client.get(reverse('product-list'), {'min_price':'100', 'max_price':'1200'})
+        self.assertContains(response, 'test product1')
+        self.assertNotContains(response, 'test product2')
+
+    def test_filter_by_category(self):
+        response = self.client.get(reverse('product-list'), {'category_slug':'test-category'})
+        self.assertContains(response, 'test product1')
+        self.assertContains(response, 'test product2')
+
+    def test_filter_by_brand(self):
+        response = self.client.get(reverse('product-list'), {'brand_slug':'test-brand'})
+        self.assertContains(response, 'test product')
+
+    def test_filter_by_available(self):
+        response = self.client.get(reverse('product-list'), {'available':'on'})
+        self.assertContains(response, 'test product')
+        self.assertNotContains(response, 'test product2')
+
+    def test_sorting_by_price(self):
+        response = self.client.get(reverse('product-list'), {'sort_query':'cheapest'})
+        object_list = response.context['object_list']
+        prices = [p.price for p in object_list]
+        self.assertEqual(prices, sorted(prices))
 class ProductDetailViewTest(TestCase):
     def setUp(self):
         self.category = Category.objects.create(name='test category', image='category.jpg')
