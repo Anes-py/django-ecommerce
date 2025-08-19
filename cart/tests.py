@@ -29,6 +29,7 @@ class CartViewTest(TestCase):
             discount=self.discount,
             stock=5,
         )
+        self.cart, _ = Cart.objects.get_or_create(user=self.user)
 
     def test_cart_authenticated_user(self):
         self.assertTrue(self.client.login(username='test_user124', password='123pass'))
@@ -90,4 +91,23 @@ class CartViewTest(TestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 302)
         self.assertFalse(CartItem.objects.exists())
-        
+
+    def test_remove_from_cart(self):
+        self.client.login(username='test_user124', password='123pass')
+        url = reverse('cart-add', args=[self.product.id])
+        data = {
+            'quantity':1,
+            'color':'Blue',
+            'size':38,
+        }
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+
+        cart_item = CartItem.objects.get(cart=self.cart, product=self.product)
+
+        response = self.client.post(reverse('cart-remove', args=[cart_item.id]))
+        self.assertEqual(response.status_code, 302)
+
+        self.assertFalse(CartItem.objects.filter(id=cart_item.id).exists())
+
+
