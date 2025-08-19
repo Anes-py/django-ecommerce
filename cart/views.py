@@ -53,3 +53,18 @@ class AddToCartView(generic.View):
         cart_item.save()
         messages.success(request, "✅ محصول با موفقیت به سبد خرید اضافه شد")
         return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class CartItemRemove(generic.View):
+    def post(self, request, *args, **kwargs):
+        item_id = kwargs.get('item_id')
+        if request.user.is_authenticated:
+            cart = get_object_or_404(Cart, user=request.user)
+        else:
+            if not request.session.session_key:
+                request.session.create()
+            cart = get_object_or_404(Cart, session_key=request.session.session_key)
+        item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        item.delete()
+        messages.success(request, "🗑️ محصول از سبد خرید حذف شد")
+        return redirect(request.META.get("HTTP_REFERER", "/"))

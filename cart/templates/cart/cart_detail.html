@@ -69,22 +69,24 @@
                       >
                         <!-- Image -->
                         <div class="relative row-span-2 min-w-fit xs:mx-auto">
-                          <a href="#">
+                          <a href="{{ item.product.get_absolute_url }}">
                             <img
                               alt=""
                               class="w-25 rounded-lg sm:w-28"
                               src="{{ item.product.main_image.url }}"
                             />
                           </a>
-
+                          <form action="{% url 'cart-remove' item.id %}" method="post">
+                            {% csrf_token %}
                           <button
                             class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
-                            type="button"
+                            type="submit"
                           >
                             <svg class="h-6 w-6 text-red-600 dark:text-red-500">
                               <use xlink:href="#close"></use>
                             </svg>
                           </button>
+                            </form>
                         </div>
                         <!-- Detail -->
                         <div
