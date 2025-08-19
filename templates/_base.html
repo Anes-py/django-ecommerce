@@ -35,6 +35,68 @@
   </head>
 
   <body>
+  <!-- Toast Container -->
+<div id="toast-container" style="
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+"></div>
+
+<!-- Django Messages -->
+{% if messages %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById('toast-container');
+
+    {% for message in messages %}
+        const toast = document.createElement('div');
+        toast.textContent = "{{ message|escapejs }}";
+        toast.style.padding = '0.75rem 1rem';
+        toast.style.borderRadius = '8px';
+        toast.style.color = '#fff';
+        toast.style.minWidth = '200px';
+        toast.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        toast.style.transform = 'translateY(-20px)';
+
+        // نوع پیام
+        {% if message.tags == "success" %}
+            toast.style.backgroundColor = '#00b894';  // رنگ سبز دکمه شما
+        {% elif message.tags == "info" %}
+            toast.style.backgroundColor = '#17a2b8';
+        {% elif message.tags == "warning" %}
+            toast.style.backgroundColor = '#ffc107';
+            toast.style.color = '#333';
+        {% elif message.tags == "error" %}
+            toast.style.backgroundColor = '#dc3545';
+        {% else %}
+            toast.style.backgroundColor = '#00b894';
+        {% endif %}
+
+        container.appendChild(toast);
+
+        // انیمیشن ورود
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+        });
+
+        // حذف بعد از 3 ثانیه
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-20px)';
+            setTimeout(() => container.removeChild(toast), 300);
+        }, 3000);
+    {% endfor %}
+});
+</script>
+{% endif %}
+
     <div class="sr-only">
       <svg>
         <symbol viewBox="0 0 24 24" id="svg-spinners-90-ring">

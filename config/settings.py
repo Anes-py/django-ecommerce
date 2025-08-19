@@ -139,3 +139,12 @@ STATICFILES_DIRS = [
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: "bg-gray-500 text-white",
+    messages.INFO: "bg-blue-500 text-white",
+    messages.SUCCESS: "bg-green-500 text-white",
+    messages.WARNING: "bg-yellow-500 text-black",
+    messages.ERROR: "bg-red-500 text-white",
+}

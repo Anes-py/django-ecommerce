@@ -1,4 +1,5 @@
 from django.db.models import Prefetch
+from django.contrib import messages
 from django.views import generic
 from django.shortcuts import get_object_or_404, redirect
 
@@ -50,4 +51,5 @@ class AddToCartView(generic.View):
         else:
             cart_item.quantity += quantity
         cart_item.save()
+        messages.success(request, "✅ محصول با موفقیت به سبد خرید اضافه شد")
         return redirect(request.META.get('HTTP_REFERER', '/'))
