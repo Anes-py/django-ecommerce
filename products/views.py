@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.utils import timezone
 from django.views import generic
+from django.shortcuts import redirect
 
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
 from core.services.site_cache import get_site_context
@@ -85,13 +86,14 @@ class ProductDetailView(generic.DetailView):
     slug_url_kwarg = 'slug'
 
     def get_queryset(self):
-        return Product.objects.active().select_related('discount', 'brand').prefetch_related('images', 'specifications', 'feature_options', 'product_comments')
+        return (Product.objects.active().select_related('discount', 'brand')
+                .prefetch_related('images', 'specifications', 'feature_options', 'product_comments'))
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         related_products = Product.objects.by_category(category_slug=self.object.category.slug).exclude(id=self.object.id)
-        comments = Comment.objects.active().filter(product=self.object).prefetch_related('replies').\
+        comments = Comment.objects.active().filter(product=self.object, parent__isnull=True).prefetch_related('replies').\
             select_related('user').order_by('-created_at')
 
         color_qs = (self.object.feature_options
@@ -128,8 +130,11 @@ class CommentCreateView(generic.CreateView):
         if self.request.user.is_authenticated:
             obj.user = self.request.user
         obj.product_id = self.kwargs['product_id']
+        parent_id = self.request.POST.get('parent_id')
+        if parent_id:
+            obj.parent_id = parent_id
         obj.save()
-        return super().form_valid(form)
+        return redirect(self.request.META.get('HTTP_REFERER'))
 
     def get_success_url(self):
         return self.request.META.get('HTTP_REFERER', '/')
