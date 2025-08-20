@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 
     'jalali_date',
     "debug_toolbar",
-
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
