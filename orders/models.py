@@ -95,6 +95,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, related_name='items', null=True, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, related_name='user_order_items')
     product = models.ForeignKey(
         Product,
