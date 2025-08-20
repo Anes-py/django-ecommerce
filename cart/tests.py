@@ -110,4 +110,12 @@ class CartViewTest(TestCase):
 
         self.assertFalse(CartItem.objects.filter(id=cart_item.id).exists())
 
+    def test_cart_delete_view(self):
+        self.client.login(username='test_user124', password='123pass')
+        self.assertTrue(Cart.objects.filter(pk=self.cart.pk).exists())
+
+        response = self.client.post(reverse('cart-delete'))
+
+        self.assertFalse(Cart.objects.filter(pk=self.cart.pk).exists())
+        self.assertEqual(response.status_code, 302)
 
