@@ -1,8 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
+from orders.models import Address
 from .models import *
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+
+class AddressInline(admin.TabularInline):
+    model = Address
+    extra = 1
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -13,6 +18,9 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields':('email',)}),
     )
     fieldsets = UserAdmin.fieldsets
+    inlines = [
+        AddressInline,
+    ]
 
 
 class SliderBannerInline(admin.TabularInline):
