@@ -25,6 +25,8 @@ class Address(models.Model):
     postal_code = models.CharField(_('postal code'), max_length=20)
 
     is_default = models.BooleanField(_('user default address'), default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username
@@ -81,6 +83,11 @@ class Order(models.Model):
 
     coupon_code = models.CharField(_('coupon code'), max_length=40, blank=True)
     notes = models.TextField(_('notes'), blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username
 
     class Meta:
         verbose_name = _('Order')
@@ -101,7 +108,9 @@ class OrderItem(models.Model):
     total_price = models.PositiveIntegerField(_('total_price'))
     total_discount = models.PositiveIntegerField(_('total discount'))
     final_price = models.PositiveIntegerField(_('final price'))
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.user.username
     
