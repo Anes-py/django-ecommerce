@@ -4,6 +4,8 @@ from django.utils.text import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+from products.models import Product
+
 
 class Address(models.Model):
     user = models.ForeignKey(
@@ -46,7 +48,7 @@ class Order(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='orders',
+        related_name='user_orders',
         verbose_name=_('user'),
     )
 
@@ -83,3 +85,35 @@ class Order(models.Model):
     class Meta:
         verbose_name = _('Order')
         verbose_name_plural = _('Orders')
+
+
+class OrderItem(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, related_name='user_order_items')
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.PROTECT,
+        related_name='product_orders',
+        verbose_name=_('product'),
+    )
+    product_name = models.CharField(_('product name'), max_length=155)
+    item_price = models.PositiveIntegerField(_('item price'))
+    quantity = models.PositiveIntegerField(_('quantity'), default=1)
+    total_price = models.PositiveIntegerField(_('total_price'))
+    total_discount = models.PositiveIntegerField(_('total discount'))
+    final_price = models.PositiveIntegerField(_('final price'))
+    
+    def __str__(self):
+        return self.user.username
+    
+    def save(
+        self,
+        *args,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+        self.product_name = self.product.name
+        self.item_price = self.product.price
+        return super().save()
+    
