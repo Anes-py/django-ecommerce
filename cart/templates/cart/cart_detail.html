@@ -9,7 +9,8 @@
         <div class="container pb-14">
           <div class="grid grid-cols-12 gap-2 lg:gap-6">
             <!-- breadCrumb -->
-            <div class="col-span-12 rounded-lg bg-muted">
+            {% if cart.items.all %}
+             <div class="col-span-12 rounded-lg bg-muted">
               <ol class="grid grid-cols-3 overflow-hidden rounded-lg">
                 <li
                   class="flex flex-col items-center justify-center gap-2 bg-primary/10 p-4 text-xs text-primary /10 sm:text-sm md:text-base"
@@ -38,7 +39,18 @@
                 </li>
               </ol>
             </div>
-
+            {% else %}
+            <div class="col-span-12 rounded-lg bg-muted">
+                <li
+                  class="flex flex-col items-center justify-center gap-2 bg-primary/10 p-4 text-xs text-primary /10 sm:text-sm md:text-base"
+                >
+                  <svg class="h-6 w-6 md:h-8 md:w-8">
+                    <use xlink:href="#cart" />
+                  </svg>
+                  <p class="leading-none">سبد خرید</p>
+                </li>
+            </div>
+            {% endif %}
             <!-- Cart List -->
             <div class="col-span-12 md:col-span-8">
               <div class="rounded-lg bg-muted p-4">
@@ -50,7 +62,9 @@
                     سبد خرید
                     <span class="text-sm text-text/60"> ( {{ cart.items.count }} کالا ) </span>
                   </h1>
-                  <button type="button" class="btn-red-nobg px-3 py-2 text-sm">
+                  <form action="{% url 'cart-delete' %}" method="post">
+                    {% csrf_token %}
+                  <button type="submit" class="btn-red-nobg px-3 py-2 text-sm">
                     <span>
                       <svg class="h-6 w-6">
                         <use xlink:href="#trash"></use>
@@ -58,6 +72,7 @@
                     </span>
                     <span>حذف همه</span>
                   </button>
+                  </form>
                 </div>
                 <ul class="divide-y">
                   <!-- Cart Item-->
@@ -159,6 +174,7 @@
               </div>
             </div>
             <!-- Cart Price Detail -->
+            {% if cart.items.all %}
             <div class="col-span-12 md:col-span-4">
               <!-- Desktop -->
               <div class="hidden rounded-lg bg-muted p-4 md:block">
@@ -226,6 +242,17 @@
                 </div>
               </div>
             </div>
+
+            {% else %}
+            <div class="col-span-12 flex flex-col items-center justify-center gap-y-4 py-16 text-center">
+              <svg class="w-20 h-20 text-text/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.293 2.293A1 1 0 007 17h10a1 1 0 00.894-1.447L17 13M7 13h10M9 21h.01M15 21h.01" />
+              </svg>
+              <p class="text-lg font-medium text-text/80">سبد خرید شما خالی است</p>
+              <a href="{% url 'home' %}" class="btn-primary px-6 py-3">رفتن به فروشگاه</a>
+            </div>
+            {% endif %}
           </div>
         </div>
       </main>

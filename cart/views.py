@@ -68,3 +68,15 @@ class CartItemRemove(generic.View):
         item.delete()
         messages.success(request, "🗑️ محصول از سبد خرید حذف شد")
         return redirect(request.META.get("HTTP_REFERER", "/"))
+
+
+class CartDelete(generic.View):
+    def post(self, request):
+        if request.user.is_authenticated:
+            cart = get_object_or_404(Cart, user=request.user)
+        else:
+            if not request.session.session_key:
+                request.session.create()
+            cart = get_object_or_404(Cart, session_key=request.session.session_key)
+        cart.delete()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
