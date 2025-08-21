@@ -23,7 +23,7 @@ class Address(models.Model):
     state = models.CharField(_('state/province'), max_length=60, blank=True)
     city = models.CharField(_('city'), max_length=60)
     postal_code = models.CharField(_('postal code'), max_length=20)
-    address = models.TextField()
+    full_address = models.TextField()
     is_default = models.BooleanField(_('user default address'), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
