@@ -14,3 +14,16 @@ class OrderForm(ModelForm):
         )
 
 
+class AddressForm(ModelForm):
+    class Meta:
+        model = Address
+        fields = (
+            'full_name',
+            'phone',
+            'country',
+            'state',
+            'city',
+            'postal_code',
+            'full_address',
+            'is_default',
+        )
