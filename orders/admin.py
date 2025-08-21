@@ -10,7 +10,6 @@ class OrderItemInline(admin.TabularInline):
 class OrdersAdmin(admin.ModelAdmin):
     list_display = [
         'user',
-        'ship_full_name',
         'status',
         'payment_method',
     ]

@@ -23,8 +23,8 @@ class Address(models.Model):
     state = models.CharField(_('state/province'), max_length=60, blank=True)
     city = models.CharField(_('city'), max_length=60)
     postal_code = models.CharField(_('postal code'), max_length=20)
-
-    is_default = models.BooleanField(_('user default address'), default=True)
+    address = models.TextField()
+    is_default = models.BooleanField(_('user default address'), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -53,15 +53,6 @@ class Order(models.Model):
         related_name='user_orders',
         verbose_name=_('user'),
     )
-
-    ship_full_name = models.CharField(_('recipient name'), max_length=120)
-    ship_phone = PhoneNumberField()
-    ship_country = models.CharField(_('country'), max_length=60, default='iran')
-    ship_state = models.CharField(_('state/province'), max_length=60, blank=True)
-    ship_city = models.CharField(_('city'), max_length=60)
-    ship_postal_code = models.CharField(_('postal code'), max_length=20)
-    ship_line1 = models.CharField(_('address line 1'), max_length=255)
-    ship_line2 = models.CharField(_('address line 2'), max_length=255, blank=True)
 
     shipping_address = models.ForeignKey(
         Address,
@@ -114,7 +105,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.user.username
-    
+
     def save(
         self,
         *args,
@@ -126,4 +117,7 @@ class OrderItem(models.Model):
         self.product_name = self.product.name
         self.item_price = self.product.price
         return super().save()
-    
+
+    class Meta:
+        verbose_name = _('Order item')
+        verbose_name_plural = _('Order items')
