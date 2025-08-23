@@ -1,0 +1,87 @@
+{% extends "_base.html" %}
+{% load humanize %}
+
+{% block page_title %}خلاصه سفارش{% endblock %}
+
+{% block page_content %}
+<main class="flex-grow bg-background pb-14 pt-36 xs:pt-36">
+  <div class="container pb-14">
+    <div class="grid grid-cols-12 gap-4 lg:gap-8">
+
+      <!-- Breadcrumb / Steps -->
+      <div class="col-span-12 rounded-xl bg-muted shadow-sm overflow-hidden">
+        <ol class="grid grid-cols-3">
+          <li class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-primary opacity-50 sm:text-sm md:text-base">
+            <svg class="h-6 w-6 md:h-7 md:w-7"><use xlink:href="#cart" /></svg>
+            <p>سبد خرید</p>
+          </li>
+          <li class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-primary opacity-50 sm:text-sm md:text-base">
+            <svg class="h-6 w-6 md:h-7 md:w-7"><use xlink:href="#delivery-truck" /></svg>
+            <p>آدرس و ارسال</p>
+          </li>
+          <li class="flex flex-col items-center justify-center gap-2 bg-primary/10 p-4 text-xs text-primary sm:text-sm md:text-base font-medium">
+            <svg class="h-6 w-6 md:h-7 md:w-7"><use xlink:href="#credit" /></svg>
+            <p>پرداخت</p>
+          </li>
+        </ol>
+      </div>
+
+      <!-- لیست سفارشات -->
+      <div class="col-span-12 md:col-span-8">
+        <div class="rounded-xl bg-muted p-6 space-y-8 shadow">
+
+          <section>
+            <h2 class="text-base md:text-lg mb-4 font-semibold">محصولات سفارش</h2>
+            <ul class="divide-y divide-border">
+              {% for item in order.items.all %}
+              <li class="py-4 flex items-center justify-between">
+                <div class="flex items-center gap-x-3">
+                  <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}"
+                       class="w-16 h-16 rounded-lg object-cover shadow-sm">
+                  <div>
+                    <p class="text-sm font-medium">{{ item.product.name }}</p>
+                    <p class="text-xs text-text/70">تعداد: {{ item.quantity }}</p>
+                  </div>
+                </div>
+                <div class="text-sm font-semibold text-primary">
+                  {{ item.final_price|intcomma }} تومان
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </section>
+        </div>
+      </div>
+
+      <aside class="col-span-12 md:col-span-4">
+        <div class="rounded-xl bg-muted p-6 space-y-6 shadow">
+          <h2 class="text-base md:text-lg mb-2 font-semibold">خلاصه پرداخت</h2>
+          <div class="divide-y divide-border space-y-2">
+            <div class="flex justify-between text-sm">
+              <span>جمع کل کالاها</span>
+              <span>{{ order.subtotal|intcomma }} تومان</span>
+            </div>
+            {% if order.discount_total %}
+            <div class="flex justify-between text-sm text-red-500">
+              <span>تخفیف</span>
+              <span>{{ order.discount_total|intcomma }} تومان</span>
+            </div>
+            {% endif %}
+            <div class="flex justify-between text-sm">
+              <span>مالیات (12%)</span>
+              <span>{{ order.tax_total|intcomma }} تومان</span>
+            </div>
+            <div class="flex justify-between text-base font-bold">
+              <span>مبلغ قابل پرداخت</span>
+              <span>{{ order.grand_total|intcomma }} تومان</span>
+            </div>
+                  <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 mt-2">
+                    اقدام به پرداخت</button>
+                      </div>
+                    </div>
+      </aside>
+
+    </div>
+  </div>
+</main>
+{% endblock %}

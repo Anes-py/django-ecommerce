@@ -9,6 +9,8 @@ class OrderForm(ModelForm):
         fields = (
             'shipping_address',
             'notes',
+            'payment_method',
+            'shipping_method',
         )
 
 

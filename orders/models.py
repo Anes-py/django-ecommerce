@@ -40,10 +40,16 @@ class Order(models.Model):
         FULFILLED = 'fulfilled', _('Fulfilled / Shipped')
         CANCELLED = 'cancelled', _('Cancelled')
         REFUNDED = 'refunded', _('Refunded')
+
     class PaymentMethodChoices(models.TextChoices):
         CARD = 'card', _('Credit/Debit Card')
         COD = 'cod', _('Cash on Delivery')
         TRANSFER = 'transfer', _('Bank Transfer / EFT')
+
+    class ShippingMethod(models.TextChoices):
+        FAST = 'fast', _('Fast Delivery')
+        NORMAL = 'normal', _('Normal Delivery')
+        ECONOMY = 'economy', _('Economy Delivery')
 
     user = models.ForeignKey(
         get_user_model(),
@@ -70,7 +76,7 @@ class Order(models.Model):
         choices=PaymentMethodChoices.choices,
         default=PaymentMethodChoices.CARD,
         )
-
+    shipping_method = models.CharField(max_length=20, choices=ShippingMethod.choices)
     subtotal = models.PositiveIntegerField(_('subtotal'))
     discount_total = models.PositiveIntegerField(_('discount total'))
     shipping_total = models.PositiveIntegerField(_('shipping'))
