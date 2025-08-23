@@ -1436,7 +1436,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     >
                       <!-- Head -->
                       <div class="flex items-center justify-between p-5 pb-2">
-                        <div class="text-sm text-text/90">4 مورد</div>
+                        <div class="text-sm text-text/90">{{ cart.items.count }} مورد</div>
                         <a class='flex items-center gap-x-1 text-sm text-primary' href="{% url 'cart-detail' %}">
                           <div>مشاهده سبد خرید</div>
                           <div>
@@ -1546,11 +1546,40 @@ document.addEventListener("DOMContentLoaded", () => {
                               </div>
                             </div>
                           </li>
+                          {% empty %}
+                          <li>
+                              <div class="flex flex-col items-center justify-center py-12 text-center">
+                                <!-- آیکون -->
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-20 h-20 text-gray-400 mb-4"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7a1 1 0
+                                        00.9 1.45h12.2M10 21a1 1 0 100-2 1 1 0 000
+                                        2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
+                                </svg>
+
+                                <!-- متن -->
+                                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                                  سبد خرید خالیه
+                                </h3>
+                                <p class="text-gray-500 dark:text-gray-400 mb-6">
+                                  هیچ محصولی اضافه نکردی. بیا شروع کنیم 😊
+                                </p>
+
+                                <!-- دکمه -->
+                                <a href="{% url 'product-list' %}"
+                                   class="w-full py-3 mt-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 transition-all">
+                                  برو به فروشگاه
+                                </a>
+                              </div>
+                            </li>
                           {% endfor %}
                         </ul>
                       </div>
 
                       <!-- Footer -->
+                        {% if cart.items.all %}
 
                       <div
                         class="flex items-center justify-between border-t p-5"
@@ -1574,6 +1603,8 @@ document.addEventListener("DOMContentLoaded", () => {
                           </button>
                         </a>
                       </div>
+                        {% endif %}
+
                     </div>
 
                     <!--                    Empty Basket -->
