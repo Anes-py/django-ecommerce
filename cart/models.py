@@ -58,6 +58,8 @@ class CartItem(models.Model):
     def get_item_org_total(self):
         return self.quantity * self.product.price
 
+    def item_discount(self):
+        return int(self.get_item_org_total() - self.item_final_price())
 
     class Meta:
         verbose_name = _("Cart Item")
