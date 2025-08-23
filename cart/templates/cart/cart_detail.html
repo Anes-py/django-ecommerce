@@ -4,259 +4,388 @@
 {% block page_title %} سبد خرید {% endblock %}
 
 {% block page_content %}
+<main class="flex-grow bg-background pb-14 pt-36 xs:pt-36">
+  <div class="container pb-14">
+    <div class="grid grid-cols-12 gap-2 lg:gap-6">
 
-      <main class="flex-grow bg-background pb-14 pt-36 xs:pt-36">
-        <div class="container pb-14">
-          <div class="grid grid-cols-12 gap-2 lg:gap-6">
-            <!-- breadCrumb -->
-            {% if cart.items.all %}
-             <div class="col-span-12 rounded-lg bg-muted">
-              <ol class="grid grid-cols-3 overflow-hidden rounded-lg">
-                <li
-                  class="flex flex-col items-center justify-center gap-2 bg-primary/10 p-4 text-xs text-primary /10 sm:text-sm md:text-base"
-                >
-                  <svg class="h-6 w-6 md:h-8 md:w-8">
-                    <use xlink:href="#cart" />
-                  </svg>
-                  <p class="leading-none">سبد خرید</p>
-                </li>
-                <li
-                  class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-primary opacity-50 sm:text-sm md:text-base"
-                >
-                  <svg class="h-6 w-6 md:h-8 md:w-8">
-                    <use xlink:href="#delivery-truck" />
-                  </svg>
-                  <p class="leading-none">شیوه ارسال</p>
-                </li>
-                <li
-                  class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-primary opacity-50 sm:text-sm md:text-base"
-                >
-                  <svg class="h-6 w-6 md:h-8 md:w-8">
-                    <use xlink:href="#credit" />
-                  </svg>
+      <!-- Breadcrumb / Steps -->
+      {% if cart.items.all %}
+      <div class="col-span-12 rounded-lg bg-muted">
+        <ol class="grid grid-cols-3 overflow-hidden rounded-lg">
+          <li class="flex flex-col items-center justify-center gap-2 bg-primary/10 p-4 text-xs text-primary sm:text-sm md:text-base">
+            <svg class="h-6 w-6 md:h-8 md:w-8"><use xlink:href="#cart" /></svg>
+            <p class="leading-none">سبد خرید</p>
+          </li>
+          <li class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-primary opacity-50 sm:text-sm md:text-base">
+            <svg class="h-6 w-6 md:h-8 md:w-8"><use xlink:href="#delivery-truck" /></svg>
+            <p class="leading-none">شیوه ارسال</p>
+          </li>
+          <li class="flex flex-col items-center justify-center gap-2 p-4 text-xs text-primary opacity-50 sm:text-sm md:text-base">
+            <svg class="h-6 w-6 md:h-8 md:w-8"><use xlink:href="#credit" /></svg>
+            <p class="leading-none">پرداخت</p>
+          </li>
+        </ol>
+      </div>
+      {% endif %}
 
-                  <p class="leading-none">پرداخت</p>
-                </li>
-              </ol>
-            </div>
-            {% else %}
-            <div class="col-span-12 rounded-lg bg-muted">
-                <li
-                  class="flex flex-col items-center justify-center gap-2 bg-primary/10 p-4 text-xs text-primary /10 sm:text-sm md:text-base"
-                >
-                  <svg class="h-6 w-6 md:h-8 md:w-8">
-                    <use xlink:href="#cart" />
-                  </svg>
-                  <p class="leading-none">سبد خرید</p>
-                </li>
-            </div>
-            {% endif %}
-            <!-- Cart List -->
-            <div class="col-span-12 md:col-span-8">
-              <div class="rounded-lg bg-muted p-4">
-                <!-- Heading -->
-                <div class="flex items-center justify-between gap-x-2 pb-4">
-                  <h1
-                    class="flex items-center gap-x-4 text-sm xs:text-base md:text-lg"
-                  >
-                    سبد خرید
-                    <span class="text-sm text-text/60"> ( {{ cart.items.count }} کالا ) </span>
-                  </h1>
-                  <form action="{% url 'cart-delete' %}" method="post">
-                    {% csrf_token %}
-                  <button type="submit" class="btn-red-nobg px-3 py-2 text-sm">
-                    <span>
-                      <svg class="h-6 w-6">
-                        <use xlink:href="#trash"></use>
-                      </svg>
-                    </span>
-                    <span>حذف همه</span>
-                  </button>
-                  </form>
-                </div>
-                <ul class="divide-y">
-                  <!-- Cart Item-->
-                  {% for item in cart.items.all %}
-                  <li>
-                    <div class="py-4 sm:py-6">
-                      <div
-                        class="grid grid-cols-2 items-center justify-start gap-2 xs:grid-cols-3 xs:gap-6 sm:grid-cols-4 xl:grid-cols-6"
-                      >
-                        <!-- Image -->
-                        <div class="relative row-span-2 min-w-fit xs:mx-auto">
-                          <a href="{{ item.product.get_absolute_url }}">
-                            <img
-                              alt=""
-                              class="w-25 rounded-lg sm:w-28"
-                              src="{{ item.product.main_image.url }}"
-                            />
-                          </a>
-                          <form action="{% url 'cart-remove' item.id %}" method="post">
-                            {% csrf_token %}
-                          <button
-                            class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
-                            type="submit"
-                          >
-                            <svg class="h-6 w-6 text-red-600 dark:text-red-500">
-                              <use xlink:href="#close"></use>
-                            </svg>
-                          </button>
-                            </form>
-                        </div>
-                        <!-- Detail -->
-                        <div
-                          class="row-span-2 space-y-4 xs:col-span-2 sm:col-span-3 xl:col-span-5"
-                        >
-                          <!-- Title -->
-                          <a class="line-clamp-2 text-sm xs:text-base" href="#">
-                          {{ item.product.name }}
-                          </a>
-                          <!-- Variant -->
-                          {% if item.size %}
-                          <div class="flex items-center gap-x-2">
-                            <span class="text-xs text-text/90 xs:text-sm">
-                               سایز:
-                            {{ item.size }}</span
-                            >
-                          </div>
-                          {% endif %}
-                          {% if item.color %}
-                          <div class="flex items-center gap-x-2">
-                            <span
-                              class="h-4 w-4 rounded-full"
-                              style="background: #782f2f"
-                            ></span>
-                            <span class="text-xs text-text/90 xs:text-sm">
-                              {{ item.color }}</span
-                            >
-                        </div>
-                          {% endif %}
-
-                        <!-- Quantity -->
-                        <div
-                          class="flex items-center gap-x-2 xs:justify-center"
-                        >
-                          <div
-                            class="flex h-10 w-24 items-center justify-between gap-x-3 rounded-lg border py-1 sm:w-28"
-                          >
-                            <button type="button" data-action="increment">
-                              <svg class="h-5 w-5 text-primary sm:h-6 sm:w-6">
-                                <use xlink:href="#plus" />
-                              </svg>
-                            </button>
-                            <input
-                              value="{{ item.quantity }}"
-                              disabled
-                              type="number"
-                              class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm font-medium outline-none sm:h-6 sm:w-6 sm:text-lg"
-                            />
-                            <button type="button" data-action="decrement">
-                              <svg
-                                class="h-5 w-5 text-red-600 dark:text-red-500 sm:h-6 sm:w-6"
-                              >
-                                <use xlink:href="#minus" />
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                        <!-- Price -->
-                        <div
-                          class="text-primary xs:col-span-2 sm:col-span-3 lg:text-lg xl:col-span-5"
-                        >
-                          <span class="font-bold">{{ item.item_final_price|floatformat:0|intcomma }}</span>
-                          <span class="text-sm lg:text-base">تومان</span>
-                        </div>
+      <!-- Cart Items -->
+      <div class="col-span-12 md:col-span-8">
+        <div class="rounded-lg bg-muted p-4">
+          <div class="flex items-center justify-between gap-x-2 pb-4">
+            <h1 class="flex items-center gap-x-4 text-sm xs:text-base md:text-lg">
+              سبد خرید
+              <span class="text-sm text-text/60"> ( {{ cart.items.count }} کالا ) </span>
+            </h1>
+            <form action="{% url 'cart-delete' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn-red-nobg px-3 py-2 text-sm">
+                <span>
+                  <svg class="h-6 w-6"><use xlink:href="#trash"></use></svg>
+                </span>
+                <span>حذف همه</span>
+              </button>
+            </form>
+          </div>
+          <ul class="divide-y">
+            {% for item in cart.items.all %}
+            <li>
+              <div class="py-4 sm:py-6">
+                <div class="grid grid-cols-2 items-center gap-2 xs:grid-cols-3 sm:grid-cols-4 xl:grid-cols-6">
+                  <!-- Image -->
+                  <div class="relative row-span-2 min-w-fit xs:mx-auto">
+                    <a href="{{ item.product.get_absolute_url }}">
+                      <img alt="" class="w-25 rounded-lg sm:w-28" src="{{ item.product.main_image.url }}" />
+                    </a>
+                    <form action="{% url 'cart-remove' item.id %}" method="post">
+                      {% csrf_token %}
+                      <button class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background" type="submit">
+                        <svg class="h-6 w-6 text-red-600 dark:text-red-500"><use xlink:href="#close"></use></svg>
+                      </button>
+                    </form>
+                  </div>
+                  <!-- Detail -->
+                  <div class="row-span-2 space-y-4 xs:col-span-2 sm:col-span-3 xl:col-span-5">
+                    <a class="line-clamp-2 text-sm xs:text-base" href="#">{{ item.product.name }}</a>
+                    {% if item.size %}
+                    <div class="flex items-center gap-x-2">
+                      <span class="text-xs text-text/90 xs:text-sm">سایز: {{ item.size }}</span>
+                    </div>
+                    {% endif %}
+                    {% if item.color %}
+                    <div class="flex items-center gap-x-2">
+                      <span class="h-4 w-4 rounded-full" style="background: #782f2f"></span>
+                      <span class="text-xs text-text/90 xs:text-sm">{{ item.color }}</span>
+                    </div>
+                    {% endif %}
+                    <!-- Quantity -->
+                    <div class="flex items-center gap-x-2 xs:justify-center">
+                      <div class="flex h-10 w-24 items-center justify-between gap-x-3 rounded-lg border py-1 sm:w-28">
+                        <button type="button" data-action="increment">
+                          <svg class="h-5 w-5 text-primary sm:h-6 sm:w-6"><use xlink:href="#plus" /></svg>
+                        </button>
+                        <input value="{{ item.quantity }}" disabled type="number" class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm font-medium outline-none sm:h-6 sm:w-6 sm:text-lg" />
+                        <button type="button" data-action="decrement">
+                          <svg class="h-5 w-5 text-red-600 dark:text-red-500 sm:h-6 sm:w-6"><use xlink:href="#minus" /></svg>
+                        </button>
                       </div>
                     </div>
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-            <!-- Cart Price Detail -->
-            {% if cart.items.all %}
-            <div class="col-span-12 md:col-span-4">
-              <!-- Desktop -->
-              <div class="hidden rounded-lg bg-muted p-4 md:block">
-                <div class="mb-2 divide-y">
-                  <!-- cart items price before discount - coupon -->
-                  <div class="flex items-center justify-between gap-x-2 py-6">
-                    <div class="text-sm text-text/90 lg:text-base">
-                      قیمت کالا ها ({{ cart.items.count }})
-                    </div>
-
-                    <div class="text-sm text-primary lg:text-base">
-                      <span class="font-bold">{{ cart.cart_org_total|intcomma }}</span>
-                      <span class="text-xs lg:text-sm">تومان</span>
-                    </div>
-                  </div>
-
-                  <!-- Discount -->
-                  {% if cart.cart_discount %}
-                  <div class="flex items-center justify-between gap-x-2 py-6">
-                    <div class="text-sm text-text/90 lg:text-base">تخفیف</div>
-
-                    <div
-                      class="text-sm font-medium text-red-500 dark:text-red-400 lg:text-base"
-                    >
-                      <span class="font-bold">{{ cart.cart_discount|floatformat:0|intcomma }}</span>
-                      <span class="text-xs lg:text-sm">تومان</span>
-                    </div>
-                  </div>
-                  {% endif %}
-                  <!-- Order final price -->
-
-                  <div class="flex items-center justify-between gap-x-2 py-6">
-                    <div class="text-sm text-text/90 lg:text-base">
-                      مبلغ قابل پرداخت
-                    </div>
-
-                    <div class="text-sm text-primary lg:text-base">
-                      <span class="font-bold">{{ cart.cart_final_price|floatformat:0|intcomma }}</span>
-                      <span class="text-xs lg:text-sm">تومان</span>
+                    <!-- Price -->
+                    <div class="text-primary xs:col-span-2 sm:col-span-3 lg:text-lg xl:col-span-5">
+                      <span class="font-bold">{{ item.item_final_price|floatformat:0|intcomma }}</span>
+                      <span class="text-sm lg:text-base">تومان</span>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <a href="{% url 'checkout-cart' %}" class="btn-primary py-3">
-                    ادامه فرایند خرید
-                  </a>
-                </div>
               </div>
-              <!-- Mobile -->
-              <div
-                class="fixed inset-x-0 bottom-0 flex items-center gap-x-6 rounded-t-2xl bg-muted p-4 md:hidden"
-              >
-                <a
-                  class="btn-primary flex-grow py-3"
-                  href="{% url 'checkout-cart' %}"
-                >
-                  ادامه فرایند خرید</a
-                >
-                <div class="flex flex-col items-center gap-y-1">
-                  <div class="text-sm text-text/60">مبلغ قابل پرداخت</div>
-                  <div class="text-text/90">
-                    <span class="font-bold">{{ cart.cart_final_price|floatformat:0|intcomma }}</span>
-                    <span class="text-sm">تومان</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {% else %}
-            <div class="col-span-12 flex flex-col items-center justify-center gap-y-4 py-16 text-center">
-              <svg class="w-20 h-20 text-text/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.293 2.293A1 1 0 007 17h10a1 1 0 00.894-1.447L17 13M7 13h10M9 21h.01M15 21h.01" />
-              </svg>
-              <p class="text-lg font-medium text-text/80">سبد خرید شما خالی است</p>
-              <a href="{% url 'home' %}" class="btn-primary px-6 py-3">رفتن به فروشگاه</a>
-            </div>
-            {% endif %}
-          </div>
+            </li>
+            {% endfor %}
+          </ul>
         </div>
-      </main>
+      </div>
 
+      <!-- Cart Summary + Form -->
+      {% if cart.items.all %}
+      <div class="col-span-12 md:col-span-4 space-y-6">
+
+        <!-- Desktop: Summary + Form -->
+        <div class="hidden md:block rounded-lg bg-muted p-4 space-y-6">
+          <h2 class="text-base font-semibold mb-2">خلاصه سفارش</h2>
+          <ul class="divide-y">
+            <li class="flex justify-between py-2">
+              <span>جمع کل کالاها</span>
+              <span>{{ cart.cart_org_total|intcomma }} تومان</span>
+            </li>
+            {% if cart.cart_discount %}
+            <li class="flex justify-between py-2 text-red-500">
+              <span>تخفیف</span>
+              <span>- {{ cart.cart_discount|intcomma }} تومان</span>
+            </li>
+            {% endif %}
+            <li class="flex justify-between py-2 font-bold">
+              <span>مبلغ نهایی</span>
+              <span>{{ cart.cart_final_price|intcomma }} تومان</span>
+            </li>
+          </ul>
+
+          <!-- Form: Address, Note, Shipping, Time, Payment -->
+          <form method="post" action="{% url 'checkout-cart' %}" class="space-y-4 mt-4">
+            {% csrf_token %}
+            <div>
+              <div class="mt-2">
+                <button type="button"
+                        onclick="openAddressModal()"
+                        class="text-primary text-sm font-medium hover:underline">
+                  + افزودن آدرس جدید
+                </button>
+              </div>
+              <label class="block mb-1 text-sm font-medium">انتخاب آدرس</label>
+              {% for addr in user_addresses %}
+              <label class="flex items-center gap-2 p-2 border rounded-lg mb-1 cursor-pointer hover:border-primary">
+                <input type="radio" name="{{ order_form.shipping_address.name }}" value="{{ addr.id }}" class="accent-primary">
+                <span class="text-sm">{{ addr.full_address|truncatewords:10 }}</span>
+              </label>
+              {% endfor %}
+            </div>
+            <div>
+              <label for="note" class="block mb-1 text-sm font-medium">توضیحات سفارش</label>
+              <textarea name="{{ order_form.notes.name }}" id="note" rows="2" placeholder="توضیحات اختیاری" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary"></textarea>
+            </div>
+            <div>
+              <label class="block mb-1 text-sm font-medium">روش ارسال</label>
+              <select name="{{ order_form.shipping_method.name }}"
+                      class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary">
+                {% for value, label in order_form.fields.shipping_method.choices %}
+                  <option value="{{ value }}" {% if order_form.shipping_method.value == value %}selected{% endif %}>
+                    {{ label }}
+                    {% if value == 'post' %}- 20,000 تومان{% elif value == 'express' %}- 50,000 تومان{% endif %}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+
+<!--            <div>-->
+<!--              <label class="block mb-1 text-sm font-medium">زمان تحویل</label>-->
+<!--              <select name="delivery_time" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary">-->
+<!--                <option value="morning">صبح</option>-->
+<!--                <option value="afternoon">بعد از ظهر</option>-->
+<!--                <option value="evening">عصر</option>-->
+<!--              </select>-->
+<!--            </div>-->
+            <div>
+              <label class="block mb-1 text-sm font-medium">روش پرداخت</label>
+              <select name="{{ order_form.payment_method.name }}"
+                      class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary">
+                {% for value, label in order_form.fields.payment_method.choices %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <button type="submit" class="w-full py-3 mt-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 transition-all">ادامه خرید</button>
+          </form>
+        </div>
+
+        <!-- Mobile: Summary + Form -->
+        <!-- دکمه باز کردن فرم موبایل -->
+<div class="md:hidden fixed inset-x-0 bottom-0 p-4 z-40">
+  <button type="button" onclick="openMobileSummaryModal()"
+          class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80">
+    مشاهده خلاصه سفارش و ادامه خرید
+  </button>
+</div>
+
+
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</main>
+
+<div id="addressModal"
+     class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+     aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="addressModalTitle">
+  <div id="addressModalBox"
+       class="bg-white dark:bg-background rounded-2xl shadow-xl p-6 w-full max-w-lg space-y-5 transform scale-95 opacity-0 transition-all duration-200">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b pb-3">
+      <h3 id="addressModalTitle" class="text-lg font-semibold">افزودن آدرس جدید</h3>
+      <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeAddressModal()">✕</button>
+    </div>
+
+    <form method="post" action="" class="space-y-4 text-sm">
+      {% csrf_token %}
+      <input type="text" name="full_name" placeholder="نام و نام خانوادگی" required
+             class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+      <input type="tel" name="phone" placeholder="شماره تماس" required
+             class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+      <div class="grid grid-cols-2 gap-3">
+        <input type="text" name="country" placeholder="کشور" value="Iran"
+               class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+        <input type="text" name="state" placeholder="استان"
+               class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <input type="text" name="city" placeholder="شهر" required
+               class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+        <input type="text" name="postal_code" placeholder="کد پستی"
+               class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary">
+      </div>
+      <textarea name="full_address" placeholder="آدرس کامل" rows="3" required
+                class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+      <label class="flex items-center gap-2 text-sm">
+        <input type="checkbox" name="is_default" class="rounded border-gray-300 text-primary focus:ring-primary">
+        ثبت به عنوان آدرس پیش‌فرض
+      </label>
+
+      <div class="flex justify-end gap-3 pt-3 border-t">
+        <button type="button"
+                class="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
+                onclick="closeAddressModal()">انصراف</button>
+        <button type="submit" class="btn-primary px-6 py-2 rounded-xl shadow">ذخیره</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const addressModal = document.getElementById('addressModal');
+const addressModalBox = document.getElementById('addressModalBox');
+
+function lockBodyScroll(lock) {
+  document.body.style.overflow = lock ? 'hidden' : '';
+}
+
+function openAddressModal() {
+  addressModal.classList.remove('hidden');
+  lockBodyScroll(true);
+  requestAnimationFrame(() => {
+    addressModalBox.classList.remove('scale-95','opacity-0');
+    addressModalBox.classList.add('scale-100','opacity-100');
+  });
+}
+
+function closeAddressModal() {
+  addressModalBox.classList.remove('scale-100','opacity-100');
+  addressModalBox.classList.add('scale-95','opacity-0');
+  setTimeout(() => {
+    addressModal.classList.add('hidden');
+    lockBodyScroll(false);
+  }, 180);
+}
+
+addressModal.addEventListener('click', (e) => {
+  if (e.target === addressModal) closeAddressModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!addressModal.classList.contains('hidden') && e.key === 'Escape') closeAddressModal();
+});
+</script>
+
+<div id="mobileSummaryModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end justify-center z-50">
+  <div class="bg-muted rounded-t-2xl p-4 w-full max-h-[90vh] overflow-auto transform scale-95 opacity-0 transition-all duration-200">
+    <div class="flex justify-between items-center border-b pb-3 mb-4">
+      <h2 class="text-base font-semibold">خلاصه سفارش</h2>
+      <button type="button" onclick="closeMobileSummaryModal()" class="text-gray-400 hover:text-gray-600">✕</button>
+    </div>
+
+    <!-- فرم Summary + Mobile -->
+    <ul class="divide-y mb-4">
+      <li class="flex justify-between py-2">
+        <span>جمع کل کالاها</span>
+        <span>{{ cart.cart_org_total|intcomma }} تومان</span>
+      </li>
+      {% if cart.cart_discount %}
+      <li class="flex justify-between py-2 text-red-500">
+        <span>تخفیف</span>
+        <span>- {{ cart.cart_discount|intcomma }} تومان</span>
+      </li>
+      {% endif %}
+      <li class="flex justify-between py-2 font-bold">
+        <span>مبلغ نهایی</span>
+        <span>{{ cart.cart_final_price|intcomma }} تومان</span>
+      </li>
+    </ul>
+
+    <form method="post" action="{% url 'checkout-cart' %}" class="space-y-4">
+      {% csrf_token %}
+      <!-- فیلدهای آدرس، توضیحات، روش ارسال و پرداخت مشابه موبایل -->
+      <div>
+        <div class="mt-2">
+          <button type="button"
+              onclick="openAddressModal()"
+              class="text-primary text-sm font-medium hover:underline">
+              + افزودن آدرس جدید
+          </button>
+              </div>
+        <label class="block mb-1 text-sm font-medium">انتخاب آدرس</label>
+        {% for addr in user_addresses %}
+        <label class="flex items-center gap-2 p-2 border rounded-lg mb-1 cursor-pointer hover:border-primary">
+          <input type="radio" name="{{ order_form.shipping_address.name }}" value="{{ addr.id }}" class="accent-primary" {% if forloop.first %}checked{% endif %}>
+          <span class="text-sm">{{ addr.full_address|truncatewords:10 }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <div>
+        <label for="note" class="block mb-1 text-sm font-medium">توضیحات سفارش</label>
+        <textarea name="{{ order_form.notes.name }}" id="note" rows="2" placeholder="توضیحات اختیاری" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary"></textarea>
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-medium">روش ارسال</label>
+        <select name="{{ order_form.shipping_method.name }}" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary">
+          {% for value, label in order_form.fields.shipping_method.choices %}
+            <option value="{{ value }}" {% if order_form.shipping_method.value == value %}selected{% endif %}>
+              {{ label }}
+              {% if value == 'normal' %}- 20,000 تومان{% elif value == 'fast' %}- 50,000 تومان{% endif %}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+
+    <select name="{{ order_form.payment_method.name }}" class="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-primary">
+      {% for value, label in order_form.fields.payment_method.choices %}
+        <option value="{{ value }}" {% if order_form.payment_method.value == value %}selected{% endif %}>
+          {{ label }}
+        </option>
+      {% endfor %}
+    </select>
+
+
+      <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 mt-2">ادامه خرید</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const mobileSummaryModal = document.getElementById('mobileSummaryModal');
+const mobileSummaryModalBox = mobileSummaryModal.querySelector('div');
+
+function openMobileSummaryModal() {
+  mobileSummaryModal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => {
+    mobileSummaryModalBox.classList.remove('scale-95','opacity-0');
+    mobileSummaryModalBox.classList.add('scale-100','opacity-100');
+  });
+}
+
+function closeMobileSummaryModal() {
+  mobileSummaryModalBox.classList.remove('scale-100','opacity-100');
+  mobileSummaryModalBox.classList.add('scale-95','opacity-0');
+  setTimeout(() => {
+    mobileSummaryModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }, 180);
+}
+
+mobileSummaryModal.addEventListener('click', (e) => {
+  if (e.target === mobileSummaryModal) closeMobileSummaryModal();
+});
+</script>
 
 {% endblock %}
-

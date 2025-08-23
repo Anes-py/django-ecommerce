@@ -4,6 +4,8 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, redirect
 
 from products.models import Product
+from orders.models import Address
+from orders.forms import OrderForm, AddressForm
 from .models import Cart, CartItem
 from .forms import AddToCartForm
 
@@ -24,6 +26,15 @@ class CartDetailView(generic.DetailView):
                 Prefetch('items', queryset=CartItem.objects.select_related('product', 'product__discount'))
             ).get_or_create(session_key=session_key)
         return cart
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'user_addresses': Address.objects.filter(user=self.request.user),
+            'order_form': OrderForm(),
+            'address_form': AddressForm(),
+        })
+        return context
 
 
 class AddToCartView(generic.View):
