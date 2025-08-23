@@ -29,7 +29,7 @@ class Address(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.username
+        return f"address of: {self.full_name}"
 
 
 class Order(models.Model):
@@ -64,7 +64,12 @@ class Order(models.Model):
     )
 
     status = models.CharField(_('status'), max_length=32, choices=OrderStatus.choices, default=OrderStatus.DRAFT)
-    payment_method = models.CharField(_('payment method'), max_length=16, choices=PaymentMethodChoices.choices)
+    payment_method = models.CharField(
+        _('payment method'),
+        max_length=16,
+        choices=PaymentMethodChoices.choices,
+        default=PaymentMethodChoices.CARD,
+        )
 
     subtotal = models.PositiveIntegerField(_('subtotal'))
     discount_total = models.PositiveIntegerField(_('discount total'))
@@ -72,7 +77,7 @@ class Order(models.Model):
     tax_total = models.PositiveIntegerField(_('tax total'))
     grand_total = models.PositiveIntegerField(_('grand total'))
 
-    coupon_code = models.CharField(_('coupon code'), max_length=40, blank=True)
+    coupon_code = models.CharField(_('coupon code'), max_length=40, blank=True, null=True)
     notes = models.TextField(_('notes'), blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -86,7 +91,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, related_name='items', null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT, related_name='user_order_items')
     product = models.ForeignKey(
         Product,
@@ -97,7 +102,6 @@ class OrderItem(models.Model):
     product_name = models.CharField(_('product name'), max_length=155)
     item_price = models.PositiveIntegerField(_('item price'))
     quantity = models.PositiveIntegerField(_('quantity'), default=1)
-    total_price = models.PositiveIntegerField(_('total_price'))
     total_discount = models.PositiveIntegerField(_('total discount'))
     final_price = models.PositiveIntegerField(_('final price'))
     created_at = models.DateTimeField(auto_now_add=True)
@@ -115,7 +119,7 @@ class OrderItem(models.Model):
         update_fields=None,
     ):
         self.product_name = self.product.name
-        self.item_price = self.product.price
+        self.item_price = self.product.price * self.quantity
         return super().save()
 
     class Meta:

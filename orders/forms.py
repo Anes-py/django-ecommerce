@@ -8,8 +8,6 @@ class OrderForm(ModelForm):
         model = Order
         fields = (
             'shipping_address',
-            'payment_method',
-            'coupon_code',
             'notes',
         )
 
