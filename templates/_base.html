@@ -1028,7 +1028,7 @@ document.addEventListener("DOMContentLoaded", () => {
               >
                 <!-- logo -->
                 <div>
-                  <a href='index.html'>
+                  <a href="{% url 'home' %}">
                     <img
                       alt=""
                       class="w-44 text-red-700"
@@ -1037,8 +1037,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   </a>
                 </div>
                 <!-- Search -->
-
-
+                {% if search_form %}
                 <div
                   class="relative max-w-xl flex-1"
                   id="desktopHeaderSearchBase"
@@ -1208,90 +1207,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                         <!-- Top searches -->
 
-                        <div class="px-5">
-                          <div
-                            class="mb-4 flex items-center gap-x-2 text-text/90"
-                          >
-                            <svg class="h-6 w-6">
-                              <use xlink:href="#special-sale" />
-                            </svg>
-                            <p>جستجو های پرطرفدار</p>
-                          </div>
-                          <div class="swiper search-result-desktop h-14">
-                            <div class="swiper-wrapper">
-                              <div class="swiper-slide">
-                                <a
-                                  href="#"
-                                  class="flex items-center justify-center gap-x-2 rounded-full border p-2 text-text/60 hover:border-border/50"
-                                >
-                                  <p class="line-clamp-1">کفش نایک</p>
-                                  <svg class="h-4 w-4">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </div>
-                              <div class="swiper-slide">
-                                <a
-                                  href="#"
-                                  class="flex items-center justify-center gap-x-2 rounded-full border p-2 text-text/60 hover:border-border/50"
-                                >
-                                  <p class="line-clamp-1">کفش نایک</p>
-                                  <svg class="h-4 w-4">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </div>
-                              <div class="swiper-slide">
-                                <a
-                                  href="#"
-                                  class="flex items-center justify-center gap-x-2 rounded-full border p-2 text-text/60 hover:border-border/50"
-                                >
-                                  <p class="line-clamp-1">کفش نایک</p>
-                                  <svg class="h-4 w-4">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </div>
-                              <div class="swiper-slide">
-                                <a
-                                  href="#"
-                                  class="flex items-center justify-center gap-x-2 rounded-full border p-2 text-text/60 hover:border-border/50"
-                                >
-                                  <p class="line-clamp-1">کفش نایک</p>
-                                  <svg class="h-4 w-4">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </div>
-                              <div class="swiper-slide">
-                                <a
-                                  href="#"
-                                  class="flex items-center justify-center gap-x-2 rounded-full border p-2 text-text/60 hover:border-border/50"
-                                >
-                                  <p class="line-clamp-1">کفش نایک</p>
-                                  <svg class="h-4 w-4">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </div>
-                              <div class="swiper-slide">
-                                <a
-                                  href="#"
-                                  class="flex items-center justify-center gap-x-2 rounded-full border p-2 text-text/60 hover:border-border/50"
-                                >
-                                  <p class="line-clamp-1">کفش نایک</p>
-                                  <svg class="h-4 w-4">
-                                    <use xlink:href="#chevron-left" />
-                                  </svg>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                {% endif %}
                 <!-- Cart, Theme, Account -->
                 <div class="flex gap-x-4">
                   <!-- Account -->
@@ -1606,26 +1526,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         {% endif %}
 
                     </div>
-
-                    <!--                    Empty Basket -->
-                    <!--                                <div-->
-                    <!--                                        class="z-10 !ml-5 hidden w-[400px] overflow-hidden rounded-lg border-t-2 border-t-primary bg-muted  "-->
-                    <!--                                        id="dropdownBasketDesktop"-->
-                    <!--                                >-->
-                    <!--                                    <div class="flex justify-center items-center py-6">-->
-                    <!--                                        <div class="flex items-center justify-center flex-col gap-y-4">-->
-                    <!--                                            <svg class="w-20 h-20  text-text/90  ">-->
-                    <!--                                                <use xlink:href="#order-off"/>-->
-                    <!--                                            </svg>-->
-                    <!--                                            <p class=" text-text/90   text-lg">-->
-                    <!--                                                سبد خرید شما خالی میباشد-->
-                    <!--                                            </p>-->
-                    <!--                                            <a class="btn-primary w-full py-3" href="#">-->
-                    <!--                                                فروشگاه-->
-                    <!--                                            </a>-->
-                    <!--                                        </div>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
                   </div>
                   <!-- Theme -->
                   <div class="cursor-pointer" id="toggleThemeDesktop">
@@ -1814,7 +1714,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <!-- logo -->
                 <div>
-                  <a href='index.html'>
+                  <a href="{% url 'home' %}">
                     <img
                       alt=""
                       class="h-6 w-full rounded-lg xs:h-10"
@@ -1870,7 +1770,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 id="mobile-header-bottom"
               >
                 <div class="container">
-
+                  {% if search_form %}
                   <div class="relative" id="mobileHeaderSearchBase">
                   <form action="" method="get" class="w-full">
   {% for key, value in request.GET.items %}
@@ -2127,7 +2027,7 @@ document.addEventListener("DOMContentLoaded", () => {
                       </div>
                     </div>
                   </div>
-
+                  {% endif %}
                 </div>
               </div>
             </div>
@@ -2152,7 +2052,7 @@ document.addEventListener("DOMContentLoaded", () => {
           >
             <!-- Logo -->
             <div>
-              <a href='index.html'>
+              <a href="{% url 'home' %}">
                 <img
                   alt="{{ site_settings.site_name }}"
                   class="h-10 w-full rounded-lg"
@@ -2204,7 +2104,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="overflow-y-auto">
             <ul class="space-y-4">
               <li>
-                <a class='flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary' href='index.html'>
+                <a class='flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary' href="{% url 'home' %}">
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
                       <use xlink:href="#home" />
@@ -2216,7 +2116,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary"
-                  href="special-sale.html"
+                  href="{% url 'product-list' %}?sort_query=discounted"
                 >
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
