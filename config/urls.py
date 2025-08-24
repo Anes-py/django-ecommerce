@@ -22,6 +22,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', include('products.urls')),
     path('cart/', include('cart.urls')),
     path('checkout/', include('orders.urls')),
