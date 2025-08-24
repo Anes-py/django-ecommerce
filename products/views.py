@@ -51,9 +51,10 @@ class ProductListView(generic.ListView):
         special = self.request.GET.get('special')
 
         sort_query = self.request.GET.get('sort_query')
+        search_query = self.request.GET.get('q')
+
         if sort_query in sort_query_map:
             queryset = sort_query_map[sort_query]()
-
         if min_price and max_price:
             queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
         if category_slug:
@@ -70,12 +71,23 @@ class ProductListView(generic.ListView):
             discount__is_active=True,
         ).select_related('discount').order_by('-discount__value')
 
+        if search_query:
+            queryset = queryset.filter(
+                Q(brand__name__icontains=search_query)|
+                Q(name__icontains=search_query) |
+                Q(short_description__icontains=search_query) |
+                Q(description__icontains=search_query)
+            )
+
+
+
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context.update({
             'parent_categories': Category.objects.filter(parent__isnull=True).select_related('parent').prefetch_related('children'),
+            'search_form':True,
         })
         return context
 
