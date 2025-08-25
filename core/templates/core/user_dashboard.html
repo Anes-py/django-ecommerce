@@ -878,12 +878,12 @@
                         <span
                           class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm font-medium text-white dark:bg-primary md:hidden"
                         >
-                          10
+                          {{ fulfilled_orders.count }}
                         </span>
                       </div>
                       <div class="flex flex-col gap-y-1">
                         <div class="hidden font-medium text-white md:block">
-                          {{ delivered_orders.count }} سفارش
+                          {{ fulfilled_orders.count }} سفارش
                         </div>
                         <div class="text-white">تحویل شده</div>
                       </div>
@@ -900,7 +900,7 @@
                         <span
                           class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-400 text-sm font-medium text-white md:hidden"
                         >
-                          3
+                          {{ fulfilled_orders.count }}
                         </span>
                       </div>
                       <div class="flex flex-col gap-y-1">
@@ -924,7 +924,7 @@
                         <span
                           class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-yellow-600 text-sm font-medium text-white dark:bg-yellow-500 md:hidden"
                         >
-                          0
+                          {{ refunded_orders.count }}
                         </span>
                       </div>
                       <div class="flex flex-col gap-y-1">
@@ -954,16 +954,6 @@
                           <!-- head -->
 
                           <div class="flex items-center justify-between pb-6">
-                            <div
-                              class="flex items-center gap-x-2 text-yellow-500 dark:text-yellow-400"
-                            >
-                              <svg class="h-6 w-6">
-                                <use xlink:href="#warning" />
-                              </svg>
-                              <p class="font-medium md:text-lg">
-                                در انتظار پرداخت
-                              </p>
-                            </div>
 
                             <svg class="h-6 w-6">
                               <use xlink:href="#chevron-left" />
