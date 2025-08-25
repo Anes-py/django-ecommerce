@@ -37,6 +37,8 @@ class Order(models.Model):
         DRAFT = 'draft', _('Draft')
         PENDING_PAYMENT = 'pending_payment', _('Pending Payment')
         PAID = 'paid', _('Paid')
+        SHIPPED = 'shipped', _('Shipped')
+        DELIVERED = 'delivered', _('Delivered')
         FULFILLED = 'fulfilled', _('Fulfilled / Shipped')
         CANCELLED = 'cancelled', _('Cancelled')
         REFUNDED = 'refunded', _('Refunded')
