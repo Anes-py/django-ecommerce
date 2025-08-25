@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.utils import timezone
 from django.views import generic
+from django.contrib import messages
 from django.shortcuts import redirect
 
 from core.models import SliderBanners, SideBanners, MiddleBanners, SiteSettings
@@ -145,7 +146,10 @@ class CommentCreateView(generic.CreateView):
         parent_id = self.request.POST.get('parent_id')
         if parent_id:
             obj.parent_id = parent_id
+            messages.success(self.request, 'پاسخ شما ارسال شد و پس از تایید ادمین منتشر میشود')
         obj.save()
+
+        messages.success(self.request, 'کامنت شما ارسال شد و پس از تایید ادمین منتشر میشود')
         return redirect(self.request.META.get('HTTP_REFERER'))
 
     def get_success_url(self):
