@@ -62,7 +62,7 @@ class AddToCartView(generic.View):
         else:
             cart_item.quantity += quantity
         cart_item.save()
-        messages.success(request, "✅ محصول با موفقیت به سبد خرید اضافه شد")
+        messages.success(request, "محصول با موفقیت به سبد خرید اضافه شد✅")
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
@@ -90,4 +90,5 @@ class CartDelete(generic.View):
                 request.session.create()
             cart = get_object_or_404(Cart, session_key=request.session.session_key)
         cart.delete()
+        messages.success(request, 'ایتم های سبد شما با موفقیت حدف شد✅ ')
         return redirect(request.META.get('HTTP_REFERER', '/'))

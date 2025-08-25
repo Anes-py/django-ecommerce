@@ -118,4 +118,3 @@ class CartViewTest(TestCase):
 
         self.assertFalse(Cart.objects.filter(pk=self.cart.pk).exists())
         self.assertEqual(response.status_code, 302)
-
