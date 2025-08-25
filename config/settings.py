@@ -44,7 +44,6 @@ INSTALLED_APPS = [
 
 
     'jalali_date',
-    "debug_toolbar",
     "phonenumber_field",
 ]
 
@@ -58,7 +57,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 
-   "debug_toolbar.middleware.DebugToolbarMiddleware",
 
 ]
 
@@ -137,9 +135,7 @@ STATICFILES_DIRS = [
 ]
 
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+
 from django.contrib.messages import constants as messages
 
 MESSAGE_TAGS = {
