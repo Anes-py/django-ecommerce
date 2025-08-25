@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glassmorphism Login Form</title>
+    <title>ورود</title>
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 <body>
@@ -103,7 +103,7 @@
         </div>
 
         <div class="signup-link">
-            <p>Don't have an account? <a href="#">Sign up</a></p>
+            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
         </div>
 
         <div class="success-message" id="successMessage">
