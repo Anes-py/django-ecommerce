@@ -1,0 +1,1257 @@
+{% extends '_base.html' %}
+
+{% load jalali_tags %}
+{% load humanize %}
+{% load static %}
+
+{% block page_title %} {% endblock %}
+
+{% block page_content %}
+
+      <div>
+        <!-- Mobile Main Menu Drawer -->
+
+        <div
+          aria-labelledby="mobile-menu-drawer-navigation"
+          class="fixed right-0 top-0 z-40 h-full w-80 translate-x-full overflow-y-auto bg-muted p-4 transition-transform duration-300"
+          id="mobile-menu-drawer-navigation"
+          tabindex="-1"
+        >
+          <div
+            class="mb-6 flex items-center justify-between gap-x-4 border-b pb-5"
+          >
+            <!-- Logo -->
+            <div>
+              <a href="{% url 'home' %}">
+                <img
+                  alt=""
+                  class="h-10 w-full rounded-lg"
+                  src="{% static 'images/logo.svg' %}"
+                />
+              </a>
+            </div>
+
+            <!-- Close Button -->
+            <button
+              aria-controls="mobile-menu-drawer-navigation"
+              class=" "
+              data-drawer-hide="mobile-menu-drawer-navigation"
+              type="button"
+            >
+              <svg class="h-5 w-5">
+                <use xlink:href="#close" />
+              </svg>
+
+              <span class="sr-only">Close menu</span>
+            </button>
+          </div>
+          <!-- Mobile Toggle Theme -->
+
+        </div>
+
+        <!-- Mobile User Account Drawer -->
+
+        <div
+          aria-labelledby="user-account-drawer-navigation-label"
+          class="main-scroll fixed left-0 top-0 z-40 h-full w-80 -translate-x-full overflow-y-auto bg-muted p-4 pb-20 transition-transform duration-300"
+          id="user-account-drawer-navigation"
+          tabindex="-1"
+        >
+          <div
+            class="mb-6 flex items-center justify-between gap-x-4 border-b pb-5"
+          >
+            <!-- Close Button -->
+            <button
+              aria-controls="user-account-drawer-navigation"
+              class=" "
+              data-drawer-hide="user-account-drawer-navigation"
+              type="button"
+            >
+              <svg class="h-5 w-5">
+                <use xlink:href="#close" />
+              </svg>
+
+              <span class="sr-only">Close menu</span>
+            </button>
+
+            <h5 class="text-lg">حساب کاربری</h5>
+          </div>
+          <div class="overflow-y-auto">
+            <ul class="space-y-4">
+              <li>
+                <a class='flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary' href='profile-dashboard.html'>
+                  <span class="flex items-center gap-x-4">
+                    <span class="min-w-fit">
+                      <img
+                        alt=""
+                        class="h-10 w-10 rounded-full"
+                        src="assets/images/user.png"
+                      />
+                    </span>
+                    <span class="line-clamp-1">تست تست تست تسستست تسست </span>
+                  </span>
+                  <span>
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#chevron-left" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary"
+                  href="profile-orders.html"
+                >
+                  <span class="flex items-center gap-x-2">
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#order" />
+                    </svg>
+                    <span> سفارش ها </span>
+                  </span>
+                  <span class="relative flex h-5 w-5">
+                    <span
+                      class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"
+                    ></span>
+                    <span
+                      class="relative inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary-btn text-sm text-white"
+                    >
+                      2
+                    </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary"
+                  href="profile-favorite.html"
+                >
+                  <span class="flex items-center gap-x-2">
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#heart" />
+                    </svg>
+                    <span> علاقه‌مندی ها </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary"
+                  href="profile-notification.html"
+                >
+                  <span class="flex items-center gap-x-2">
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#notification" />
+                    </svg>
+                    <span> پیام ها </span>
+                  </span>
+
+                  <span class="relative flex h-5 w-5">
+                    <span
+                      class="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"
+                    ></span>
+                    <span
+                      class="relative inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary-btn text-sm text-white"
+                    >
+                      2
+                    </span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="flex items-center justify-between rounded-lg px-4 py-3 text-red-500 hover:bg-warning/10 dark:text-red-400 hover:dark:bg-red-400/10"
+                  href="#"
+                >
+                  <div class="flex items-center gap-x-2">
+                    <svg class="h-6 w-6">
+                      <use xlink:href="#exit" />
+                    </svg>
+                    <span> خروج </span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Mobile User Basket Drawer -->
+
+        <div
+          aria-labelledby="user-basket-drawer-navigation-label"
+          class="fixed left-0 top-0 z-40 h-full w-80 -translate-x-full bg-muted transition-transform duration-300"
+          id="user-basket-drawer-navigation"
+          tabindex="-1"
+        >
+          <div
+            class="flex items-center justify-between gap-x-4 border-b p-4 pb-5"
+          >
+            <button
+              aria-controls="user-account-drawer-navigation"
+              class="inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-text/90"
+              data-drawer-hide="user-basket-drawer-navigation"
+              type="button"
+            >
+              <svg class="h-5 w-5">
+                <use xlink:href="#close" />
+              </svg>
+
+              <span class="sr-only">Close menu</span>
+            </button>
+            <h5 class="text-lg text-text/90">
+              سبد خرید <span class="text-sm">( 4 )</span>
+            </h5>
+          </div>
+          <div class="h-full pb-[150px]">
+            <ul
+              class="main-scroll h-full space-y-2 divide-y overflow-y-auto p-4"
+            >
+              <li>
+                <div class="flex gap-x-2 py-5">
+                  <!-- Product Image -->
+
+                  <div class="relative min-w-fit">
+                    <a href='product-detail.html'>
+                      <img
+                        alt=""
+                        class="h-20 w-20"
+                        loading="lazy"
+                        src="assets/images/products/p1.png"
+                      />
+                    </a>
+                    <button
+                      class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
+                      type="button"
+                    >
+                      <svg class="h-6 w-6 text-red-600 dark:text-red-500">
+                        <use xlink:href="#close" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="w-full space-y-1.5">
+                    <!-- Product Title -->
+
+                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
+                      تیشرت اسپورت مردانه
+                    </a>
+                    <!-- Product Attribute -->
+                    <div class="flex items-center gap-x-2 text-xs text-text/60">
+                      <div>تعداد : 2</div>
+                      <div class="h-3 w-px rounded-full bg-background"></div>
+                      <div class="flex items-center gap-x-2">
+                        <span
+                          class="h-4 w-4 rounded-full"
+                          style="background: rgb(128, 128, 128)"
+                        ></span>
+                        <span> طوسی</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between gap-x-2">
+                      <!-- Product Price -->
+                      <div class="text-primary">
+                        <span class="font-bold">1,800,000</span>
+                        <span class="text-xs">تومان</span>
+                      </div>
+                      <!-- Product Quantity -->
+                      <div
+                        class="flex h-8 w-20 justify-between rounded-lg border px-2 py-1"
+                      >
+                        <button type="button" data-action="increment">
+                          <svg class="h-5 w-5 text-primary">
+                            <use xlink:href="#plus" />
+                          </svg>
+                        </button>
+                        <input
+                          value="1"
+                          disabled
+                          type="number"
+                          class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
+                        />
+                        <button type="button" data-action="decrement">
+                          <svg class="h-5 w-5 text-red-600 dark:text-red-500">
+                            <use xlink:href="#minus" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="flex gap-x-2 py-5">
+                  <!-- Product Image -->
+
+                  <div class="relative min-w-fit">
+                    <a href='product-detail.html'>
+                      <img
+                        alt=""
+                        class="h-20 w-20"
+                        loading="lazy"
+                        src="assets/images/products/p2.png"
+                      />
+                    </a>
+                    <button
+                      class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
+                      type="button"
+                    >
+                      <svg class="h-6 w-6 text-red-600 dark:text-red-500">
+                        <use xlink:href="#close" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="w-full space-y-1.5">
+                    <!-- Product Title -->
+
+                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
+                      کلاه اسپورت مردانه
+                    </a>
+                    <!-- Product Attribute -->
+                    <div class="flex items-center gap-x-2 text-xs text-text/60">
+                      <div>تعداد : 2</div>
+                      <div class="h-3 w-px rounded-full bg-background"></div>
+                      <div class="flex items-center gap-x-2">
+                        <span
+                          class="h-4 w-4 rounded-full"
+                          style="background: rgb(128, 128, 128)"
+                        ></span>
+                        <span> طوسی</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between gap-x-2">
+                      <!-- Product Price -->
+                      <div class="text-primary">
+                        <span class="font-bold">1,800,000</span>
+                        <span class="text-xs">تومان</span>
+                      </div>
+                      <!-- Product Quantity -->
+                      <div
+                        class="flex h-8 w-20 justify-between rounded-lg border px-2 py-1"
+                      >
+                        <button type="button" data-action="increment">
+                          <svg class="h-5 w-5 text-primary">
+                            <use xlink:href="#plus" />
+                          </svg>
+                        </button>
+                        <input
+                          value="1"
+                          disabled
+                          type="number"
+                          class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
+                        />
+                        <button type="button" data-action="decrement">
+                          <svg class="h-5 w-5 text-red-600 dark:text-red-500">
+                            <use xlink:href="#minus" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="flex gap-x-2 py-5">
+                  <!-- Product Image -->
+
+                  <div class="relative min-w-fit">
+                    <a href='product-detail.html'>
+                      <img
+                        alt=""
+                        class="h-20 w-20"
+                        loading="lazy"
+                        src="assets/images/products/p3.png"
+                      />
+                    </a>
+                    <button
+                      class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
+                      type="button"
+                    >
+                      <svg class="h-6 w-6 text-red-600 dark:text-red-500">
+                        <use xlink:href="#close" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="w-full space-y-1.5">
+                    <!-- Product Title -->
+
+                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
+                      کفش اسپورت مردانه
+                    </a>
+                    <!-- Product Attribute -->
+                    <div class="flex items-center gap-x-2 text-xs text-text/60">
+                      <div>تعداد : 2</div>
+                      <div class="h-3 w-px rounded-full bg-background"></div>
+                      <div class="flex items-center gap-x-2">
+                        <span
+                          class="h-4 w-4 rounded-full"
+                          style="background: rgb(128, 128, 128)"
+                        ></span>
+                        <span> طوسی</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between gap-x-2">
+                      <!-- Product Price -->
+                      <div class="text-primary">
+                        <span class="font-bold">1,800,000</span>
+                        <span class="text-xs">تومان</span>
+                      </div>
+                      <!-- Product Quantity -->
+                      <div
+                        class="flex h-8 w-20 justify-between rounded-lg border px-2 py-1"
+                      >
+                        <button type="button" data-action="increment">
+                          <svg class="h-5 w-5 text-primary">
+                            <use xlink:href="#plus" />
+                          </svg>
+                        </button>
+                        <input
+                          value="1"
+                          disabled
+                          type="number"
+                          class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
+                        />
+                        <button type="button" data-action="decrement">
+                          <svg class="h-5 w-5 text-red-600 dark:text-red-500">
+                            <use xlink:href="#minus" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="flex gap-x-2 py-5">
+                  <!-- Product Image -->
+
+                  <div class="relative min-w-fit">
+                    <a href='product-detail.html'>
+                      <img
+                        alt=""
+                        class="h-20 w-20"
+                        loading="lazy"
+                        src="assets/images/products/p4.png"
+                      />
+                    </a>
+                    <button
+                      class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background"
+                      type="button"
+                    >
+                      <svg class="h-6 w-6 text-red-600 dark:text-red-500">
+                        <use xlink:href="#close" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div class="w-full space-y-1.5">
+                    <!-- Product Title -->
+
+                    <a class='line-clamp-2 h-10 text-sm' href='product-detail.html'>
+                      کفش اسپورت مردانه
+                    </a>
+                    <!-- Product Attribute -->
+                    <div class="flex items-center gap-x-2 text-xs text-text/60">
+                      <div>تعداد : 2</div>
+                      <div class="h-3 w-px rounded-full bg-background"></div>
+                      <div class="flex items-center gap-x-2">
+                        <span
+                          class="h-4 w-4 rounded-full"
+                          style="background: red"
+                        ></span>
+                        <span> قرمز</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center justify-between gap-x-2">
+                      <!-- Product Price -->
+                      <div class="text-primary">
+                        <span class="font-bold">1,800,000</span>
+                        <span class="text-xs">تومان</span>
+                      </div>
+                      <!-- Product Quantity -->
+                      <div
+                        class="flex h-8 w-20 justify-between rounded-lg border px-2 py-1"
+                      >
+                        <button type="button" data-action="increment">
+                          <svg class="h-5 w-5 text-primary">
+                            <use xlink:href="#plus" />
+                          </svg>
+                        </button>
+                        <input
+                          value="1"
+                          disabled
+                          type="number"
+                          class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm outline-none"
+                        />
+                        <button type="button" data-action="decrement">
+                          <svg class="h-5 w-5 text-red-600 dark:text-red-500">
+                            <use xlink:href="#minus" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- Footer -->
+
+          <div
+            class="sticky bottom-0 left-0 right-0 flex items-center justify-between border-t p-4 px-6 py-4"
+          >
+            <div class="flex flex-col items-center gap-y-1">
+              <div class="text-sm text-text/60">مبلغ قابل پرداخت</div>
+
+              <div class="text-text/90">
+                <span class="font-bold">1,200,000</span>
+                <span class="text-sm">تومان</span>
+              </div>
+            </div>
+            <a class='btn-primary w-32 py-3 text-sm' href='checkout-cart.html'>
+              مشاهده سبد خرید
+            </a>
+          </div>
+        </div>
+      </div>
+      <main class="flex-grow bg-background pb-14 pt-36 xs:pt-36">
+        <div class="container">
+          <div class="grid grid-cols-12 gap-4">
+            <!-- sidebar -->
+            <div class="col-span-12 lg:col-span-3">
+              <!-- Desktop sidebar -->
+              <div
+                class="sticky top-32 hidden w-full overflow-hidden rounded-lg bg-muted shadow-base lg:block"
+              >
+                <div
+                  dir="ltr"
+                  class="max-h-[calc(90vh_-_100px)] overflow-y-auto p-4 xl:p-6"
+                >
+                  <div dir="rtl">
+                    <!-- Head -->
+                    <div
+                      class="mb-2 flex items-center justify-between border-b pb-6 dark:border-white/10"
+                    >
+                      <div class="flex items-center gap-x-4">
+                        <div>
+                          <img
+                            src="assets/images/user.png"
+                            class="h-12 w-12 rounded-full"
+                            alt=""
+                          />
+                        </div>
+                        <div class="flex flex-col">
+                          <div class="line-clamp-1">
+                              {% if user.first_name %}
+                              {{ user.first_name }}
+                              {% else %}
+                              {{ user.username }}
+                              {% endif %}
+                          </div>
+                          <div class="line-clamp-1 text-text/90">
+                            {% if user.phone_number %}
+                              {{ user.phone_number }}
+                              {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      <a href="profile-edit.html">
+                        <svg class="h-6 w-6 text-primary">
+                          <use xlink:href="#edit" />
+                        </svg>
+                      </a>
+                    </div>
+
+                    <ul class="space-y-1">
+                      <li>
+                        <a class='profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4' href='profile-dashboard.html'>
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#home" />
+                            </svg>
+                            <div>پیشخوان</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="profile-orders.html"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#order" />
+                            </svg>
+                            <div>سفارش ها</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="profile-favorite.html"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#heart" />
+                            </svg>
+                            <div>علاقه‌مندی ها</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="profile-recent.html"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#recent" />
+                            </svg>
+                            <div>بازدید های اخیر</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="profile-notification.html"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#notification" />
+                            </svg>
+                            <div>پیام ها</div>
+                          </div>
+                          <div
+                            class="flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white dark:bg-emerald-600"
+                          >
+                            10
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="profile-address.html"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#address" />
+                            </svg>
+                            <div>آدرس ها</div>
+                          </div>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a
+                          href="profile-edit.html"
+                          class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+                        >
+                          <div class="flex items-center gap-x-4">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#user-setting" />
+                            </svg>
+                            <div>اطلاعات حساب کاربری</div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-warning/10 dark:text-red-400 dark:hover:bg-red-400/10"
+                          href="#"
+                        >
+                          <div class="flex items-center gap-x-2">
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#exit"></use>
+                            </svg>
+                            <span> خروج </span>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Mobile menu -->
+              <div class="rounded-lg bg-muted p-6 shadow-base lg:hidden">
+                <div class="flex items-center justify-center">
+                  <div
+                    class="flex flex-col items-center justify-center gap-y-4"
+                  >
+                    <div class="relative">
+                      <img
+                        src="assets/images/user.png"
+                        class="h-20 w-20 only:rounded-full"
+                        alt=""
+                      />
+                      <a
+                        href="profile-edit.html"
+                        class="absolute -right-2 -top-2 rounded-full bg-primary p-2 text-sm text-white dark:bg-emerald-600"
+                      >
+                        <svg class="h-5 w-5">
+                          <use xlink:href="#edit" />
+                        </svg>
+                      </a>
+                    </div>
+                    <div>
+                      <p class="line-clamp-1">{% if user.first_name %}{{ user.first_name }}{% else %} {{ user.username }} {% endif %}</p>
+                      <p class="text-text/60">{% if user.phone_number %}{{ user.phone_number }}{% endif %}</p>
+                    </div>
+                    <div>
+                      <button
+                        class="btn-primary px-4 py-2"
+                        aria-controls="profile-menu-drawer-navigation"
+                        data-drawer-show="profile-menu-drawer-navigation"
+                        data-drawer-placement="bottom"
+                        data-drawer-target="profile-menu-drawer-navigation"
+                        type="button"
+                      >
+                        <svg class="h-6 w-6 text-white">
+                          <use xlink:href="#menu" />
+                        </svg>
+                        منوی پنل کاربری
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- content -->
+            <div class="col-span-12 lg:col-span-9">
+              <div class="rounded-lg bg-muted p-5 shadow-base">
+                <!-- Title -->
+                <h1 class="relative mb-16 w-fit text-xl font-medium">
+                  پیشخوان
+                  <span
+                    class="absolute right-0 top-10 h-[3px] w-full rounded-full bg-primary"
+                  >
+                  </span>
+                </h1>
+                <div class="mb-8">
+                  <h2
+                    class="mb-8 flex items-center gap-x-4 text-lg text-text/90"
+                  >
+                    <span class="h-2 w-2 rounded-full bg-primary"></span>
+                    حساب کاربری
+                  </h2>
+                  <div class="grid grid-cols-2 gap-4 md:gap-6 xl:grid-cols-4">
+                    <a
+                      href="profile-edit.html"
+                      class="flex flex-col items-center gap-4 rounded-base bg-sky-500 p-2 dark:bg-sky-600 md:flex-row"
+                    >
+                      <div
+                        class="relative rounded-base bg-sky-600/50 p-2 dark:bg-sky-500/50"
+                      >
+                        <svg class="h-8 w-8 text-white">
+                          <use xlink:href="#user-setting" />
+                        </svg>
+                      </div>
+
+                      <div class="text-sm font-medium text-white md:text-base">
+                        تکمیل مشخصات
+                      </div>
+                    </a>
+                    <a
+                      href="profile-edit.html"
+                      class="flex flex-col items-center gap-4 rounded-base bg-warning p-2 dark:bg-red-600 md:flex-row"
+                    >
+                      <div class="relative rounded-base bg-red-600/50 p-2 /50">
+                        <svg class="h-8 w-8 text-white">
+                          <use xlink:href="#password-lock" />
+                        </svg>
+                      </div>
+
+                      <div class="text-sm font-medium text-white md:text-base">
+                        ثبت کلمه عبور
+                      </div>
+                    </a>
+                    <a
+                      href="profile-favorite.html"
+                      class="flex flex-col items-center gap-4 rounded-base bg-rose-500 p-2 dark:bg-rose-600 md:flex-row"
+                    >
+                      <div
+                        class="relative rounded-base bg-rose-600/50 p-2 dark:bg-rose-500/50"
+                      >
+                        <svg class="h-8 w-8 text-white">
+                          <use xlink:href="#heart" />
+                        </svg>
+                        <span
+                          class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-rose-600 text-sm font-medium text-white dark:bg-rose-500 md:hidden"
+                        >
+                          0
+                        </span>
+                      </div>
+
+                      <div
+                        class="flex items-center gap-x-2 text-sm font-medium text-white md:text-base"
+                      >
+                        <span class="hidden md:block">5</span> علاقه مندی
+                      </div>
+                    </a>
+                    <a
+                      href="profile-notification.html"
+                      class="flex flex-col items-center gap-4 rounded-base bg-primary p-2 dark:bg-emerald-600 md:flex-row"
+                    >
+                      <div
+                        class="relative rounded-base bg-emerald-600/50 p-2 dark:bg-primary/50"
+                      >
+                        <svg class="h-8 w-8 text-white">
+                          <use xlink:href="#notification" />
+                        </svg>
+                        <span
+                          class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm font-medium text-white dark:bg-primary md:hidden"
+                        >
+                          6
+                        </span>
+                      </div>
+
+                      <div
+                        class="flex items-center gap-x-2 text-sm font-medium text-white md:text-base"
+                      >
+                        <span class="hidden md:block">5</span> اعلان جدید
+                      </div>
+                    </a>
+                  </div>
+                </div>
+
+                <div class="mb-8">
+                  <div
+                    class="mb-8 flex flex-wrap items-center justify-between gap-4"
+                  >
+                    <h3 class="flex items-center gap-x-4 text-lg text-text/90">
+                      <span class="h-2 w-2 rounded-full bg-primary"></span>
+                      وضعیت سفارش های شما
+                    </h3>
+                    <a
+                      class="btn-primary-nobg text-base"
+                      href="profile-orders.html"
+                    >
+                      مشاهده همه
+                      <span>
+                        <svg class="h-5 w-5 lg:h-6 lg:w-6">
+                          <use xlink:href="#chevron-left"></use>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4 md:gap-6 xl:grid-cols-4">
+                    <div
+                      class="flex flex-col items-center gap-4 rounded-base bg-sky-500 p-2 dark:bg-sky-600 md:flex-row"
+                    >
+                      <div
+                        class="relative rounded-base bg-sky-600/50 p-2 dark:bg-sky-500/50"
+                      >
+                        <svg class="h-10 w-10 text-white">
+                          <use xlink:href="#order-current" />
+                        </svg>
+                        <span
+                          class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-sky-600 text-sm font-medium text-white dark:bg-sky-500 md:hidden"
+                        >
+                          6
+                        </span>
+                      </div>
+                      <div class="flex flex-col gap-y-1">
+                        <div class="hidden font-medium text-white md:block">
+                          {{ paid_orders.count }} سفارش
+                        </div>
+                        <div class="text-white">فعلی</div>
+                      </div>
+                    </div>
+
+                    <!-- item -->
+                    <div
+                      class="flex flex-col items-center gap-4 rounded-base bg-primary p-2 dark:bg-emerald-600 md:flex-row"
+                    >
+                      <div
+                        class="relative rounded-base bg-emerald-600/50 p-2 dark:bg-primary/50"
+                      >
+                        <svg class="h-10 w-10 text-white">
+                          <use xlink:href="#order-delivered" />
+                        </svg>
+                        <span
+                          class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-sm font-medium text-white dark:bg-primary md:hidden"
+                        >
+                          10
+                        </span>
+                      </div>
+                      <div class="flex flex-col gap-y-1">
+                        <div class="hidden font-medium text-white md:block">
+                          {{ delivered_orders.count }} سفارش
+                        </div>
+                        <div class="text-white">تحویل شده</div>
+                      </div>
+                    </div>
+
+                    <!-- item -->
+                    <div
+                      class="flex flex-col items-center gap-4 rounded-base bg-warning p-2 dark:bg-red-400 md:flex-row"
+                    >
+                      <div class="relative rounded-base bg-red-400/50 p-2 /50">
+                        <svg class="h-10 w-10 text-white">
+                          <use xlink:href="#order-canceled" />
+                        </svg>
+                        <span
+                          class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-400 text-sm font-medium text-white md:hidden"
+                        >
+                          3
+                        </span>
+                      </div>
+                      <div class="flex flex-col gap-y-1">
+                        <div class="hidden font-medium text-white md:block">
+                          {{ fulfilled_orders.count }} سفارش
+                        </div>
+                        <div class="text-white">لغو شده</div>
+                      </div>
+                    </div>
+
+                    <!-- item -->
+                    <div
+                      class="flex flex-col items-center gap-4 rounded-base bg-yellow-500 p-2 dark:bg-yellow-600 md:flex-row"
+                    >
+                      <div
+                        class="relative rounded-base bg-yellow-600/50 p-2 dark:bg-yellow-500/50"
+                      >
+                        <svg class="h-10 w-10 text-white">
+                          <use xlink:href="#order-returned" />
+                        </svg>
+                        <span
+                          class="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-yellow-600 text-sm font-medium text-white dark:bg-yellow-500 md:hidden"
+                        >
+                          0
+                        </span>
+                      </div>
+                      <div class="flex flex-col gap-y-1">
+                        <div class="hidden font-medium text-white md:block">
+                          {{ refunded_orders.count }} سفارش
+                        </div>
+                        <div class="text-white">مرجوع شده</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-8">
+                  <div
+                    class="mb-8 flex flex-wrap items-center justify-between gap-4"
+                  >
+                    <h3 class="flex items-center gap-x-4 text-lg text-text/90">
+                      <span class="h-2 w-2 rounded-full bg-primary"></span>
+                      سفارشات فعلی
+                    </h3>
+                  </div>
+                  <div class="space-y-4">
+                    <!-- order item -->
+                    {% for order in pending_orders %}
+                    <div>
+                      <a href="profile-orders-detail-pending.html">
+                        <div class="rounded-lg border p-4 shadow-base">
+                          <!-- head -->
+
+                          <div class="flex items-center justify-between pb-6">
+                            <div
+                              class="flex items-center gap-x-2 text-yellow-500 dark:text-yellow-400"
+                            >
+                              <svg class="h-6 w-6">
+                                <use xlink:href="#warning" />
+                              </svg>
+                              <p class="font-medium md:text-lg">
+                                در انتظار پرداخت
+                              </p>
+                            </div>
+
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#chevron-left" />
+                            </svg>
+                          </div>
+
+                          <!-- conent -->
+                          <div
+                            class="flex flex-col gap-6 lg:flex-row lg:justify-between xl:gap-16"
+                          >
+                            <div class="flex flex-col gap-4 md:flex-row">
+                              <div
+                                class="flex items-center justify-between gap-x-2 md:justify-start"
+                              >
+                                <div class="text-sm text-text/60 md:text-base">
+                                  زمان باقیمانده
+                                </div>
+                                <div
+                                  class="text-sm text-red-500 dark:text-red-400 md:text-base"
+                                >
+                                  10 دقیقه
+                                </div>
+                              </div>
+                              <div
+                                class="flex items-center justify-between gap-x-2 md:justify-start"
+                              >
+                                <div class="text-sm text-text/60 md:text-base">
+                                  شماره سفارش
+                                </div>
+                                <div class="text-sm text-text/90 md:text-base">
+                                  #{{ order.id }}
+                                </div>
+                              </div>
+                              <div
+                                class="flex items-center justify-between gap-x-2 md:justify-start"
+                              >
+                                <div class="text-sm text-text/60 md:text-base">
+                                  مبلغ کل
+                                </div>
+                                <div class="text-primary">
+                                  <span class="font-bold md:text-lg"
+                                    >{{ order.grand_total }}</span
+                                  >
+                                  <span class="text-sm md:text-base"
+                                    >تومان</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    {% endfor %}
+                    <!-- order item -->
+                    {% for order in paid_orders %}
+                    <div class="rounded-lg border shadow-base">
+                      <a href="profile-orders-detail.html">
+                        <div class="p-4">
+                          <!-- head -->
+
+                          <div class="flex items-center justify-between pb-6">
+                            <div class="flex items-center gap-x-2 text-primary">
+                              <svg class="h-6 w-6">
+                                <use xlink:href="#outline-check" />
+                              </svg>
+                              <p class="font-medium md:text-lg">پرداخت شده</p>
+                            </div>
+
+                            <svg class="h-6 w-6">
+                              <use xlink:href="#chevron-left" />
+                            </svg>
+                          </div>
+                          <!-- conent -->
+                          <div
+                            class="flex flex-col gap-6 xl:flex-row xl:justify-between xl:gap-16"
+                          >
+                            <div class="flex flex-col gap-4 md:flex-row">
+                              <div
+                                class="flex items-center justify-between gap-x-2 md:justify-start"
+                              >
+                                <div class="text-sm text-text/60 md:text-base">
+                                  شماره سفارش
+                                </div>
+                                <div class="text-sm text-text/90 md:text-base">
+                                  #{{ order.id }}
+                                </div>
+                              </div>
+                              <div
+                                class="flex items-center justify-between gap-x-2 md:justify-start"
+                              >
+                                <div class="text-sm text-text/60 md:text-base">
+                                  مبلغ کل
+                                </div>
+                                <div class="text-primary">
+                                  <span class="font-bold md:text-lg"
+                                    >{{ order.grand_total|intcomma }}</span
+                                  >
+                                  <span class="text-sm md:text-base"
+                                    >تومان</span
+                                  >
+                                </div>
+                              </div>
+                              <div
+                                class="flex items-center justify-between gap-x-2 md:justify-start"
+                              >
+                                <div class="text-sm text-text/60 md:text-base">
+                                  تاریخ
+                                </div>
+                                <div class="text-sm text-text/90 md:text-base">
+                                {{ order.created_at|to_jalali:'%y/%m/%d _ %H:%M:%S' }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="flex flex-grow flex-col gap-y-4">
+                              <!-- order status -->
+                              <div
+                                class="flex items-center gap-x-2 text-yellow-500 dark:text-yellow-400"
+                              >
+                                <svg class="h-5 w-5 md:h-6 md:w-6">
+                                  <use xlink:href="#order-pending" />
+                                </svg>
+                                <p class="text-sm font-medium md:text-base">
+                                  در انتظار تایید
+                                </p>
+                              </div>
+                              <!-- order step -->
+
+                              <div
+                                class="relative h-2 w-full rounded-full bg-background dark:bg-zinc-800"
+                              >
+                                <span
+                                  class="absolute inset-y-0 right-0 rounded-full bg-yellow-500 dark:bg-yellow-400"
+                                  style="width: 25%"
+                                ></span>
+                              </div>
+                              <!-- order date -->
+                              <div
+                                class="flex items-center justify-between text-sm text-yellow-500 dark:text-yellow-400 md:text-base"
+                              >
+                                <span> 11 / 06 / 1402 </span>
+                                <span> ساعت 08 : 20 </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Mobile Profile Menu Drawer -->
+      <div
+        aria-labelledby="profile-menu-drawer-navigation-label"
+        class="fixed bottom-0 left-0 right-0 z-40 w-full translate-y-full rounded-t-3xl bg-muted transition-transform duration-300"
+        id="profile-menu-drawer-navigation"
+        tabindex="-1"
+      >
+        <div
+          class="flex items-center justify-between gap-x-4 border-b p-4 pb-5"
+        >
+          <h5 class="text-lg text-text/90">منوی پنل کاربری</h5>
+          <button
+            aria-controls="user-account-drawer-navigation"
+            class="inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-text/90 hover:bg-zinc-100 hover:text-gray-900 dark:hover:bg-black dark:hover:text-white"
+            data-drawer-hide="profile-menu-drawer-navigation"
+            type="button"
+          >
+            <svg class="h-5 w-5">
+              <use xlink:href="#close" />
+            </svg>
+
+            <span class="sr-only">Close menu</span>
+          </button>
+        </div>
+        <div class="p-4">
+          <ul class="space-y-1">
+            <li>
+              <a class='profile-menu profile-menu-active flex items-center justify-between rounded-lg px-2 py-4 xl:px-4' href='profile-dashboard.html'>
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#home" />
+                  </svg>
+                  <div>پیشخوان</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="profile-orders.html"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#order" />
+                  </svg>
+                  <div>سفارش ها</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="profile-favorite.html"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#heart" />
+                  </svg>
+                  <div>علاقه‌مندی ها</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="profile-recent.html"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#recent" />
+                  </svg>
+                  <div>بازدید های اخیر</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="profile-notification.html"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#notification" />
+                  </svg>
+                  <div>پیام ها</div>
+                </div>
+                <div
+                  class="flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-sm font-bold text-white dark:bg-emerald-600"
+                >
+                  10
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="profile-address.html"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#address" />
+                  </svg>
+                  <div>آدرس ها</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                href="profile-edit.html"
+                class="profile-menu flex items-center justify-between rounded-lg px-2 py-4 xl:px-4"
+              >
+                <div class="flex items-center gap-x-4">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#user-setting" />
+                  </svg>
+                  <div>اطلاعات حساب کاربری</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-warning/10 dark:text-red-400 dark:hover:bg-red-400/10"
+                href="#"
+              >
+                <div class="flex items-center gap-x-2">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#exit"></use>
+                  </svg>
+                  <span> خروج </span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+{% endblock %}
