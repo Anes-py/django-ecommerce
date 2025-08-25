@@ -1,9 +1,9 @@
 from django.views import generic
 from django.shortcuts import render, reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from orders.models import Order
-from .models import *
 from .forms import *
 
 @login_required
@@ -33,3 +33,7 @@ class SignUPView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('login')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'خوش آمدید')
+        return super().form_valid(form)
