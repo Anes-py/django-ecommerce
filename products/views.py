@@ -18,8 +18,8 @@ class HomeView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         site_context = get_site_context(self.request)
         context.update({
-            'discounted_products':Product.objects.with_discount(),
-            'newest_products':Product.objects.newest(),
+            'discounted_products':Product.objects.with_discount()[:50],
+            'newest_products':Product.objects.newest()[:50],
             'top_categories':site_context['categories'].filter(parent__isnull=True)[:6]
         })
         if SiteSettings.objects.all().first():
@@ -28,6 +28,7 @@ class HomeView(generic.TemplateView):
             'side_banners': SideBanners.objects.all(),
             'middleBanners':MiddleBanners.objects.all(),
             })
+        messages.success(self.request, 'توسعه دهنده بک اند: Anes')
         return context
 
 
@@ -146,7 +147,6 @@ class CommentCreateView(generic.CreateView):
         parent_id = self.request.POST.get('parent_id')
         if parent_id:
             obj.parent_id = parent_id
-            messages.success(self.request, 'پاسخ شما ارسال شد و پس از تایید ادمین منتشر میشود')
         obj.save()
 
         messages.success(self.request, 'کامنت شما ارسال شد و پس از تایید ادمین منتشر میشود')

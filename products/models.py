@@ -199,6 +199,7 @@ class Product(models.Model):
         verbose_name=_("discount")
     )
     stock = models.PositiveIntegerField(_('stock'), default=0)
+    total_sell = models.PositiveIntegerField(_('total_sell'), default=0)
     status = models.CharField(
         _('status'),
         max_length=2,
