@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import gettext_lazy as _
+from django.utils import timezone
 
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -82,7 +83,7 @@ class Order(models.Model):
     shipping_total = models.PositiveIntegerField(_('shipping'))
     tax_total = models.PositiveIntegerField(_('tax total'))
     grand_total = models.PositiveIntegerField(_('grand total'))
-
+    payment_deadline = models.DateTimeField(blank=True, null=True)
     coupon_code = models.CharField(_('coupon code'), max_length=40, blank=True, null=True)
     notes = models.TextField(_('notes'), blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -90,6 +91,17 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        if not self.payment_deadline:
+            self.payment_deadline = timezone.now() + timezone.timedelta(minutes=60)
+        super().save(*args, **kwargs)
+
+    def time_left(self):
+        now = timezone.now()
+        if self.payment_deadline and self.payment_deadline > now:
+            return int((self.payment_deadline - now).total_seconds() // 60)
+        return 0
 
     class Meta:
         verbose_name = _('Order')
