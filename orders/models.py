@@ -64,9 +64,7 @@ class Order(models.Model):
 
     shipping_address = models.ForeignKey(
         Address,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.CASCADE,
         related_name='orders',
         verbose_name=_('shipping address record'),
     )

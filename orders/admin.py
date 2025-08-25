@@ -5,7 +5,6 @@ from .models import *
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
 
-
 @admin.register(Order)
 class OrdersAdmin(admin.ModelAdmin):
     list_display = [
@@ -19,6 +18,7 @@ class OrdersAdmin(admin.ModelAdmin):
     ]
     list_display_links = ['user']
     search_fields = [
+        'id',
         'user',
         'ship_full_name',
     ]
@@ -26,4 +26,16 @@ class OrdersAdmin(admin.ModelAdmin):
     list_max_show_all = 30
     inlines = [
         OrderItemInline,
+
     ]
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = [
+        'user',
+        'full_name',
+        'phone',
+    ]
+    list_display_links = ['user']
+    list_filter = ['user']
