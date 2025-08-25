@@ -159,17 +159,19 @@
                 </a>
               </li>
               <li>
-                <a
-                  class="flex items-center justify-between rounded-lg px-4 py-3 text-red-500 hover:bg-warning/10 dark:text-red-400 hover:dark:bg-red-400/10"
-                  href="#"
-                >
-                  <div class="flex items-center gap-x-2">
-                    <svg class="h-6 w-6">
-                      <use xlink:href="#exit" />
-                    </svg>
-                    <span> خروج </span>
-                  </div>
-                </a>
+              <form action="{% url 'logout' %}" method="post">
+            <button
+                class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-warning/10 dark:text-red-400 dark:hover:bg-red-400/10"
+                type="submit"
+              >
+                <div class="flex items-center gap-x-2">
+                  <svg class="h-6 w-6">
+                    <use xlink:href="#exit"></use>
+                  </svg>
+                  <span> خروج </span>
+                </div>
+            </button>
+                </form>
               </li>
             </ul>
           </div>
@@ -658,17 +660,18 @@
                         </a>
                       </li>
                       <li>
-                        <a
-                          class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-warning/10 dark:text-red-400 dark:hover:bg-red-400/10"
-                          href="#"
-                        >
+                        <form action="{% url 'logout' %}" method="post">
+                          {% csrf_token %}
+                        <button type="submit"  class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-warning/10 dark:text-red-400 dark:hover:bg-red-400/10">
                           <div class="flex items-center gap-x-2">
                             <svg class="h-6 w-6">
                               <use xlink:href="#exit"></use>
                             </svg>
                             <span> خروج </span>
                           </div>
-                        </a>
+                        </button>
+
+                        </form>
                       </li>
                     </ul>
                   </div>

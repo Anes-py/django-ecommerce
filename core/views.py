@@ -1,10 +1,12 @@
 from django.views import generic
 from django.shortcuts import render, reverse
+from django.contrib.auth.decorators import login_required
 
 from orders.models import Order
 from .models import *
 from .forms import *
 
+@login_required
 def user_dashboard_view(request):
     context = {
     'pending_orders':Order.objects.filter(

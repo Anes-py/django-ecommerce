@@ -137,8 +137,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-LOGIN_REDIRECT_URL = 'home'
-
+LOGIN_REDIRECT_URL = 'user-dashboard'
+LOGOUT_REDIRECT_URL = 'home'
 
 from django.contrib.messages import constants as messages
 

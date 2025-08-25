@@ -1215,8 +1215,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <!-- Cart, Theme, Account -->
                 <div class="flex gap-x-4">
                   <!-- Account -->
-
                   <div>
+                    {% if user.is_authenticated %}
                     <button
                       class=" "
                       data-dropdown-toggle="dropdownAccountDesktop"
@@ -1227,14 +1227,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <use xlink:href="#user" />
                       </svg>
                     </button>
-
                     <div
                       class="z-10 !ml-5 hidden w-60 overflow-hidden rounded-lg border-t-2 border-t-primary bg-muted"
                       id="dropdownAccountDesktop"
                     >
                       <ul class="space-y-1 p-2">
                         <li>
-                          <a class='flex items-center justify-between gap-x-2 rounded-lg p-4 hover:text-primary dark:hover:text-emerald-400' href='profile-dashboard.html'>
+                          <a class='flex items-center justify-between gap-x-2 rounded-lg p-4 hover:text-primary dark:hover:text-emerald-400' href="{% url 'user-dashboard' %}">
                             <span class="flex items-center gap-x-4">
                               <span class="min-w-fit">
                                 <img
@@ -1243,7 +1242,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                   src="{% static 'images/user.png' %}"
                                 />
                               </span>
-                              <span class="line-clamp-1"> نام تستی تستی </span>
+                              <span class="line-clamp-1"> {{ user.username }} </span>
                             </span>
                             <span>
                               <svg class="h-6 w-6">
@@ -1256,7 +1255,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <li>
                           <a
                             class="flex items-center justify-between rounded-lg p-4 hover:text-primary dark:hover:text-emerald-400"
-                            href="profile-orders.html"
+                            href="{% url 'user-dashboard' %}"
                           >
                             <span class="flex items-center gap-x-2">
                               <svg class="h-6 w-6">
@@ -1269,7 +1268,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <li>
                           <a
                             class="flex items-center justify-between rounded-lg p-4 hover:text-primary dark:hover:text-emerald-400"
-                            href="profile-favorite.html"
+                            href="{% url 'user-dashboard' %}"
                           >
                             <span class="flex items-center gap-x-2">
                               <svg class="h-6 w-6">
@@ -1282,7 +1281,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <li>
                           <a
                             class="flex items-center justify-between rounded-lg p-4 hover:text-primary dark:hover:text-emerald-400"
-                            href="profile-notification.html"
+                            href="{% url 'user-dashboard' %}"
                           >
                             <span class="flex items-center gap-x-2">
                               <svg class="h-6 w-6">
@@ -1308,28 +1307,29 @@ document.addEventListener("DOMContentLoaded", () => {
                           ></div>
                         </li>
                         <li>
-                          <a
-                            class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-warning/10 dark:text-red-400 dark:hover:bg-red-400/10"
-                            href="#"
-                          >
+                          <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                          <button type="submit" class="flex items-center justify-between rounded-lg p-4 text-red-500 hover:bg-warning/10 dark:text-red-400 dark:hover:bg-red-400/10">
                             <div class="flex items-center gap-x-2">
                               <svg class="h-6 w-6">
                                 <use xlink:href="#exit" />
                               </svg>
                               <span> خروج </span>
                             </div>
-                          </a>
+                          </button>
+                          </form>
                         </li>
                       </ul>
                     </div>
-
-                    <!-- <a href="./login.html">
+                    {% else %}
+                    <a href="{% url 'login' %}">
                       <div
                         class="flex h-8 cursor-pointer items-center justify-center rounded-lg border  px-4 text-sm font-medium  transition-colors duration-200 hover:bg-primary hover:text-white    dark:hover:bg-primary dark:hover:text-white"
                       >
                         ورود \ ثبت نام
                       </div>
-                    </a> -->
+                    </a>
+                    {% endif %}
                   </div>
                   <!-- Basket -->
                   <div>
@@ -2309,6 +2309,7 @@ document.addEventListener("DOMContentLoaded", () => {
           id="user-account-drawer-navigation"
           tabindex="-1"
         >
+          {% if user.is_authenticated %}
           <div
             class="mb-6 flex items-center justify-between gap-x-4 border-b pb-5"
           >
@@ -2331,7 +2332,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="overflow-y-auto">
             <ul class="space-y-4">
               <li>
-                <a class='flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary' href='profile-dashboard.html'>
+                <a class='flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary' href="{% url 'user-dashboard' %}">
                   <span class="flex items-center gap-x-4">
                     <span class="min-w-fit">
                       <img
@@ -2340,7 +2341,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         src="{% static 'images/user.png' %}"
                       />
                     </span>
-                    <span class="line-clamp-1">تست تست تست تسستست تسست </span>
+                    <span class="line-clamp-1">{{ user.username }} </span>
                   </span>
                   <span>
                     <svg class="h-6 w-6">
@@ -2353,7 +2354,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary"
-                  href="profile-orders.html"
+                  href="{% url 'user-dashboard' %}"
                 >
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -2376,7 +2377,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary"
-                  href="profile-favorite.html"
+                  href="{% url 'user-dashboard' %}"
                 >
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -2389,7 +2390,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <li>
                 <a
                   class="flex items-center justify-between rounded-lg px-4 py-3 hover:text-primary"
-                  href="profile-notification.html"
+                  href="{% url 'user-dashboard' %}"
                 >
                   <span class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -2411,9 +2412,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 </a>
               </li>
               <li>
-                <a
-                  class="flex items-center justify-between rounded-lg px-4 py-3 text-red-500 hover:bg-warning/10 dark:text-red-400 hover:dark:bg-red-400/10"
-                  href="#"
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                <button type="submit" class="flex items-center justify-between rounded-lg px-4 py-3 text-red-500 hover:bg-warning/10 dark:text-red-400 hover:dark:bg-red-400/10"
                 >
                   <div class="flex items-center gap-x-2">
                     <svg class="h-6 w-6">
@@ -2421,10 +2422,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     </svg>
                     <span> خروج </span>
                   </div>
-                </a>
+                </button>
+                </form>
               </li>
             </ul>
           </div>
+          {% else %}
+          <a href="{% url 'login' %}">
+            <div
+                    class="flex h-8 cursor-pointer items-center justify-center rounded-lg border  px-4 text-sm font-medium  transition-colors duration-200 hover:bg-primary hover:text-white    dark:hover:bg-primary dark:hover:text-white"
+            >
+              ورود \ ثبت نام
+            </div>
+          </a>
+          {% endif %}
         </div>
         <!-- Mobile User Basket Drawer -->
 
