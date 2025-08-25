@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassmorphism Sign Up Form</title>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2>Create Account</h2>
+            <p>Sign up to get started</p>
+        </div>
+
+        <form class="login-form" id="signupForm" method="post">
+            {% csrf_token %}
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="{{ form.full_name.name }}"
+                        value="{{ form.full_name.value|default_if_none:'' }}"
+                        required
+                        autocomplete="name"
+                    >
+                    <label for="full_name">Full Name</label>
+                    <span class="focus-border"></span>
+                </div>
+                {% if form.full_name.errors %}
+                    <span class="error-message">{{ form.full_name.errors|striptags }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Username -->
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input
+                        type="text"
+                        id="username"
+                        name="{{ form.username.name }}"
+                        value="{{ form.username.value|default_if_none:'' }}"
+                        required
+                        autocomplete="username"
+                    >
+                    <label for="username">Username</label>
+                    <span class="focus-border"></span>
+                </div>
+                {% if form.username.errors %}
+                    <span class="error-message">{{ form.username.errors|striptags }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <div class="input-wrapper">
+                    <input
+                        type="email"
+                        id="email"
+                        name="{{ form.email.name }}"
+                        value="{{ form.email.value|default_if_none:'' }}"
+                        required
+                        autocomplete="email"
+                    >
+                    <label for="email">Email</label>
+                    <span class="focus-border"></span>
+                </div>
+                {% if form.email.errors %}
+                    <span class="error-message">{{ form.email.errors|striptags }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <div class="input-wrapper password-wrapper">
+                    <input
+                        type="password"
+                        id="password1"
+                        name="{{ form.password1.name }}"
+                        required
+                        autocomplete="new-password"
+                    >
+                    <label for="password1">Password</label>
+                    <button type="button" class="password-toggle" id="passwordToggle1" aria-label="Toggle password visibility">
+                        <span class="eye-icon"></span>
+                    </button>
+                    <span class="focus-border"></span>
+                </div>
+                {% if form.password1.errors %}
+                    <span class="error-message">{{ form.password1.errors|striptags }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <div class="input-wrapper password-wrapper">
+                    <input
+                        type="password"
+                        id="password2"
+                        name="{{ form.password2.name }}"
+                        required
+                        autocomplete="new-password"
+                    >
+                    <label for="password2">Confirm Password</label>
+                    <button type="button" class="password-toggle" id="passwordToggle2" aria-label="Toggle password visibility">
+                        <span class="eye-icon"></span>
+                    </button>
+                    <span class="focus-border"></span>
+                </div>
+                {% if form.password2.errors %}
+                    <span class="error-message">{{ form.password2.errors|striptags }}</span>
+                {% endif %}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="login-btn btn">
+                <span class="btn-text">Sign Up</span>
+                <span class="btn-loader"></span>
+            </button>
+
+            {% if form.non_field_errors %}
+                <div class="error-message mt-2">
+                    {{ form.non_field_errors|striptags }}
+                </div>
+            {% endif %}
+        </form>
+
+        <div class="divider">
+            <span>or continue with</span>
+        </div>
+
+        <div class="social-login">
+            <button type="button" class="social-btn google-btn">
+                <span class="social-icon google-icon"></span>
+                Google
+            </button>
+            <button type="button" class="social-btn github-btn">
+                <span class="social-icon github-icon"></span>
+                GitHub
+            </button>
+        </div>
+
+        <div class="signup-link">
+            <p>Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">✓</div>
+            <h3>Registration Successful!</h3>
+            <p>Redirecting to your dashboard...</p>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'scripts/auth.js' %}"></script>
+</body>
+</html>
