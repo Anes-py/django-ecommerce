@@ -53,33 +53,79 @@
         </div>
       </div>
 
-      <aside class="col-span-12 md:col-span-4">
-        <div class="rounded-xl bg-muted p-6 space-y-6 shadow">
-          <h2 class="text-base md:text-lg mb-2 font-semibold">خلاصه پرداخت</h2>
-          <div class="divide-y divide-border space-y-2">
-            <div class="flex justify-between text-sm">
-              <span>جمع کل کالاها</span>
-              <span>{{ order.subtotal|intcomma }} تومان</span>
-            </div>
-            {% if order.discount_total %}
-            <div class="flex justify-between text-sm text-red-500">
-              <span>تخفیف</span>
-              <span>{{ order.discount_total|intcomma }} تومان</span>
-            </div>
-            {% endif %}
-            <div class="flex justify-between text-sm">
-              <span>مالیات (12%)</span>
-              <span>{{ order.tax_total|intcomma }} تومان</span>
-            </div>
-            <div class="flex justify-between text-base font-bold">
-              <span>مبلغ قابل پرداخت</span>
-              <span>{{ order.grand_total|intcomma }} تومان</span>
-            </div>
-                  <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 mt-2">
-                    اقدام به پرداخت</button>
-                      </div>
-                    </div>
-      </aside>
+<aside class="col-span-12 md:col-span-4">
+  {% if order.status == 'pending_payment' or order.status == 'cancelled' %}
+    {% if order.time_left > 0 %}
+      <div class="rounded-xl bg-yellow-50 p-4 text-yellow-600 text-sm font-medium border border-yellow-200 shadow">
+        ⏳ مهلت پرداخت: {{ order.time_left }} دقیقه
+      </div>
+    {% else %}
+      <div class="rounded-xl bg-red-50 p-4 text-red-600 text-sm font-medium border border-red-200 shadow">
+        ❌ مهلت پرداخت شما به پایان رسیده است.
+      </div>
+    {% endif %}
+    {% endif %}
+  <div class="rounded-xl bg-muted p-6 space-y-6 shadow">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-base md:text-lg font-semibold">خلاصه پرداخت</h2>
+
+      {# وضعیت سفارش به‌صورت برچسب رنگی #}
+      {% if order.status == 'paid' %}
+        <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-emerald-100 text-emerald-700">
+          ✅ پرداخت شده
+        </span>
+      {% elif order.status == 'pending_payment' %}
+        <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-amber-100 text-amber-700">
+          ⏳ در انتظار پرداخت
+        </span>
+      {% elif order.status == 'cancelled' %}
+        <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-rose-100 text-rose-700">
+          ❌ لغو شده
+        </span>
+      {% elif order.status == 'delivered' %}
+        <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700">
+          📦 تحویل شده
+        </span>
+      {% else %}
+        <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700">
+          {{ order.get_status_display|default:order.status }}
+        </span>
+      {% endif %}
+    </div>
+
+    <div class="divide-y divide-border space-y-2">
+      <div class="flex justify-between text-sm">
+        <span>جمع کل کالاها</span>
+        <span>{{ order.subtotal|intcomma }} تومان</span>
+      </div>
+
+      {% if order.discount_total %}
+      <div class="flex justify-between text-sm text-red-500">
+        <span>تخفیف</span>
+        <span>{{ order.discount_total|intcomma }} تومان</span>
+      </div>
+      {% endif %}
+
+      <div class="flex justify-between text-sm">
+        <span>مالیات (12%)</span>
+        <span>{{ order.tax_total|intcomma }} تومان</span>
+      </div>
+
+      <div class="flex justify-between text-base font-bold">
+        <span>مبلغ قابل پرداخت</span>
+        <span>{{ order.grand_total|intcomma }} تومان</span>
+      </div>
+    </div>
+
+    {% if order.status == 'pending_payment' %}
+      <button type="submit"
+              class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 mt-2 transition">
+        اقدام به پرداخت
+      </button>
+    {% endif %}
+  </div>
+</aside>
+
 
     </div>
   </div>
