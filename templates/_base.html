@@ -1377,7 +1377,7 @@ document.addEventListener("DOMContentLoaded", () => {
                               <!-- Product Image -->
 
                               <div class="relative min-w-fit">
-                                <a href='product-detail.html'>
+                                <a href='{{ item.product.get_absolute_url }}'>
                                   <img
                                     alt=""
                                     class="h-[120px] w-[120px]"
@@ -1400,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
                               <div class="w-full space-y-1.5">
                                 <!-- Product Title -->
 
-                                <a class='line-clamp-2 h-12' href='product-detail.html'>
+                                <a class='line-clamp-2 h-12' href='{{ item.product.get_absolute_url }}'>
                                   {{ item.product.name }}
                                 </a>
                                 <!-- Product Attribute -->
@@ -2213,15 +2213,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
               <!-- Categories -->
 
-              <li class="relative bg-muted border-b" data-accordion-item>
-                <div
-                  class="w-full px-4 py-3 text-right cursor-pointer"
-                  data-accordion-button
-                >
-                  <div
-                    class="flex items-center justify-between gap-2 text-sm md:text-base"
-                  >
-                    <span> مردانه </span>
+              {% for category in categories %}
+              <li class="relative" data-accordion-item>
+                <div class="w-full py-3 text-right cursor-pointer" data-accordion-button>
+                  <div class="flex items-center justify-between gap-2 text-sm md:text-base">
+                    <span>{{ category.name }}</span>
                     <div class="min-w-fit">
                       <svg data-accordion-chevron class="h-5 w-5 duration-300">
                         <use xlink:href="#chevron-left"></use>
@@ -2229,13 +2225,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                   </div>
                 </div>
-                <div
-                  class="relative max-h-0 overflow-hidden transition-all duration-300 mr-6 pb-2"
-                  data-accordion-content
-                >
+                <div class="relative max-h-0 overflow-hidden transition-all duration-300 mr-4 pb-2" data-accordion-content>
                   <ul class="pt-2">
                     <li>
-                      <a class='flex w-full items-center justify-between rounded-lg py-3 text-sm' href='shop.html'>
+                      <a class="flex w-full items-center justify-between rounded-lg py-3 text-sm" href="{% url 'product-list'%}?category_slug={{ category.slug }}">
                         <span class="flex items-center gap-x-2">
                           <span class="line-clamp-1">همه</span>
                           <svg class="h-5 w-5">
@@ -2244,59 +2237,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         </span>
                       </a>
                     </li>
-                    <li class="relative" data-accordion-item>
-                      <div
-                        class="w-full py-3 text-right cursor-pointer"
-                        data-accordion-button
-                      >
-                        <div
-                          class="flex items-center justify-between gap-2 text-sm md:text-base"
-                        >
-                          <span> مردانه </span>
-                          <div class="min-w-fit">
-                            <svg
-                              data-accordion-chevron
-                              class="h-5 w-5 duration-300"
-                            >
-                              <use xlink:href="#chevron-left"></use>
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="relative max-h-0 overflow-hidden transition-all duration-300 mr-4 pb-2"
-                        data-accordion-content
-                      >
-                        <ul class="pt-2">
-                          <li>
-                            <a class='flex w-full items-center justify-between rounded-lg py-3 text-sm' href='shop.html'>
-                              <span class="flex items-center gap-x-2">
-                                <span class="line-clamp-1">همه</span>
-                                <svg class="h-5 w-5">
-                                  <use xlink:href="#chevron-left" />
-                                </svg>
-                              </span>
-                            </a>
-                          </li>
-
-                          <li>
-                            <a class='flex w-full items-center justify-between rounded-lg py-3 text-sm' href='shop.html'>
-                              <span class="flex items-center gap-x-2">
-                                <span class="line-clamp-1">
-                                  دسته بندی اول
-                                </span>
-                                <svg class="h-5 w-5">
-                                  <use xlink:href="#chevron-left" />
-                                </svg>
-                              </span>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                    {% for child in category.children.all %}
+                    <li>
+                      <a class="flex w-full items-center justify-between rounded-lg py-3 text-sm" href="{% url 'product-list'%}?category_slug={{ child.slug }}">
+                        <span class="flex items-center gap-x-2">
+                          <span class="line-clamp-1">{{ child.name }}</span>
+                          <svg class="h-5 w-5">
+                            <use xlink:href="#chevron-left" />
+                          </svg>
+                        </span>
+                      </a>
                     </li>
+                    {% endfor %}
                   </ul>
                 </div>
               </li>
+              {% endfor %}
             </ul>
           </div>
         </div>
