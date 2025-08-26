@@ -206,11 +206,11 @@
                         <div class="h-5 text-left">
                     {% if product.has_valid_discount %}
                       <del class="text-sm text-text/60 decoration-warning md:text-base">
-                        {{ product.price|intcomma }}
+                        {{ product.price|intcomma|floatformat:0 }}
                       </del>
                     {% else %}
                       <del class="invisible text-sm text-text/60 decoration-warning md:text-base">
-                        {{ product.price|intcomma }}
+                        {{ product.price|intcomma|floatformat:0 }}
                       </del>
                     {% endif %}
                   </div>
@@ -226,7 +226,7 @@
                           <div
                             class="text-sm font-bold text-primary md:text-base"
                           >
-                            {{ product.get_final_price|intcomma }}
+                            {{ product.get_final_price|intcomma|floatformat:0 }}
                             <span class="text-xs font-light md:text-sm"
                               >تومان</span
                             >
@@ -351,7 +351,7 @@
                         <div class="h-5 text-left">
                     {% if product.has_valid_discount %}
                       <del class="text-sm text-text/60 decoration-warning md:text-base">
-                        {{ product.price|intcomma }}
+                        {{ product.price|intcomma|floatformat:0 }}
                       </del>
                     {% else %}
                       <del class="invisible text-sm text-text/60 decoration-warning md:text-base">
@@ -371,7 +371,7 @@
                           <div
                             class="text-sm font-bold text-primary md:text-base"
                           >
-                            {{ product.get_final_price|intcomma }}
+                            {{ product.get_final_price|intcomma|floatformat:0 }}
                             <span class="text-xs font-light md:text-sm"
                               >تومان</span
                             >
