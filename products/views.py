@@ -40,7 +40,7 @@ class ProductListView(generic.ListView):
     def get_queryset(self):
         sort_query_map = {
             'newest': lambda: Product.objects.newest(),
-            'best-sell': lambda: Product.objects.active(),
+            'best-sell': lambda: Product.objects.active().order_by('total_sell'),
             'most-expensive': lambda: Product.objects.most_expensive(),
             'cheapest': lambda: Product.objects.cheapest(),
             'discounted': lambda: Product.objects.with_discount(),
