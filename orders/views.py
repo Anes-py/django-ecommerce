@@ -33,7 +33,7 @@ class OrderCreateView(LoginRequiredMixin, generic.View):
                     total_discount=item.item_discount(),
                     final_price=item.item_final_price(),
                 )
-                item.product.total_sell +=1
+                item.product.total_sell +=item.quantity
                 item.save()
                 cart.items.all().delete()
         messages.success(request, "!فاکتور شما آماده پرداخت است")
@@ -46,5 +46,8 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
     context_object_name = 'order'
 
     def get_object(self, queryset=None):
-        order_obj = get_object_or_404(Order, user=self.request.user,)
+        order_obj = get_object_or_404(Order, user=self.request.user, pk=self.kwargs['pk'])
+        if order_obj.time_left == 0 and order_obj.status == Order.OrderStatus.PENDING_PAYMENT:
+            order_obj.status=Order.OrderStatus.CANCELLED
+            order_obj.save()
         return order_obj
