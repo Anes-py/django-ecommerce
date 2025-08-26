@@ -77,7 +77,7 @@ class Order(models.Model):
         choices=PaymentMethodChoices.choices,
         default=PaymentMethodChoices.CARD,
         )
-    shipping_method = models.CharField(max_length=20, choices=ShippingMethod.choices, default=PaymentMethodChoices.CARD)
+    shipping_method = models.CharField(max_length=20, choices=ShippingMethod.choices, default=ShippingMethod.NORMAL)
     subtotal = models.PositiveIntegerField(_('subtotal'))
     discount_total = models.PositiveIntegerField(_('discount total'))
     shipping_total = models.PositiveIntegerField(_('shipping'))
