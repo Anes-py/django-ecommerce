@@ -169,7 +169,7 @@
                           loading="lazy"
                         />
                       </button>
-                      {% if product.images.all %}
+                      {% if product.images.count > 0 %}
                       {% for image in product.images.all|slice:":4" %}
                       <button
                         type="button"
@@ -204,8 +204,9 @@
                           </svg>
                         </span>
                       </button>
-                    </div>
                       {% endif %}
+
+                    </div>
                   </div>
                 </div>
                 <div class="col-span-8 flex min-h-full flex-col">

@@ -117,7 +117,7 @@
                           <del
                             class="text-sm text-text/60 decoration-warning md:text-base"
                           >
-                            {{ product.price|intcomma }}
+                            {{ product.price|floatformat:0|intcomma }}
                           </del>
                         </div>
                         <div class="flex items-center justify-between">
@@ -131,7 +131,7 @@
                           <div
                             class="text-sm font-bold text-primary md:text-base"
                           >
-                            {{ product.get_final_price|intcomma }}
+                            {{ product.get_final_price|floatformat:0|intcomma }}
                             <span class="text-xs font-light md:text-sm"
                               >تومان</span
                             >
@@ -204,29 +204,24 @@
                       <div class="flex flex-col">
                         <!-- Old price -->
                         <div class="h-5 text-left">
-                    {% if product.has_valid_discount %}
-                      <del class="text-sm text-text/60 decoration-warning md:text-base">
-                        {{ product.price|intcomma|floatformat:0 }}
-                      </del>
-                    {% else %}
-                      <del class="invisible text-sm text-text/60 decoration-warning md:text-base">
-                        {{ product.price|intcomma|floatformat:0 }}
-                      </del>
-                    {% endif %}
-                  </div>
+                          <del
+                            class="text-sm text-text/60 decoration-warning md:text-base"
+                          >
+                            {{ product.price|floatformat:0|intcomma }}
+                          </del>
+                        </div>
                         <div class="flex items-center justify-between">
-                           {% if product.has_valid_discount %}
                           <div>
-                                 <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
+                          <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
                               {{ product.discount.value|floatformat:0 }}%
                           </p>
+
                           </div>
-                          {% endif %}
                           <!-- New price -->
                           <div
                             class="text-sm font-bold text-primary md:text-base"
                           >
-                            {{ product.get_final_price|intcomma|floatformat:0 }}
+                            {{ product.get_final_price|floatformat:0|intcomma }}
                             <span class="text-xs font-light md:text-sm"
                               >تومان</span
                             >
@@ -280,7 +275,7 @@
             >
               <!-- Category -->
             {% for category in top_categories %}
-              <a class='relative flex w-25 flex-col items-center justify-between gap-y-1.5 sm:w-auto sm:gap-y-2.5' href=''>
+              <a class='relative flex w-25 flex-col items-center justify-between gap-y-1.5 sm:w-auto sm:gap-y-2.5' href="{% url 'product-list' %}?category_slug={{ category.slug }}">
                 <div
                   class="border-gradient group relative rounded-full p-px before:absolute before:-inset-px before:h-[calc(100%+2px)] before:w-[calc(100%+2px)] before:rounded-full"
                 >
@@ -349,29 +344,24 @@
                       <div class="flex flex-col">
                         <!-- Old price -->
                         <div class="h-5 text-left">
-                    {% if product.has_valid_discount %}
-                      <del class="text-sm text-text/60 decoration-warning md:text-base">
-                        {{ product.price|intcomma|floatformat:0 }}
-                      </del>
-                    {% else %}
-                      <del class="invisible text-sm text-text/60 decoration-warning md:text-base">
-                        {{ product.price|intcomma }}
-                      </del>
-                    {% endif %}
-                  </div>
+                          <del
+                            class="text-sm text-text/60 decoration-warning md:text-base"
+                          >
+                            {{ product.price|floatformat:0|intcomma }}
+                          </del>
+                        </div>
                         <div class="flex items-center justify-between">
-                           {% if product.has_valid_discount %}
                           <div>
-                                 <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
+                          <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
                               {{ product.discount.value|floatformat:0 }}%
                           </p>
+
                           </div>
-                          {% endif %}
                           <!-- New price -->
                           <div
                             class="text-sm font-bold text-primary md:text-base"
                           >
-                            {{ product.get_final_price|intcomma|floatformat:0 }}
+                            {{ product.get_final_price|floatformat:0|intcomma }}
                             <span class="text-xs font-light md:text-sm"
                               >تومان</span
                             >
