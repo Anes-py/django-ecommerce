@@ -8,22 +8,16 @@ from .forms import *
 
 @login_required
 def user_dashboard_view(request):
-    context = {
-    'pending_orders':Order.objects.filter(
-        status=Order.OrderStatus.PENDING_PAYMENT,
-    ),
-    'paid_orders':Order.objects.filter(
-        status=Order.OrderStatus.PAID,
-    ),
-    'refunded_orders':Order.objects.filter(
-        status=Order.OrderStatus.REFUNDED,
-    ),
-    'fulfilled_orders':Order.objects.filter(
-        status=Order.OrderStatus.FULFILLED,
-    ),
-    'delivered_orders':Order.objects.filter(status=Order.OrderStatus.DELIVERED)
-    }
-    return render(request, 'core/user_dashboard.html', context=context)
+    user_orders = Order.objects.filter(user=request.user)
+    for order in user_orders:
+        if order.time_left() ==0 and order.status == Order.OrderStatus.PENDING_PAYMENT:
+            order.status = Order.OrderStatus.CANCELLED
+            order.save()
+    return render(
+        request,
+        'core/user_dashboard.html',
+        context={'user_orders':user_orders}
+    )
 
 
 class SignUPView(generic.CreateView):
