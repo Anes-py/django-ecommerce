@@ -33,7 +33,7 @@ class OrderCreateView(LoginRequiredMixin, generic.View):
                     total_discount=item.item_discount(),
                     final_price=item.item_final_price(),
                 )
-                item.product.total_sell +=item.quantity
+                item.product.total_sell += item.quantity
                 item.save()
                 cart.items.all().delete()
         messages.success(request, "!فاکتور شما آماده پرداخت است")
