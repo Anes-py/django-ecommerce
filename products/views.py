@@ -61,7 +61,8 @@ class ProductListView(generic.ListView):
         if min_price and max_price:
             queryset = queryset.filter(price__gte=min_price, price__lte=max_price)
         if category_slug:
-            queryset = queryset.filter(category__slug=category_slug)
+            queryset = queryset.filter(Q(category__slug=category_slug) | Q(category__parent__slug=category_slug))\
+            .select_related('category')
         if brand_slug:
             queryset = queryset.filter(brand__slug=brand_slug)
         if available:
