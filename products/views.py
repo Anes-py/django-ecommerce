@@ -20,7 +20,8 @@ class HomeView(generic.TemplateView):
         context.update({
             'discounted_products':Product.objects.with_discount()[:50],
             'newest_products':Product.objects.newest()[:50],
-            'top_categories':site_context['categories'].filter(parent__isnull=True)[:6]
+            'top_categories':site_context['categories'].filter(parent__isnull=True)[:6],
+            'best_sell_products':Product.objects.active().order_by('total_sell')[:50],
         })
         if SiteSettings.objects.all().first():
             context.update({
