@@ -95,6 +95,28 @@
                       class="relative rounded-xl bg-muted p-2 shadow-base md:p-5"
                     >
                       <!-- image -->
+                      {% if product.stock < 10 and status == 'a'  %}
+                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                          style="background-color:#ef4444;">
+                      فقط {{ product.stock }} عدد در انبار موجود میباشد
+                    </span>
+              {% endif %}
+
+              {% if product.status == 'a' and product.stock > 10 %}
+                  <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                        style="background-color:#22c55e;">
+                    موجود
+                  </span>
+              {% elif product.status == 'na' %}
+              <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                    style="background-color:#facc15;">
+ناموجود              </span>
+              {% elif product.status == 's' %}
+                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                          style="background-color:#3b82f6;">
+                      بزودی
+                    </span>
+              {% endif %}
                       <div class="mb-2 md:mb-5" draggable="false">
                         <a href='{{ product.get_absolute_url }}'>
                           <img
@@ -111,33 +133,41 @@
                         </a>
                       </div>
                       <!-- Prices -->
-                      <div class="flex flex-col">
+                    <div class="flex flex-col">
+                      {% if product.status == 'a' %}
                         <!-- Old price -->
                         <div class="h-5 text-left">
-                          <del
-                            class="text-sm text-text/60 decoration-warning md:text-base"
-                          >
-                            {{ product.price|floatformat:0|intcomma }}
-                          </del>
+                          {% if product.has_valid_discount %}
+                            <del class="text-sm text-text/60 decoration-warning md:text-base">
+                              {{ product.price|floatformat:0|intcomma }}
+                            </del>
+                          {% endif %}
                         </div>
-                        <div class="flex items-center justify-between">
-                          <div>
-                          <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
-                              {{ product.discount.value|floatformat:0 }}%
-                          </p>
 
-                          </div>
+                        <div class="flex items-center justify-between">
+                          {% if product.has_valid_discount %}
+                            <div>
+                              <p
+                                class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap"
+                              >
+                                {{ product.discount.value|floatformat:0 }}%
+                              </p>
+                            </div>
+                          {% endif %}
+
                           <!-- New price -->
-                          <div
-                            class="text-sm font-bold text-primary md:text-base"
-                          >
+                          <div class="text-sm font-bold text-primary md:text-base">
                             {{ product.get_final_price|floatformat:0|intcomma }}
-                            <span class="text-xs font-light md:text-sm"
-                              >تومان</span
-                            >
+                            <span class="text-xs font-light md:text-sm">تومان</span>
                           </div>
                         </div>
-                      </div>
+                      {% else %}
+                        <div class="h-5"></div>
+                        <div class="flex items-center justify-center">
+                          <span class="text-sm font-medium text-gray-400">ناموجود</span>
+                        </div>
+                      {% endif %}
+                    </div>
                     </div>
                   </div>
 
@@ -185,6 +215,28 @@
                       class="relative rounded-xl bg-muted p-2 shadow-base md:p-5"
                     >
                       <!-- image -->
+                      {% if product.stock < 10 and status == 'a'  %}
+                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                          style="background-color:#ef4444;">
+                      فقط {{ product.stock }} عدد در انبار موجود میباشد
+                    </span>
+              {% endif %}
+
+              {% if product.status == 'a' and product.stock > 10 %}
+                  <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                        style="background-color:#22c55e;">
+                    موجود
+                  </span>
+              {% elif product.status == 'na' %}
+              <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                    style="background-color:#facc15;">
+ناموجود              </span>
+              {% elif product.status == 's' %}
+                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                          style="background-color:#3b82f6;">
+                      بزودی
+                    </span>
+              {% endif %}
                       <div class="mb-2 md:mb-5" draggable="false">
                         <a href='{{ product.get_absolute_url }}'>
                           <img
@@ -201,33 +253,42 @@
                         </a>
                       </div>
                       <!-- Prices -->
-                      <div class="flex flex-col">
+
+                    <div class="flex flex-col">
+                      {% if product.status == 'a' %}
                         <!-- Old price -->
                         <div class="h-5 text-left">
-                          <del
-                            class="text-sm text-text/60 decoration-warning md:text-base"
-                          >
-                            {{ product.price|floatformat:0|intcomma }}
-                          </del>
+                          {% if product.has_valid_discount %}
+                            <del class="text-sm text-text/60 decoration-warning md:text-base">
+                              {{ product.price|floatformat:0|intcomma }}
+                            </del>
+                          {% endif %}
                         </div>
-                        <div class="flex items-center justify-between">
-                          <div>
-                          <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
-                              {{ product.discount.value|floatformat:0 }}%
-                          </p>
 
-                          </div>
+                        <div class="flex items-center justify-between">
+                          {% if product.has_valid_discount %}
+                            <div>
+                              <p
+                                class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap"
+                              >
+                                {{ product.discount.value|floatformat:0 }}%
+                              </p>
+                            </div>
+                          {% endif %}
+
                           <!-- New price -->
-                          <div
-                            class="text-sm font-bold text-primary md:text-base"
-                          >
+                          <div class="text-sm font-bold text-primary md:text-base">
                             {{ product.get_final_price|floatformat:0|intcomma }}
-                            <span class="text-xs font-light md:text-sm"
-                              >تومان</span
-                            >
+                            <span class="text-xs font-light md:text-sm">تومان</span>
                           </div>
                         </div>
-                      </div>
+                      {% else %}
+                        <div class="h-5"></div>
+                        <div class="flex items-center justify-center">
+                          <span class="text-sm font-medium text-gray-400">ناموجود</span>
+                        </div>
+                      {% endif %}
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -325,6 +386,28 @@
                       class="relative rounded-xl bg-muted p-2 shadow-base md:p-5"
                     >
                       <!-- image -->
+                      {% if product.stock < 10 and status == 'a'  %}
+                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                          style="background-color:#ef4444;">
+                      فقط {{ product.stock }} عدد در انبار موجود میباشد
+                    </span>
+              {% endif %}
+
+              {% if product.status == 'a' and product.stock > 10 %}
+                  <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                        style="background-color:#22c55e;">
+                    موجود
+                  </span>
+              {% elif product.status == 'na' %}
+              <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                    style="background-color:#facc15;">
+ناموجود              </span>
+              {% elif product.status == 's' %}
+                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
+                          style="background-color:#3b82f6;">
+                      بزودی
+                    </span>
+              {% endif %}
                       <div class="mb-2 md:mb-5" draggable="false">
                         <a href='{{ product.get_absolute_url }}'>
                           <img
@@ -341,33 +424,42 @@
                         </a>
                       </div>
                       <!-- Prices -->
-                      <div class="flex flex-col">
+                    <div class="flex flex-col">
+                      {% if product.status == 'a' %}
                         <!-- Old price -->
                         <div class="h-5 text-left">
-                          <del
-                            class="text-sm text-text/60 decoration-warning md:text-base"
-                          >
-                            {{ product.price|floatformat:0|intcomma }}
-                          </del>
+                          {% if product.has_valid_discount %}
+                            <del class="text-sm text-text/60 decoration-warning md:text-base">
+                              {{ product.price|floatformat:0|intcomma }}
+                            </del>
+                          {% endif %}
                         </div>
-                        <div class="flex items-center justify-between">
-                          <div>
-                          <p class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap">
-                              {{ product.discount.value|floatformat:0 }}%
-                          </p>
 
-                          </div>
+                        <div class="flex items-center justify-between">
+                          {% if product.has_valid_discount %}
+                            <div>
+                              <p
+                                class="min-w-[32px] px-2 h-6 flex items-center justify-center rounded-full bg-warning text-xs font-semibold text-white whitespace-nowrap"
+                              >
+                                {{ product.discount.value|floatformat:0 }}%
+                              </p>
+                            </div>
+                          {% endif %}
+
                           <!-- New price -->
-                          <div
-                            class="text-sm font-bold text-primary md:text-base"
-                          >
+                          <div class="text-sm font-bold text-primary md:text-base">
                             {{ product.get_final_price|floatformat:0|intcomma }}
-                            <span class="text-xs font-light md:text-sm"
-                              >تومان</span
-                            >
+                            <span class="text-xs font-light md:text-sm">تومان</span>
                           </div>
                         </div>
-                      </div>
+                      {% else %}
+                        <div class="h-5"></div>
+                        <div class="flex items-center justify-center">
+                          <span class="text-sm font-medium text-gray-400">ناموجود</span>
+                        </div>
+                      {% endif %}
+                    </div>
+
                     </div>
                   </div>
                 </div>
@@ -413,6 +505,7 @@
                           class="relative rounded-xl bg-muted p-2 shadow-base"
                         >
                           <!-- image -->
+
                           <div class="mb-2 md:mb-5" draggable="false">
                             <img
                               alt="blog"
