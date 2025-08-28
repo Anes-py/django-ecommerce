@@ -274,6 +274,8 @@
                     </div>
 
                     <!-- left side -->
+{% if product.status == 'a' %}
+  <!-- فرم افزودن به سبد خرید -->
                     <form action="{% url 'cart-add' product.id %}" method="post">
                       {% csrf_token %}
                     <div class="col-span-1 flex flex-col">
@@ -415,6 +417,29 @@
                     </div>
 
                     </form>
+
+
+{% elif product.status == 'na' %}
+  <!-- ناموجود -->
+  <div class="col-span-1 flex flex-col items-center justify-center rounded-2xl border p-6 text-center shadow-base">
+    <svg class="mb-3 h-12 w-12 text-red-500">
+      <use xlink:href="#ban" />
+    </svg>
+    <p class="text-lg font-bold text-red-500">ناموجود</p>
+    <p class="text-sm text-text/70">این محصول در حال حاضر موجود نیست</p>
+  </div>
+
+{% elif product.status == 's' %}
+  <!-- به زودی -->
+  <div class="col-span-1 flex flex-col items-center justify-center rounded-2xl border p-6 text-center shadow-base">
+    <svg class="mb-3 h-12 w-12 text-yellow-500">
+      <use xlink:href="#clock" />
+    </svg>
+    <p class="text-lg font-bold text-yellow-500">به زودی</p>
+    <p class="text-sm text-text/70">به زودی قابل خرید خواهد بود</p>
+  </div>
+{% endif %}
+
                   </div>
                 </div>
               </div>
