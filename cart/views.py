@@ -93,3 +93,40 @@ class CartDelete(generic.View):
         cart.delete()
         messages.success(request, 'ایتم های سبد شما با موفقیت حدف شد✅ ')
         return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+class CartUpdateView(generic.View):
+    def post(self, request, *args, **kwargs):
+        # گرفتن cart
+        if request.user.is_authenticated:
+            cart = get_object_or_404(Cart, user=request.user)
+        else:
+            if not request.session.session_key:
+                request.session.create()
+            cart = get_object_or_404(Cart, session_key=request.session.session_key)
+
+        updated = 0
+        deleted = 0
+
+        for item in cart.items.all():
+            qty = request.POST.get(f"quantity_{item.id}")
+            if qty is None:
+                continue
+            try:
+                qty = int(qty)
+                if qty <= 0:
+                    item.delete()
+                    deleted += 1
+                else:
+                    item.quantity = qty
+                    item.save(update_fields=["quantity"])
+                    updated += 1
+            except (ValueError, TypeError):
+                continue
+
+        if updated or deleted:
+            messages.success(request, "سبد خرید به‌روزرسانی شد ✅")
+        else:
+            messages.info(request, "هیچ تغییری در سبد خرید اعمال نشد")
+
+        return redirect(request.META.get("HTTP_REFERER", "/"))

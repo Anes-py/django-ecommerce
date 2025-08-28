@@ -46,6 +46,8 @@
               </button>
             </form>
           </div>
+          <form action="{% url 'cart-update' %}" method="post">
+            {% csrf_token %}
           <ul class="divide-y">
             {% for item in cart.items.all %}
             <li>
@@ -56,12 +58,9 @@
                     <a href="{{ item.product.get_absolute_url }}">
                       <img alt="" class="w-25 rounded-lg sm:w-28" src="{{ item.product.main_image.url }}" />
                     </a>
-                    <form action="{% url 'cart-remove' item.id %}" method="post">
-                      {% csrf_token %}
                       <button class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background" type="submit">
                         <svg class="h-6 w-6 text-red-600 dark:text-red-500"><use xlink:href="#close"></use></svg>
                       </button>
-                    </form>
                   </div>
                   <!-- Detail -->
                   <div class="row-span-2 space-y-4 xs:col-span-2 sm:col-span-3 xl:col-span-5">
@@ -83,7 +82,11 @@
                         <button type="button" data-action="increment">
                           <svg class="h-5 w-5 text-primary sm:h-6 sm:w-6"><use xlink:href="#plus" /></svg>
                         </button>
-                        <input value="{{ item.quantity }}" disabled type="number" class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm font-medium outline-none sm:h-6 sm:w-6 sm:text-lg" />
+                        <input name="quantity_{{ item.id }}"
+                               value="{{ item.quantity }}"
+                               type="number"
+                               min="1"
+                               class="flex h-5 w-5 select-none items-center justify-center bg-transparent text-center text-sm font-medium outline-none sm:h-6 sm:w-6 sm:text-lg" />
                         <button type="button" data-action="decrement">
                           <svg class="h-5 w-5 text-red-600 dark:text-red-500 sm:h-6 sm:w-6"><use xlink:href="#minus" /></svg>
                         </button>
@@ -100,7 +103,6 @@
             </li>
             {% empty %}
             <div class="flex flex-col items-center justify-center py-16 text-center">
-    <!-- آیکون خالی بودن -->
     <svg xmlns="http://www.w3.org/2000/svg"
          class="w-24 h-24 text-gray-400 mb-6"
          fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -110,7 +112,6 @@
             2zm8 0a1 1 0 100-2 1 1 0 000 2z" />
     </svg>
 
-    <!-- متن -->
     <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">
       سبد خریدت خالیه!
     </h2>
@@ -118,7 +119,6 @@
       هنوز هیچ محصولی انتخاب نکردی. بیا یه سر به فروشگاه بزن 😉
     </p>
 
-    <!-- دکمه -->
     <a href="{% url 'product-list' %}"
        class="w-full py-3 mt-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 transition-all">
       شروع خرید
@@ -126,6 +126,12 @@
   </div>
             {% endfor %}
           </ul>
+            {% if cart.items.all %}
+              <button type="submit" class="mt-4 w-full rounded-lg bg-primary py-2 text-white font-semibold">
+                به‌روزرسانی سبد
+              </button>
+            {% endif %}
+            </form>
         </div>
       </div>
 
