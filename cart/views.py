@@ -2,6 +2,7 @@ from django.db.models import Prefetch
 from django.contrib import messages
 from django.views import generic
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from products.models import Product
 from orders.models import Address
@@ -10,7 +11,7 @@ from .models import Cart, CartItem
 from .forms import AddToCartForm
 
 
-class CartDetailView(generic.DetailView):
+class CartDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'cart/cart_detail.html'
     context_object_name = 'cart'
     def get_object(self, queryset=None):
