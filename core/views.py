@@ -8,7 +8,7 @@ from .forms import *
 
 @login_required
 def user_dashboard_view(request):
-    user_orders = Order.objects.filter(user=request.user)
+    user_orders = Order.objects.filter(user=request.user).order_by('-created_at')
     for order in user_orders:
         if order.time_left() ==0 and order.status == Order.OrderStatus.PENDING_PAYMENT:
             order.status = Order.OrderStatus.CANCELLED
