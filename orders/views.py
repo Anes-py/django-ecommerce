@@ -14,11 +14,18 @@ class OrderCreateView(LoginRequiredMixin, generic.View):
         form = OrderForm(request.POST)
         cart = get_object_or_404(Cart, user=request.user)
         if form.is_valid():
+            cleaned_data = form.cleaned_data
             obj = form.save(commit=False)
             obj.user = request.user
             obj.subtotal = cart.cart_org_total()
             obj.discount_total = cart.cart_discount()
-            obj.shipping_total = 28000
+            shipping_prices = {
+                Order.ShippingMethod.NORMAL: 28000,
+                Order.ShippingMethod.ECONOMY: 35000,
+                Order.ShippingMethod.FAST: 50000
+            }
+            obj.shipping_total = shipping_prices.get(cleaned_data['shipping_method'], 0)
+
             obj.tax_total = int(Decimal(obj.subtotal - obj.discount_total) * Decimal(0.12))
             obj.grand_total = cart.cart_final_price() + obj.shipping_total + obj.tax_total
             obj.status = Order.OrderStatus.PENDING_PAYMENT
@@ -34,10 +41,10 @@ class OrderCreateView(LoginRequiredMixin, generic.View):
                     final_price=item.item_final_price(),
                 )
                 item.product.total_sell += item.quantity
-                item.save()
-                cart.items.all().delete()
+                item.product.save()
+            cart.items.all().delete()
         messages.success(request, "!فاکتور شما آماده پرداخت است")
-        return redirect('order-detail')
+        return redirect('order-detail', obj.id)
 
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
