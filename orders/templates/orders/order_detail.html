@@ -111,6 +111,11 @@
         <span>{{ order.tax_total|intcomma }} تومان</span>
       </div>
 
+      <div class="flex justify-between text-sm">
+        <span>هزینه ارسال</span>
+        <span>{{ order.shipping_total|intcomma }} تومان</span>
+      </div>
+
       <div class="flex justify-between text-base font-bold">
         <span>مبلغ قابل پرداخت</span>
         <span>{{ order.grand_total|intcomma }} تومان</span>
