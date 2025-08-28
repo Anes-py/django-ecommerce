@@ -1258,10 +1258,10 @@
                                         class="h-3 w-px rounded-full bg-grauy-200 /10"
                                       ></span>
                                       <div class="text-sm text-text/60">
-                                  {% if reply.user %}
-                                  <div class="text-sm text-text/60">کاربر آنی کالا</div>
-                                  {% elif reply.user.is_staff %}
-                                  <div class="text-sm text-text/60">ادمین</div>
+                                  {% if reply.user and reply.user.is_staff %}
+                                        <div class="text-sm text-text/60">ادمین</div>
+                                  {% elif reply.user %}
+                                        <div class="text-sm text-text/60">کاربر آنی کالا</div>
                                   {% else %}
                                   <div class="text-sm text-text/60">کاربر مهمان</div>
                                   {% endif %}
@@ -1280,6 +1280,10 @@
                             </ul>
                             {% endfor %}
                             {% endif %}
+                          </li>
+                          {% empty %}
+                          <li class="py-6 text-center text-text/70">
+                          هنوز هیچ کامنتی ثبت نشده! اولین نفر باش و نظر خودت رو بنویس 😄
                           </li>
                           {% endfor %}
                         </ul>
