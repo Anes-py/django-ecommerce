@@ -947,7 +947,7 @@
                   </div>
                   <div class="space-y-4">
                     <!-- order item -->
-{% for order in user_orders %}
+{% for order in user_orders|slice:8 %}
 <div>
   <a href="{% url 'order-detail' order.id %}">
     <div class="rounded-lg border p-4 shadow-base">
