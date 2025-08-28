@@ -1,384 +1,381 @@
-// Login Form 1 - Glassmorphism Style JavaScript
-// This file extends form-utils.js with form-specific functionality
-
-class LoginForm1 {
+// Creative Login Form JavaScript
+class CreativeLoginForm {
     constructor() {
         this.form = document.getElementById('loginForm');
-        this.submitBtn = this.form.querySelector('.login-btn');
-        this.passwordToggle = document.getElementById('passwordToggle');
+        this.emailInput = document.getElementById('email');
         this.passwordInput = document.getElementById('password');
+        this.passwordToggle = document.getElementById('passwordToggle');
+        this.submitButton = this.form.querySelector('.login-btn');
         this.successMessage = document.getElementById('successMessage');
-        this.isSubmitting = false;
-
-        this.validators = {
-            email: FormUtils.validateEmail,
-            password: FormUtils.validatePassword
-        };
+        this.socialButtons = document.querySelectorAll('.social-btn');
 
         this.init();
     }
 
     init() {
-        this.addEventListeners();
-        FormUtils.setupFloatingLabels(this.form);
-        this.addInputAnimations();
-        FormUtils.setupPasswordToggle(this.passwordInput, this.passwordToggle);
+        this.bindEvents();
+        this.setupPasswordToggle();
         this.setupSocialButtons();
-        FormUtils.addSharedAnimations();
+        this.setupCreativeEffects();
     }
 
-    addEventListeners() {
-        // Form submission
+    bindEvents() {
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        this.emailInput.addEventListener('blur', () => this.validateEmail());
+        this.passwordInput.addEventListener('blur', () => this.validatePassword());
+        this.emailInput.addEventListener('input', () => this.clearError('email'));
+        this.passwordInput.addEventListener('input', () => this.clearError('password'));
 
-        // Real-time validation
-        Object.keys(this.validators).forEach(fieldName => {
-            const field = document.getElementById(fieldName);
-            if (field) {
-                field.addEventListener('blur', () => this.validateField(fieldName));
-                field.addEventListener('input', () => FormUtils.clearError(fieldName));
-            }
-        });
-
-        // Enhanced focus effects
-        const inputs = this.form.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.addEventListener('focus', (e) => this.handleFocus(e));
-            input.addEventListener('blur', (e) => this.handleBlur(e));
-        });
-
-        // Remember me checkbox animation
-        const checkbox = document.getElementById('remember');
-        if (checkbox) {
-            checkbox.addEventListener('change', () => this.animateCheckbox());
-        }
-
-        // Forgot password link
-        const forgotLink = document.querySelector('.forgot-password');
-        if (forgotLink) {
-            forgotLink.addEventListener('click', (e) => this.handleForgotPassword(e));
-        }
-
-        // Sign up link
-        const signupLink = document.querySelector('.signup-link a');
-        if (signupLink) {
-            signupLink.addEventListener('click', (e) => this.handleSignupLink(e));
-        }
-
-        // Keyboard shortcuts
-        this.setupKeyboardShortcuts();
+        // Add creative input interactions
+        this.emailInput.addEventListener('focus', () => this.addInputFocus('email'));
+        this.passwordInput.addEventListener('focus', () => this.addInputFocus('password'));
+        this.emailInput.addEventListener('blur', () => this.removeInputFocus('email'));
+        this.passwordInput.addEventListener('blur', () => this.removeInputFocus('password'));
     }
 
-    addInputAnimations() {
-        const inputs = this.form.querySelectorAll('input');
-        inputs.forEach((input, index) => {
-            // Stagger animation on page load
+    setupPasswordToggle() {
+        this.passwordToggle.addEventListener('click', () => {
+            const type = this.passwordInput.type === 'password' ? 'text' : 'password';
+            this.passwordInput.type = type;
+
+            const icon = this.passwordToggle.querySelector('.toggle-icon');
+            icon.classList.toggle('show-password', type === 'text');
+
+            // Add creative toggle effect
+            this.passwordToggle.style.transform = 'translateY(-50%) scale(1.2)';
             setTimeout(() => {
-                input.style.opacity = '1';
-                input.style.transform = 'translateY(0)';
-            }, index * 150);
+                this.passwordToggle.style.transform = 'translateY(-50%) scale(1)';
+            }, 150);
         });
     }
 
     setupSocialButtons() {
-        const socialButtons = document.querySelectorAll('.social-btn');
-        socialButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleSocialLogin(e));
+        this.socialButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const platform = button.classList.contains('behance-btn') ? 'Behance' : 'Dribbble';
+                this.handleSocialLogin(platform, button);
+            });
         });
     }
 
-    handleFocus(e) {
-        const wrapper = e.target.closest('.input-wrapper');
-        if (wrapper) {
-            wrapper.classList.add('focused');
-        }
+    setupCreativeEffects() {
+        // Add mouse tracking for creative elements
+        document.addEventListener('mousemove', (e) => {
+            this.updateFloatingShapes(e);
+        });
+
+        // Add card tilt effect
+        const card = document.querySelector('.login-card');
+        card.addEventListener('mousemove', (e) => {
+            this.addCardTilt(e, card);
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
     }
 
-    handleBlur(e) {
-        const wrapper = e.target.closest('.input-wrapper');
-        if (wrapper) {
-            wrapper.classList.remove('focused');
-        }
+    updateFloatingShapes(e) {
+        const shapes = document.querySelectorAll('.shape');
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+
+        shapes.forEach((shape, index) => {
+            const speed = (index + 1) * 0.5;
+            const x = (mouseX - 0.5) * speed * 20;
+            const y = (mouseY - 0.5) * speed * 20;
+
+            shape.style.transform = `translate(${x}px, ${y}px)`;
+        });
     }
 
-    animateCheckbox() {
-        const checkmark = document.querySelector('.checkmark');
-        if (checkmark) {
-            checkmark.style.transform = 'scale(0.8)';
+    addCardTilt(e, card) {
+        const rect = card.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+
+        const rotateX = (mouseY / rect.height) * -10;
+        const rotateY = (mouseX / rect.width) * 10;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+
+    addInputFocus(field) {
+        const inputWrapper = document.getElementById(field).closest('.input-wrapper');
+        inputWrapper.classList.add('focused');
+
+        // Add sparkle effect
+        this.createSparkles(inputWrapper);
+    }
+
+    removeInputFocus(field) {
+        const inputWrapper = document.getElementById(field).closest('.input-wrapper');
+        inputWrapper.classList.remove('focused');
+    }
+
+    createSparkles(element) {
+        for (let i = 0; i < 5; i++) {
             setTimeout(() => {
-                checkmark.style.transform = 'scale(1)';
-            }, 150);
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.cssText = `
+                    position: absolute;
+                    width: 4px;
+                    height: 4px;
+                    background: #667eea;
+                    border-radius: 50%;
+                    pointer-events: none;
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    animation: sparkleFloat 1s ease-out forwards;
+                    z-index: 10;
+                `;
+
+                element.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }, i * 100);
+        }
+
+        // Add sparkle animation if not exists
+        if (!document.querySelector('#sparkle-keyframes')) {
+            const style = document.createElement('style');
+            style.id = 'sparkle-keyframes';
+            style.textContent = `
+                @keyframes sparkleFloat {
+                    0% { opacity: 1; transform: translateY(0) scale(0); }
+                    50% { opacity: 1; transform: translateY(-20px) scale(1); }
+                    100% { opacity: 0; transform: translateY(-40px) scale(0); }
+                }
+            `;
+            document.head.appendChild(style);
         }
     }
 
-    handleForgotPassword(e) {
-        e.preventDefault();
-        // Add subtle animation
-        const link = e.target;
-        link.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            link.style.transform = 'scale(1)';
-        }, 150);
+    validateEmail() {
+        const email = this.emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        FormUtils.showNotification('Password reset link would be sent to your email', 'info', this.form);
+        if (!email) {
+            this.showError('email', 'Your creative email is required');
+            return false;
+        }
+
+        if (!emailRegex.test(email)) {
+            this.showError('email', 'Please enter a valid email address');
+            return false;
+        }
+
+        this.clearError('email');
+        return true;
     }
 
-    handleSignupLink(e) {
-        e.preventDefault();
-        // Add subtle animation
-        const link = e.target;
-        link.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            link.style.transform = 'scale(1)';
-        }, 150);
+    validatePassword() {
+        const password = this.passwordInput.value;
 
-        FormUtils.showNotification('Redirecting to sign up page...', 'info', this.form);
+        if (!password) {
+            this.showError('password', 'Your creative password is required');
+            return false;
+        }
+
+        if (password.length < 6) {
+            this.showError('password', 'Password needs at least 6 characters to unlock creativity');
+            return false;
+        }
+
+        this.clearError('password');
+        return true;
     }
 
-    handleSocialLogin(e) {
-        const btn = e.currentTarget;
-        const provider = btn.classList.contains('google-btn') ? 'Google' : 'GitHub';
+    showError(field, message) {
+        const formGroup = document.getElementById(field).closest('.form-group');
+        const errorElement = document.getElementById(`${field}Error`);
 
-        // Add loading state
-        btn.style.transform = 'scale(0.95)';
-        btn.style.opacity = '0.8';
+        formGroup.classList.add('error');
+        errorElement.textContent = message;
+        errorElement.classList.add('show');
 
+        // Add creative error effect
+        const input = document.getElementById(field);
+        input.style.animation = 'shake 0.5s ease-in-out';
         setTimeout(() => {
-            btn.style.transform = 'scale(1)';
-            btn.style.opacity = '1';
-        }, 200);
+            input.style.animation = '';
+        }, 500);
+    }
 
-        FormUtils.showNotification(`Connecting to ${provider}...`, 'info', this.form);
+    clearError(field) {
+        const formGroup = document.getElementById(field).closest('.form-group');
+        const errorElement = document.getElementById(`${field}Error`);
+
+        formGroup.classList.remove('error');
+        errorElement.classList.remove('show');
+        setTimeout(() => {
+            errorElement.textContent = '';
+        }, 300);
     }
 
     async handleSubmit(e) {
         e.preventDefault();
 
-        if (this.isSubmitting) return;
+        const isEmailValid = this.validateEmail();
+        const isPasswordValid = this.validatePassword();
 
-        const isValid = this.validateForm();
+        if (!isEmailValid || !isPasswordValid) {
+            // Add creative failure effect
+            this.addFailureEffect();
+            return;
+        }
 
-        if (isValid) {
-            await this.submitForm();
-        } else {
-            this.shakeForm();
+        this.setLoading(true);
+
+        try {
+            // Simulate creative authentication process
+            await new Promise(resolve => setTimeout(resolve, 2500));
+
+            // Show creative success state
+            this.showCreativeSuccess();
+        } catch (error) {
+            this.showError('password', 'Creative login failed. Try again with more inspiration!');
+        } finally {
+            this.setLoading(false);
         }
     }
 
-    validateForm() {
-        let isValid = true;
+    async handleSocialLogin(platform, button) {
+        console.log(`Initiating creative login with ${platform}...`);
 
-        Object.keys(this.validators).forEach(fieldName => {
-            if (!this.validateField(fieldName)) {
-                isValid = false;
-            }
-        });
+        // Add creative social login effect
+        button.style.transform = 'scale(0.95)';
+        button.style.opacity = '0.7';
 
-        return isValid;
-    }
-
-    validateField(fieldName) {
-        const field = document.getElementById(fieldName);
-        const validator = this.validators[fieldName];
-
-        if (!field || !validator) return true;
-
-        const result = validator(field.value.trim(), field);
-
-        if (result.isValid) {
-            FormUtils.clearError(fieldName);
-            FormUtils.showSuccess(fieldName);
-        } else {
-            FormUtils.showError(fieldName, result.message);
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            console.log(`Redirecting to ${platform} for creative authentication...`);
+            // window.location.href = `/auth/${platform.toLowerCase()}`;
+        } catch (error) {
+            console.error(`Creative ${platform} authentication failed: ${error.message}`);
+        } finally {
+            button.style.transform = 'scale(1)';
+            button.style.opacity = '1';
         }
-
-        return result.isValid;
     }
 
-    shakeForm() {
-        this.form.style.animation = 'shake 0.5s ease-in-out';
+    addFailureEffect() {
+        const card = document.querySelector('.login-card');
+        card.style.animation = 'shake 0.5s ease-in-out';
+
+        // Add red glow effect
+        card.style.boxShadow = '0 25px 50px rgba(229, 62, 62, 0.3), 0 0 0 1px rgba(229, 62, 62, 0.2)';
+
         setTimeout(() => {
-            this.form.style.animation = '';
+            card.style.animation = '';
+            card.style.boxShadow = '';
         }, 500);
     }
 
-    async submitForm() {
-        this.isSubmitting = true;
-        this.submitBtn.classList.add('loading');
+    setLoading(loading) {
+        this.submitButton.classList.toggle('loading', loading);
+        this.submitButton.disabled = loading;
 
-        try {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        // Disable social buttons during login
+        this.socialButtons.forEach(button => {
+            button.style.pointerEvents = loading ? 'none' : 'auto';
+            button.style.opacity = loading ? '0.6' : '1';
+        });
 
-            // Use shared login simulation
-            await FormUtils.simulateLogin(email, password);
-
-            // Show success state
-            this.showSuccessMessage();
-
-        } catch (error) {
-            console.error('Login error:', error);
-            this.showLoginError(error.message);
-        } finally {
-            this.isSubmitting = false;
-            this.submitBtn.classList.remove('loading');
+        if (loading) {
+            // Add creative loading effect to card
+            const card = document.querySelector('.login-card');
+            card.style.animation = 'pulse 2s ease-in-out infinite';
         }
     }
 
-    showSuccessMessage() {
-        // Hide form with smooth animation
-        this.form.style.opacity = '0';
+    showCreativeSuccess() {
+        // Hide form elements with creative transitions
         this.form.style.transform = 'translateY(-20px)';
-
-        // Hide social login and other elements
-        const elementsToHide = ['.divider', '.social-login', '.signup-link'];
-        elementsToHide.forEach(selector => {
-            const element = document.querySelector(selector);
-            if (element) {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(-20px)';
-            }
-        });
+        this.form.style.opacity = '0';
 
         setTimeout(() => {
             this.form.style.display = 'none';
-            elementsToHide.forEach(selector => {
-                const element = document.querySelector(selector);
-                if (element) element.style.display = 'none';
-            });
+            document.querySelector('.creative-social').style.display = 'none';
+            document.querySelector('.signup-link').style.display = 'none';
 
+            // Show success with creative animation
             this.successMessage.classList.add('show');
 
-            // Simulate redirect after success
+            // Add celebration particles
+            this.createCelebrationParticles();
+
+        }, 300);
+
+        // Simulate creative workspace redirect
+        setTimeout(() => {
+            console.log('Entering your creative dimension...');
+            // window.location.href = '/creative-workspace';
+        }, 3500);
+    }
+
+    createCelebrationParticles() {
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#6c5ce7', '#feca57'];
+
+        for (let i = 0; i < 20; i++) {
             setTimeout(() => {
-                this.simulateRedirect();
-            }, 3000);
-        }, 300);
-    }
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: fixed;
+                    width: 8px;
+                    height: 8px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    border-radius: 50%;
+                    pointer-events: none;
+                    top: 50%;
+                    left: 50%;
+                    z-index: 1000;
+                    animation: explode ${Math.random() * 2 + 1}s ease-out forwards;
+                `;
 
-    simulateRedirect() {
-        // For demo, reset the form after 2 seconds
-        setTimeout(() => {
-            this.resetForm();
-        }, 2000);
-    }
+                document.body.appendChild(particle);
 
-    showLoginError(message) {
-        FormUtils.showNotification(message || 'Login failed. Please try again.', 'error', this.form);
-
-        // Shake the entire card
-        const card = document.querySelector('.login-card');
-        card.style.animation = 'shake 0.5s ease-in-out';
-        setTimeout(() => {
-            card.style.animation = '';
-        }, 500);
-    }
-
-    resetForm() {
-        this.successMessage.classList.remove('show');
-
-        setTimeout(() => {
-            // Show form elements again
-            const elementsToShow = ['.divider', '.social-login', '.signup-link'];
-            this.form.style.display = 'block';
-            elementsToShow.forEach(selector => {
-                const element = document.querySelector(selector);
-                if (element) {
-                    element.style.display = 'block';
-                }
-            });
-
-            this.form.reset();
-
-            // Clear all validation states
-            Object.keys(this.validators).forEach(fieldName => {
-                FormUtils.clearError(fieldName);
-            });
-
-            // Reset form appearance
-            this.form.style.opacity = '1';
-            this.form.style.transform = 'translateY(0)';
-
-            // Reset other elements
-            elementsToShow.forEach(selector => {
-                const element = document.querySelector(selector);
-                if (element) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }
-            });
-
-            // Reset floating labels
-            const inputs = this.form.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.classList.remove('has-value');
-            });
-
-            // Reset password visibility
-            if (this.passwordInput) {
-                this.passwordInput.type = 'password';
-                const eyeIcon = this.passwordToggle?.querySelector('.eye-icon');
-                if (eyeIcon) {
-                    eyeIcon.classList.remove('show-password');
-                }
-            }
-        }, 300);
-    }
-
-    setupKeyboardShortcuts() {
-        document.addEventListener('keydown', (e) => {
-            // Enter key submits form if focus is on form elements
-            if (e.key === 'Enter' && e.target.closest('#loginForm')) {
-                e.preventDefault();
-                this.handleSubmit(e);
-            }
-
-            // Escape key clears errors
-            if (e.key === 'Escape') {
-                Object.keys(this.validators).forEach(fieldName => {
-                    FormUtils.clearError(fieldName);
-                });
-            }
-        });
-    }
-
-    // Public methods
-    validate() {
-        return this.validateForm();
-    }
-
-    getFormData() {
-        const formData = new FormData(this.form);
-        const data = {};
-
-        for (let [key, value] of formData.entries()) {
-            data[key] = value;
+                setTimeout(() => {
+                    particle.remove();
+                }, 3000);
+            }, i * 50);
         }
 
-        return data;
+        // Add explosion animation
+        if (!document.querySelector('#explosion-keyframes')) {
+            const style = document.createElement('style');
+            style.id = 'explosion-keyframes';
+            style.textContent = `
+                @keyframes explode {
+                    0% {
+                        opacity: 1;
+                        transform: translate(-50%, -50%) scale(0);
+                    }
+                    50% {
+                        opacity: 1;
+                        transform: translate(${Math.random() * 400 - 200}px, ${Math.random() * 400 - 200}px) scale(1);
+                    }
+                    100% {
+                        opacity: 0;
+                        transform: translate(${Math.random() * 600 - 300}px, ${Math.random() * 600 - 300}px) scale(0);
+                    }
+                }
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.05); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
     }
 }
 
-// Initialize when DOM is loaded
+// Initialize the form when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Add entrance animation to login card
-    const loginCard = document.querySelector('.login-card');
-    FormUtils.addEntranceAnimation(loginCard);
-
-    // Initialize the login form
-    new LoginForm1();
-});
-
-// Handle page visibility changes for better UX
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-        // Re-focus on email field if user returns to page
-        const activeElement = document.activeElement;
-        if (activeElement && activeElement.tagName !== 'INPUT') {
-            const emailInput = document.querySelector('#email');
-            if (emailInput && !emailInput.value) {
-                setTimeout(() => emailInput.focus(), 100);
-            }
-        }
-    }
+    new CreativeLoginForm();
 });

@@ -4,6 +4,7 @@ from django.utils.text import gettext_lazy as _
 
 class CustomUser(AbstractUser):
     usable_password = models.BooleanField(default=True)
+    email = models.EmailField(unique=True)
 
 
 class SiteSettings(models.Model):
