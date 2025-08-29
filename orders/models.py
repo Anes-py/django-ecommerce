@@ -18,7 +18,7 @@ class Address(models.Model):
         verbose_name=_('user'),
     )
     full_name = models.CharField(_('full_name'), max_length=155)
-    phone = PhoneNumberField()
+    phone = models.CharField(max_length=20)
 
     country = models.CharField(_('country'), max_length=60, default='Iran')
     state = models.CharField(_('state/province'), max_length=60, blank=True)

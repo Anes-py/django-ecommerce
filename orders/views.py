@@ -5,8 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from decimal import Decimal
 
 from cart.models import Cart
-from orders.models import Order, OrderItem
-from .forms import OrderForm
+from .models import Order, OrderItem, Address
+from .forms import OrderForm, AddressForm
 
 
 class OrderCreateView(LoginRequiredMixin, generic.View):
@@ -60,3 +60,15 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
             order_obj.status=Order.OrderStatus.CANCELLED
             order_obj.save()
         return order_obj
+
+
+class AddressCreateView(LoginRequiredMixin, generic.CreateView):
+    def post(self, request, *args, **kwargs):
+            form = AddressForm(request.POST)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.user = self.request.user
+                obj.save()
+                messages.success(self.request, "آدرس با موفقیت افزوده شد")
+            messages.error(request, "لطفا اطلاعات را به درستی وارد کنید")
+            return redirect('cart-detail')
