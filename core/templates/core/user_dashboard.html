@@ -4,7 +4,7 @@
 {% load humanize %}
 {% load static %}
 
-{% block page_title %} {% endblock %}
+{% block page_title %} پنل کاربری {% endblock %}
 
 {% block page_content %}
 
@@ -945,90 +945,72 @@
                       سفارشات فعلی
                     </h3>
                   </div>
-                  <div class="space-y-4">
-                    <!-- order item -->
-{% for order in user_orders|slice:8 %}
-<div>
-  <a href="{% url 'order-detail' order.id %}">
-    <div class="rounded-lg border p-4 shadow-base">
-      <!-- head -->
-      <div class="flex items-center justify-between pb-6">
-        <div class="flex items-center gap-x-2
-          {% if order.status == 'pending_payment' %}
-            text-yellow-500 dark:text-yellow-400
-          {% elif order.status == 'paid' %}
-            text-green-500 dark:text-green-400
-          {% elif order.status == 'shipped' or order.status == 'fulfilled' %}
-            text-blue-500 dark:text-blue-400
-          {% elif order.status == 'delivered' %}
-            text-emerald-600 dark:text-emerald-400
-          {% elif order.status == 'cancelled' or order.status == 'refunded' %}
-            text-red-500 dark:text-red-400
-          {% else %}
-            text-gray-400
-          {% endif %}
-        ">
-          <svg class="h-6 w-6">
-            <use xlink:href="#warning" />
-          </svg>
-          <p class="font-medium md:text-lg">
-            {% if order.status == 'draft' %} پیش‌نویس
-            {% elif order.status == 'pending_payment' %} در انتظار پرداخت
-            {% elif order.status == 'paid' %} پرداخت شده
-            {% elif order.status == 'shipped' %} ارسال شده
-            {% elif order.status == 'delivered' %} تحویل داده شد
-            {% elif order.status == 'cancelled' %} لغو شده
-            {% elif order.status == 'refunded' %} بازگشت وجه
-            {% endif %}
-          </p>
-        </div>
-        <svg class="h-6 w-6">
-          <use xlink:href="#chevron-left" />
-        </svg>
-      </div>
+ <div class="flex flex-col space-y-4">
+      {% for order in user_orders %}
+        <div class="rounded-lg border p-4 shadow-base w-full">
 
-      <!-- content -->
-      <div class="flex flex-col gap-6 lg:flex-row lg:justify-between xl:gap-16">
-        <div class="flex flex-col gap-4 md:flex-row">
-          {% if order.status == 'pending_payment' or order.status == 'cancelled' %}
-          <div class="flex items-center justify-between gap-x-2 md:justify-start">
-            <div class="text-sm text-text/60 md:text-base">
-              زمان باقیمانده
-            </div>
-              {% if order.time_left > 0 %}
-            <div class="text-sm text-red-500 dark:text-red-400 md:text-base">
-                {{ order.time_left }} دقیقه
-              {% else %}
-                <span class="text-gray-400">مهلت تمام شد</span>
+          <!-- header -->
+          <div class="flex items-center justify-between pb-6">
+            <!-- وضعیت -->
+            <div class="flex items-center gap-x-2
+              {% if order.status == 'pending_payment' %} text-yellow-500 dark:text-yellow-400
+              {% elif order.status == 'paid' %} text-green-500 dark:text-green-400
+              {% elif order.status == 'shipped' or order.status == 'fulfilled' %} text-blue-500 dark:text-blue-400
+              {% elif order.status == 'delivered' %} text-emerald-600 dark:text-emerald-400
+              {% elif order.status == 'cancelled' or order.status == 'refunded' %} text-red-500 dark:text-red-400
+              {% else %} text-gray-400
               {% endif %}
+            ">
+              <svg class="h-6 w-6">
+                <use xlink:href="#warning" />
+              </svg>
+              <p class="font-medium md:text-lg">
+                {% if order.status == 'draft' %} پیش‌نویس
+                {% elif order.status == 'pending_payment' %} در انتظار پرداخت
+                {% elif order.status == 'paid' %} پرداخت شده
+                {% elif order.status == 'shipped' %} ارسال شده
+                {% elif order.status == 'delivered' %} تحویل داده شد
+                {% elif order.status == 'cancelled' %} لغو شده
+                {% elif order.status == 'refunded' %} بازگشت وجه
+                {% endif %}
+              </p>
             </div>
+
+            <svg class="h-6 w-6">
+              <use xlink:href="#chevron-left" />
+            </svg>
           </div>
-          {% endif %}
-          <div class="flex items-center justify-between gap-x-2 md:justify-start">
-            <div class="text-sm text-text/60 md:text-base">
-              شماره سفارش
+
+          <!-- content -->
+          <div class="flex flex-col gap-4 md:flex-row md:justify-between">
+            {% if order.status == 'pending_payment' or order.status == 'cancelled' %}
+              <div class="flex items-center gap-x-2">
+                <span class="text-sm text-text/60 md:text-base">زمان باقیمانده</span>
+                {% if order.time_left > 0 %}
+                  <span class="text-sm text-red-500 dark:text-red-400 md:text-base">
+                    {{ order.time_left }} دقیقه
+                  </span>
+                {% else %}
+                  <span class="text-gray-400">مهلت تمام شد</span>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            <div class="flex items-center gap-x-2">
+              <span class="text-sm text-text/60 md:text-base">شماره سفارش</span>
+              <span class="text-sm text-text/90 md:text-base">#{{ order.id }}</span>
             </div>
-            <div class="text-sm text-text/90 md:text-base">
-              #{{ order.id }}
-            </div>
-          </div>
-          <div class="flex items-center justify-between gap-x-2 md:justify-start">
-            <div class="text-sm text-text/60 md:text-base">
-              مبلغ کل
-            </div>
-            <div class="text-primary">
-              <span class="font-bold md:text-lg">{{ order.grand_total }}</span>
+
+            <div class="flex items-center gap-x-2">
+              <span class="text-sm text-text/60 md:text-base">مبلغ کل</span>
+              <span class="text-primary font-bold md:text-lg">{{ order.grand_total }}</span>
               <span class="text-sm md:text-base">تومان</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </a>
-</div>
-{% endfor %}
 
-                  </div>
+        </div>
+      {% endfor %}
+    </div>
                 </div>
               </div>
             </div>
