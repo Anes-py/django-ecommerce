@@ -31,7 +31,7 @@ class CartDetailView(LoginRequiredMixin, generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'user_addresses': Address.objects.filter(user=self.request.user) if self.request.user.is_authenticated else [],
+            'user_addresses': Address.objects.filter(user=self.request.user).order_by('-created_at'),
             'order_form': OrderForm(),
             'address_form': AddressForm(),
         })

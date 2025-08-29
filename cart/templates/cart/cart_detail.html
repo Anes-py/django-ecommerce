@@ -246,7 +246,7 @@
       <button type="button" class="text-gray-400 hover:text-gray-600" onclick="closeAddressModal()">✕</button>
     </div>
 
-    <form method="post" action="" class="space-y-4 text-sm">
+    <form method="post" action="{% url 'address-create' %}" class="space-y-4 text-sm">
       {% csrf_token %}
       <input type="text" name="full_name" placeholder="نام و نام خانوادگی" required
              class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-primary">
