@@ -18,10 +18,10 @@ class HomeView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         site_context = get_site_context(self.request)
         context.update({
-            'discounted_products':Product.objects.with_discount()[:50],
-            'newest_products':Product.objects.newest()[:50],
+            'discounted_products':Product.objects.with_discount()[:20],
+            'newest_products':Product.objects.newest().select_related('discount')[:20],
             'top_categories':site_context['categories'].filter(parent__isnull=True)[:6],
-            'best_sell_products':Product.objects.active().order_by('total_sell')[:50],
+            'best_sell_products':Product.objects.active().select_related('discount').order_by('total_sell')[:20],
         })
         if SiteSettings.objects.all().first():
             context.update({
@@ -35,7 +35,7 @@ class HomeView(generic.TemplateView):
 
 class ProductListView(generic.ListView):
     template_name = 'products/product_list.html'
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         sort_query_map = {
@@ -85,10 +85,10 @@ class ProductListView(generic.ListView):
 
 
 
-        return queryset
+        return queryset.select_related('discount')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(object_list=object_list, **kwargs)
         context.update({
             'parent_categories': Category.objects.filter(parent__isnull=True).select_related('parent').prefetch_related('children'),
             'search_form':True,
