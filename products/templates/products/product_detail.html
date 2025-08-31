@@ -145,6 +145,7 @@
                       </div>
                     </div>
                     <!-- Main image -->
+                    {% if product.main_image %}
                     <div>
                       <img
                         src="{{ product.main_image.url }}"
@@ -153,9 +154,11 @@
                         loading="lazy"
                       />
                     </div>
+                    {% endif %}
                     <!-- Gallery -->
                     <div class="flex items-center justify-center gap-x-2">
                       <!-- image -->
+                      {% if product.main_image %}
                      <button
                         type="button"
                         data-modal-target="product-gallery-modal"
@@ -169,6 +172,7 @@
                           loading="lazy"
                         />
                       </button>
+                      {% endif %}
                       {% if product.images.count > 0 %}
                       {% for image in product.images.all|slice:":4" %}
                       <button
@@ -514,6 +518,7 @@
               <div class="relative mb-4">
                 <div class="swiper product-image-mobile-swiper">
                   <div class="swiper-wrapper">
+                    {% if product.main_image %}
                     <div class="swiper-slide">
                       <img
                         src="{{ product.main_image.url }}"
@@ -522,6 +527,7 @@
                         loading="lazy"
                       />
                     </div>
+                    {% endif %}
                     {% for image in product.images.all %}
                     <div class="swiper-slide">
                       <img
@@ -1453,6 +1459,7 @@
                 <div class="border-b p-6">
                   <div class="swiper product-image-desktop-swiper">
                     <div class="swiper-wrapper">
+                      {% if product.main_image %}
                       <div class="swiper-slide">
                         <img
                           src="{{ product.main_image.url }}"
@@ -1461,7 +1468,7 @@
                           loading="lazy"
                         />
                       </div>
-
+                      {% endif %}
                       {% for image in product.images.all %}
                       <div class="swiper-slide">
                         <img
@@ -1481,6 +1488,7 @@
                 <div class="p-6">
                   <div class="swiper product-image-desktop-2-swiper">
                     <div class="swiper-wrapper justify-center">
+                      {% if product.main_image %}
                       <div class="swiper-slide rounded-lg border">
                         <img
                           src="{{ product.main_image.url }}"
@@ -1489,6 +1497,7 @@
                           loading="lazy"
                         />
                       </div>
+                      {% endif %}
                     {% for image in product.images.all %}
                       <div class="swiper-slide rounded-lg border">
                         <img

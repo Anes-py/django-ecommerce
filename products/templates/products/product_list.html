@@ -275,6 +275,7 @@
                     </span>
               {% endif %}
                     <!-- image -->
+                    {% if product.main_image %}
                     <div class="mb-2 md:mb-5" draggable="false">
                       <a href='{{ product.get_absolute_url }}'>
                         <img
@@ -284,6 +285,7 @@
                         />
                       </a>
                     </div>
+                    {% endif %}
                     <!-- title -->
                     <div class="mb-1">
                       <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
@@ -355,6 +357,7 @@
           </button>
         </div>
               <div class="space-y-6 p-4">
+
 <form id="mobileFilterForm" method="get" class="space-y-6">
   <!-- Price -->
   <div>
@@ -464,16 +467,22 @@
 
 
               <!-- Pagination -->
-<div class="flex items-center justify-center gap-x-4 md:justify-end">
-  <!-- Previous page-->
-  {% with request.GET.urlencode|cut:'page=' as querystring %}
+
+
+            </div>
+          </div>
+        </div>
+          <div class="flex items-center justify-center gap-x-4 md:justify-end">
+
+  <!-- Previous page -->
   {% if page_obj.has_previous %}
     <a
       class="pagination-button flex items-center justify-center"
-      href="?page={{ page_obj.previous_page_number }}&{{ querystring }}"
+      href="?page={{ page_obj.previous_page_number }}"
+      aria-label="Previous Page"
     >
       <svg class="h-6 w-6">
-        <use xlink:href="#chevron-right"></use>
+        <use xlink:href="#chevron-left"></use>
       </svg>
     </a>
   {% endif %}
@@ -493,23 +502,21 @@
     {% endfor %}
   </div>
 
-  <!-- Next page-->
+  <!-- Next page -->
   {% if page_obj.has_next %}
     <a
-      class="flex h-8 w-8 items-center justify-center rounded-full bg-muted transition-all duration-200 hover:bg-primary hover:text-white hover:dark:bg-emerald-600"
-      href="?page={{ page_obj.next_page_number }}&{{ querystring }}"
+      class="pagination-button flex items-center justify-center"
+      href="?page={{ page_obj.next_page_number }}"
+      aria-label="Next Page"
     >
       <svg class="h-6 w-6">
-        <use xlink:href="#chevron-left"></use>
+        <use xlink:href="#chevron-right"></use>
       </svg>
     </a>
   {% endif %}
-  {% endwith %}
+
 </div>
 
-            </div>
-          </div>
-        </div>
       </main>
 <div aria-labelledby="shop-sort-drawer-navigation-label"
      class="fixed bottom-0 left-0 right-0 z-40 h-auto w-full translate-y-full rounded-t-3xl bg-muted transition-transform duration-300"

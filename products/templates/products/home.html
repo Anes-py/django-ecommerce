@@ -117,6 +117,7 @@
                       بزودی
                     </span>
               {% endif %}
+                      {% if product.main_image %}
                       <div class="mb-2 md:mb-5" draggable="false">
                         <a href='{{ product.get_absolute_url }}'>
                           <img
@@ -126,6 +127,7 @@
                           />
                         </a>
                       </div>
+                      {% endif %}
                       <!-- title -->
                       <div class="mb-2">
                         <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
@@ -237,6 +239,7 @@
                       بزودی
                     </span>
               {% endif %}
+                      {% if product.main_image %}
                       <div class="mb-2 md:mb-5" draggable="false">
                         <a href='{{ product.get_absolute_url }}'>
                           <img
@@ -246,6 +249,7 @@
                           />
                         </a>
                       </div>
+                      {% endif %}
                       <!-- title -->
                       <div class="mb-2">
                         <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
@@ -408,6 +412,7 @@
                       بزودی
                     </span>
               {% endif %}
+                      {% if product.main_image %}
                       <div class="mb-2 md:mb-5" draggable="false">
                         <a href='{{ product.get_absolute_url }}'>
                           <img
@@ -417,6 +422,7 @@
                           />
                         </a>
                       </div>
+                      {% endif %}
                       <!-- title -->
                       <div class="mb-2">
                         <a class='line-clamp-2 h-10 text-sm md:h-12 md:text-base' href='{{ product.get_absolute_url }}'>
