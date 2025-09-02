@@ -19,7 +19,6 @@
         <form class="login-form" id="signupForm" method="post" action="{% url 'signup' %}" novalidate>
             {% csrf_token %}
 
-            <!-- خطاهای کلی فرم (مثل پسوردها یکی نیست) -->
             {% if form.non_field_errors %}
                 <div class="form-errors">
                     {% for error in form.non_field_errors %}
@@ -27,7 +26,7 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
+            <br>
 <!-- Username -->
 <div class="form-group">
     <div class="input-wrapper">
@@ -135,6 +134,6 @@
     </div>
 </div>
 
-<script src="{% static 'scripts/dependencies/auth.js' %}"></script>
+<script src="{% static 'scripts/auth.js' %}"></script>
 </body>
 </html>

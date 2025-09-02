@@ -35,7 +35,6 @@ INSTALLED_APPS = [
 
     # third party apps
     'jalali_date',
-    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -46,10 +45,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -104,9 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -133,9 +125,3 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = 'user-dashboard'
 LOGOUT_REDIRECT_URL = 'home'
-
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]

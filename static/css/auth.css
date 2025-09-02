@@ -737,11 +737,12 @@ body {
 }
 /* متن ارورها مشکی */
 .error-message {
-    color: #111; /* مشکی */
-    font-size: 0.875rem;
-    margin-top: 4px;
-    display: block;
+    display: block;     /* کل خط رو بگیره */
+    margin-top: 6px;    /* فاصله از input */
+    font-size: 0.9rem;
+    color: #ff4d4f;     /* قرمز برای خطا */
 }
+
 
 /* placeholder خالی برای همه input ها */
 .input-wrapper input::placeholder {
