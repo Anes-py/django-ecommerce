@@ -21,7 +21,7 @@ class CustomUserAdmin(UserAdmin):
     inlines = [
         AddressInline,
     ]
-
+    search_fields = ['username', 'email']
 
 class SliderBannerInline(admin.TabularInline):
     model = SliderBanners
