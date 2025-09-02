@@ -22,22 +22,8 @@ class ProductImageInline(admin.TabularInline):
 
 class CommentInline(admin.TabularInline):
     model = Comment
-    fields = [
-        'parent',
-        'user',
-        'display_name',
-        'title',
-        'text',
-        'recommend',
-        'status',
-        'created_at',
-    ]
-    readonly_fields = [
-        'created_at',
-    ]
-    extra = 1
-    min_num = 0
-
+    extra = 0
+    autocomplete_fields = ['user', 'parent', 'product']
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -60,7 +46,7 @@ class ProductAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
     autocomplete_fields = ['category', 'brand']
     prepopulated_fields = {"slug": ("name",)}
-    search_fields = ['name', 'short_description']
+    search_fields = ['name', 'short_description', 'id']
     ordering = ['-created_at', 'stock']
 
     inlines = [
@@ -106,5 +92,11 @@ class CommentAdmin(admin.ModelAdmin):
     list_editable = ['status']
     readonly_fields = ['created_at']
     date_hierarchy = 'created_at'
+    search_fields = [
+        'title',
+        'parent',
+        'user',
+        'display_name',
+    ]
     list_per_page = 20
     list_max_show_all = 30
