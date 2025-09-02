@@ -252,28 +252,6 @@
                   <div
                     class="relative rounded-xl bg-muted p-2 shadow-base md:p-5"
                   >
-              {% if product.stock < 10 and status == 'a'  %}
-                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
-                          style="background-color:#ef4444;">
-                      فقط {{ product.stock }} عدد در انبار موجود میباشد
-                    </span>
-              {% endif %}
-
-              {% if product.status == 'a' and product.stock > 10 %}
-                  <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
-                        style="background-color:#22c55e;">
-                    موجود
-                  </span>
-              {% elif product.status == 'na' %}
-              <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
-                    style="background-color:#facc15;">
-ناموجود              </span>
-              {% elif product.status == 's' %}
-                    <span class="absolute left-2 top-2 z-50 rounded-full px-3 py-1 text-xs font-medium text-white shadow-md"
-                          style="background-color:#3b82f6;">
-                      بزودی
-                    </span>
-              {% endif %}
                     <!-- image -->
                     {% if product.main_image %}
                     <div class="mb-2 md:mb-5" draggable="false">
@@ -293,7 +271,7 @@
                       </a>
                     </div>
                     <!-- Prices -->
-                    <div class="flex flex-col">
+                       <div class="flex flex-col">
                       {% if product.status == 'a' %}
                         <!-- Old price -->
                         <div class="h-5 text-left">
@@ -321,10 +299,15 @@
                             <span class="text-xs font-light md:text-sm">تومان</span>
                           </div>
                         </div>
-                      {% else %}
+                      {% elif product.status == 'na' %}
                         <div class="h-5"></div>
                         <div class="flex items-center justify-center">
                           <span class="text-sm font-medium text-gray-400">ناموجود</span>
+                        </div>
+                         {% else %}
+                                 <div class="h-5"></div>
+                        <div class="flex items-center justify-center">
+                          <span class="text-sm font-medium text-gray-400">بزودی...</span>
                         </div>
                       {% endif %}
                     </div>
@@ -357,7 +340,6 @@
           </button>
         </div>
               <div class="space-y-6 p-4">
-
 <form id="mobileFilterForm" method="get" class="space-y-6">
   <!-- Price -->
   <div>
@@ -464,15 +446,15 @@
           </button>
         </div>
       </div>
+      </div>
 
 
-              <!-- Pagination -->
 
 
             </div>
           </div>
-        </div>
-          <div class="flex items-center justify-center gap-x-4 md:justify-end">
+              <!-- Pagination -->
+<div class="flex items-center justify-center gap-x-4 md:justify-end">
 
   <!-- Previous page -->
   {% if page_obj.has_previous %}
@@ -489,17 +471,40 @@
 
   <!-- Pages -->
   <div class="flex items-center gap-x-2">
+
+    {# صفحه اول #}
+    {% if page_obj.number > 4 %}
+      <a class="pagination-button" href="?page=1">1</a>
+      {% if page_obj.number > 5 %}
+        <span class="px-2">...</span>
+      {% endif %}
+    {% endif %}
+
+    {# 3 قبل تا 3 بعد #}
     {% for num in page_obj.paginator.page_range %}
-      {% if page_obj.number == num %}
-        <a class="pagination-button pagination-button-active" href="?page={{ num }}">
-          {{ num }}
-        </a>
-      {% else %}
-        <a class="pagination-button" href="?page={{ num }}">
-          {{ num }}
-        </a>
+      {% if num >= page_obj.number|add:"-3" and num <= page_obj.number|add:"3" %}
+        {% if page_obj.number == num %}
+          <a class="pagination-button pagination-button-active" href="?page={{ num }}">
+            {{ num }}
+          </a>
+        {% else %}
+          <a class="pagination-button" href="?page={{ num }}">
+            {{ num }}
+          </a>
+        {% endif %}
       {% endif %}
     {% endfor %}
+
+    {# صفحه آخر #}
+    {% if page_obj.number < page_obj.paginator.num_pages|add:"-3" %}
+      {% if page_obj.number < page_obj.paginator.num_pages|add:"-4" %}
+        <span class="px-2">...</span>
+      {% endif %}
+      <a class="pagination-button" href="?page={{ page_obj.paginator.num_pages }}">
+        {{ page_obj.paginator.num_pages }}
+      </a>
+    {% endif %}
+
   </div>
 
   <!-- Next page -->
@@ -517,6 +522,8 @@
 
 </div>
 
+
+        </div>
       </main>
 <div aria-labelledby="shop-sort-drawer-navigation-label"
      class="fixed bottom-0 left-0 right-0 z-40 h-auto w-full translate-y-full rounded-t-3xl bg-muted transition-transform duration-300"

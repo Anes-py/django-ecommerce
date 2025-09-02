@@ -423,26 +423,26 @@
                     </form>
 
 
-{% elif product.status == 'na' %}
-  <!-- ناموجود -->
-  <div class="col-span-1 flex flex-col items-center justify-center rounded-2xl border p-6 text-center shadow-base">
-    <svg class="mb-3 h-12 w-12 text-red-500">
-      <use xlink:href="#ban" />
-    </svg>
-    <p class="text-lg font-bold text-red-500">ناموجود</p>
-    <p class="text-sm text-text/70">این محصول در حال حاضر موجود نیست</p>
-  </div>
+                {% elif product.status == 'na' %}
+                  <!-- ناموجود -->
+                  <div class="col-span-1 flex flex-col items-center justify-center rounded-2xl border p-6 text-center shadow-base">
+                    <svg class="mb-3 h-12 w-12 text-red-500">
+                      <use xlink:href="#ban" />
+                    </svg>
+                    <p class="text-lg font-bold text-red-500">ناموجود</p>
+                    <p class="text-sm text-text/70">این محصول در حال حاضر موجود نیست</p>
+                  </div>
 
-{% elif product.status == 's' %}
-  <!-- به زودی -->
-  <div class="col-span-1 flex flex-col items-center justify-center rounded-2xl border p-6 text-center shadow-base">
-    <svg class="mb-3 h-12 w-12 text-yellow-500">
-      <use xlink:href="#clock" />
-    </svg>
-    <p class="text-lg font-bold text-yellow-500">به زودی</p>
-    <p class="text-sm text-text/70">به زودی قابل خرید خواهد بود</p>
-  </div>
-{% endif %}
+                {% elif product.status == 's' %}
+                  <!-- به زودی -->
+                  <div class="col-span-1 flex flex-col items-center justify-center rounded-2xl border p-6 text-center shadow-base">
+                    <svg class="mb-3 h-12 w-12 text-yellow-500">
+                      <use xlink:href="#clock" />
+                    </svg>
+                    <p class="text-lg font-bold text-yellow-500">به زودی</p>
+                    <p class="text-sm text-text/70">به زودی قابل خرید خواهد بود</p>
+                  </div>
+                {% endif %}
 
                   </div>
                 </div>
@@ -674,6 +674,7 @@
                 </fieldset>
 
                 <!-- Quantity -->
+                  {% if product.status == 'a' %}
                 <div class="mb-4 text-sm md:text-base">انتخاب تعداد</div>
                 <div
                   class="flex h-12 w-40 items-center justify-between rounded-lg border px-4 py-1"
@@ -687,6 +688,7 @@
                     value="1"
                     name="{{ cart_form.quantity.name }}"
                     type="number"
+                    max="{{ product.stock }}"
                     class="flex h-6 w-6 w-full select-none items-center justify-center bg-transparent text-center outline-none"
                   />
                   <button type="button" data-action="decrement">
@@ -695,6 +697,7 @@
                     </svg>
                   </button>
                 </div>
+                  {% endif %}
               </div>
 
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -732,6 +735,8 @@
                   تحویل اکسپرس در تهران, کرج
                 </div>
               </div>
+            </form>
+
              </div>
             <!-- Property -->
             <div class="mb-6 rounded-lg bg-muted p-4 shadow-base lg:hidden">
@@ -749,6 +754,7 @@
 
             <!-- Add to Cart -->
             <div class="fixed inset-x-0 bottom-0 z-10 bg-muted p-5">
+              {% if product.status == 'a' %}
               <div class="flex items-center justify-between gap-x-6">
                 <!-- Button -->
                 <div class="flex grow">
@@ -756,6 +762,7 @@
                     افزودن به سبد خرید
                   </button>
                 </div>
+
               </form>
 
                 <!-- Price -->
@@ -784,10 +791,28 @@
                   </div>
                 </div>
               </div>
+    {% elif product.status == 'na' %}
+    <!-- محصول ناموجود -->
+    <div class="flex items-center justify-center gap-x-2 rounded-lg bg-red-100 p-3 text-red-700 font-bold animate-pulse">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11V5H9v2H7v2h2v2h2v-2h2V7h-2z" clip-rule="evenodd" />
+      </svg>
+      <span>ناموجود</span>
+    </div>
+
+    {% elif product.status == 's' %}
+    <!-- بزودی -->
+    <div class="flex items-center justify-center gap-x-2 rounded-lg bg-yellow-100 p-3 text-yellow-700 font-semibold animate-pulse">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11V5H9v2H7v2h2v2h2v-2h2V7h-2z" />
+      </svg>
+      <span>بزودی...</span>
+    </div>
+    {% endif %}
             </div>
 
           </div>
-            {% if related_p.count > 0 %}
+            {% if related_p %}
           <div class="mb-6">
             <div>
               <!-- Section Header -->
@@ -1287,16 +1312,13 @@
                             {% endfor %}
                             {% endif %}
                           </li>
-                          {% empty %}
-                          <li class="py-6 text-center text-text/70">
-                          هنوز هیچ کامنتی ثبت نشده! اولین نفر باش و نظر خودت رو بنویس 😄
-                          </li>
                           {% endfor %}
                         </ul>
                         <!-- Pagination -->
 
                       </div>
                       <!-- Mobile Comments -->
+                      {% if comments %}
                       <div class="md:hidden">
                         <div class="swiper product-comments-swiper">
                           <div class="swiper-wrapper">
@@ -1319,17 +1341,17 @@
                                 </svg>
                                 پیشنهاد میکنم
                               </div>
-                </div>
-                {% else %}
-                <div
-                class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
-                    >
-                   <svg class="h-5 w-5">
-                  <use xlink:href="#dislike" />
-                 </svg>
-                 پیشنهاد نمیکنم
-                 </div>
-                {% endif %}
+                            </div>
+                            {% else %}
+                            <div
+                            class="flex items-center gap-x-2 text-red-500 dark:text-red-400"
+                                >
+                               <svg class="h-5 w-5">
+                              <use xlink:href="#dislike" />
+                             </svg>
+                             پیشنهاد نمیکنم
+                             </div>
+                            {% endif %}
                             <button
                                   type="button"
                                   class="btn-secondary-nobg"
@@ -1407,9 +1429,18 @@
                           </div>
                         </div>
                       </div>
+                      {% else %}
+                                            <div class="mt-4 flex flex-col items-center justify-center gap-y-2 rounded-lg bg-yellow-50 p-4 text-yellow-800 font-medium shadow-md animate-pulse dark:bg-yellow-900 dark:text-yellow-300 text-center">
+                   <svg class="h-6 w-6 mb-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                     <path d="M18 10c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8 8 3.582 8 8zm-9-4v5l4 2" />
+                   </svg>
+                   <span>هنوز هیچ کامنتی ثبت نشده! اولین نفر باش و نظر خودت رو بنویس 😄</span>
+                 </div>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
+              {% if comments %}
                 <div class="hidden justify-center md:flex">
                   <button class="btn-secondary-nobg" id="toggleCommentsButton">
                     مشاهده بیشتر
@@ -1418,6 +1449,7 @@
                     </svg>
                   </button>
                 </div>
+              {% endif %}
               </div>
             </div>
           </div>
