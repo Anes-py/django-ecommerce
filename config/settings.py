@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     # third party apps
     'jalali_date',
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -45,6 +46,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -128,3 +133,9 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = 'user-dashboard'
 LOGOUT_REDIRECT_URL = 'home'
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

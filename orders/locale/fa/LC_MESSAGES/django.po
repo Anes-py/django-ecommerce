@@ -1,0 +1,183 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-02 17:16+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Persian <fa@li.org>\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\models.py:18 .\models.py:63
+msgid "user"
+msgstr "کاربر"
+
+#: .\models.py:20
+msgid "full_name"
+msgstr "نام کامل"
+
+#: .\models.py:23
+msgid "country"
+msgstr "کشور"
+
+#: .\models.py:24
+msgid "state/province"
+msgstr "استان/منطقه"
+
+#: .\models.py:25
+msgid "city"
+msgstr "شهر"
+
+#: .\models.py:26
+msgid "postal code"
+msgstr "کد پستی"
+
+#: .\models.py:28
+msgid "user default address"
+msgstr "آدرس پیش‌فرض کاربر"
+
+#: .\models.py:38
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#: .\models.py:39
+msgid "Pending Payment"
+msgstr "در انتظار پرداخت"
+
+#: .\models.py:40
+msgid "Paid"
+msgstr "پرداخت شده"
+
+#: .\models.py:41
+msgid "Shipped"
+msgstr "ارسال شده"
+
+#: .\models.py:42
+msgid "Delivered"
+msgstr "تحویل داده شده"
+
+#: .\models.py:43
+msgid "Fulfilled / Shipped"
+msgstr "تکمیل شده / ارسال شده"
+
+#: .\models.py:44
+msgid "Cancelled"
+msgstr "لغو شده"
+
+#: .\models.py:45
+msgid "Refunded"
+msgstr "بازپرداخت شده"
+
+#: .\models.py:48
+msgid "Credit/Debit Card"
+msgstr "کارت اعتباری/بانکی"
+
+#: .\models.py:49
+msgid "Cash on Delivery"
+msgstr "پرداخت در محل"
+
+#: .\models.py:50
+msgid "Bank Transfer / EFT"
+msgstr "انتقال بانکی / EFT"
+
+#: .\models.py:53
+msgid "Fast Delivery"
+msgstr "تحویل سریع"
+
+#: .\models.py:54
+msgid "Normal Delivery"
+msgstr "تحویل عادی"
+
+#: .\models.py:55
+msgid "Economy Delivery"
+msgstr "تحویل اقتصادی"
+
+#: .\models.py:70
+msgid "shipping address record"
+msgstr "سوابق آدرس ارسال"
+
+#: .\models.py:73
+msgid "status"
+msgstr "وضعیت"
+
+#: .\models.py:75
+msgid "payment method"
+msgstr "روش پرداخت"
+
+#: .\models.py:81
+msgid "subtotal"
+msgstr "جمع جزئی"
+
+#: .\models.py:82
+msgid "discount total"
+msgstr "جمع تخفیف"
+
+#: .\models.py:83
+msgid "shipping"
+msgstr "هزینه ارسال"
+
+#: .\models.py:84
+msgid "tax total"
+msgstr "جمع مالیات"
+
+#: .\models.py:85
+msgid "grand total"
+msgstr "جمع کل"
+
+#: .\models.py:87
+msgid "coupon code"
+msgstr "کد تخفیف"
+
+#: .\models.py:88
+msgid "notes"
+msgstr "یادداشت‌ها"
+
+#: .\models.py:107
+msgid "Order"
+msgstr "سفارش"
+
+#: .\models.py:108
+msgid "Orders"
+msgstr "سفارش‌ها"
+
+#: .\models.py:118
+msgid "product"
+msgstr "محصول"
+
+#: .\models.py:120
+msgid "product name"
+msgstr "نام محصول"
+
+#: .\models.py:121
+msgid "item price"
+msgstr "قیمت آیتم"
+
+#: .\models.py:122
+msgid "quantity"
+msgstr "تعداد"
+
+#: .\models.py:123
+msgid "total discount"
+msgstr "تخفیف کل"
+
+#: .\models.py:124
+msgid "final price"
+msgstr "قیمت نهایی"
+
+#: .\models.py:144
+msgid "Order item"
+msgstr "آیتم سفارش"
+
+#: .\models.py:145
+msgid "Order items"
+msgstr "آیتم‌های سفارش"

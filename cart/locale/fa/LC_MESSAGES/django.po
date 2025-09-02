@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-02 17:10+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Persian <fa@li.org>\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\models.py:14
+msgid "user"
+msgstr "کاربر"
+
+#: .\models.py:16
+msgid "session_key"
+msgstr "کلید نشست"
+
+#: .\models.py:17
+msgid "created at"
+msgstr "ایجاد شده در"
+
+#: .\models.py:18
+msgid "updated at"
+msgstr "به‌روزرسانی شده در"
+
+#: .\models.py:30
+msgid "Cart"
+msgstr "سبد خرید"
+
+#: .\models.py:31
+msgid "Carts"
+msgstr "سبدهای خرید"
+
+#: .\models.py:34
+msgid "cart of"
+msgstr "سبد خرید متعلق به"
+
+#: .\models.py:43
+msgid "items"
+msgstr "موارد"
+
+#: .\models.py:49
+msgid "product"
+msgstr "محصول"
+
+#: .\models.py:51
+msgid "quantity"
+msgstr "تعداد"
+
+#: .\models.py:52
+msgid "color"
+msgstr "رنگ"
+
+#: .\models.py:53
+msgid "size"
+msgstr "سایز"
+
+#: .\models.py:65
+msgid "Cart Item"
+msgstr "آیتم سبد خرید"
+
+#: .\models.py:66
+msgid "Cart Items"
+msgstr "آیتم‌های سبد خرید"

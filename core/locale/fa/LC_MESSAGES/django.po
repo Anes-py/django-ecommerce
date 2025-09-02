@@ -1,0 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-02 17:14+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Persian <fa@li.org>\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\apps.py:8
+msgid "core"
+msgstr "هسته"
+
+#: .\apps.py:11
+msgid "Store Admin Panel"
+msgstr "پنل مدیریت فروشگاه"
+
+#: .\apps.py:12
+msgid "Store Admin"
+msgstr "مدیر فروشگاه"
+
+#: .\apps.py:13
+msgid "Welcome to the Store Admin Panel"
+msgstr "به پنل مدیریت فروشگاه خوش آمدید"
+
+#: .\models.py:11
+msgid "site name"
+msgstr "نام سایت"
+
+#: .\models.py:12
+msgid "footer text"
+msgstr "متن فوتر"
+
+#: .\models.py:13
+msgid "footer contact phone"
+msgstr "شماره تماس فوتر"
+
+#: .\models.py:14
+msgid "footer contact text"
+msgstr "متن تماس فوتر"
+
+#: .\models.py:15
+msgid "footer github link"
+msgstr "لینک گیت‌هاب فوتر"
+
+#: .\models.py:16
+msgid "footer telegram link"
+msgstr "لینک تلگرام فوتر"
+
+#: .\models.py:17
+msgid "footer linkedin link"
+msgstr "لینک لینکدین فوتر"
+
+#: .\models.py:18
+msgid "footer instagram link"
+msgstr "لینک اینستاگرام فوتر"
+
+#: .\models.py:27
+msgid "image"
+msgstr "تصویر"
+
+#: .\models.py:28
+msgid "url"
+msgstr "آدرس اینترنتی"
+
+#: .\models.py:29
+msgid "is_active"
+msgstr "فعال است"
+
+#: .\models.py:30
+msgid "ordering"
+msgstr "ترتیب"
+
+#: .\models.py:31
+msgid "created_at"
+msgstr "ایجاد شده در"
+
+#: .\models.py:32
+msgid "updated_at"
+msgstr "به‌روزرسانی شده در"
