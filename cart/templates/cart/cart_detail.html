@@ -58,9 +58,15 @@
                     <a href="{{ item.product.get_absolute_url }}">
                       <img alt="" class="w-25 rounded-lg sm:w-28" src="{{ item.product.main_image.url }}" />
                     </a>
-                      <button class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background" type="submit">
-                        <svg class="h-6 w-6 text-red-600 dark:text-red-500"><use xlink:href="#close"></use></svg>
-                      </button>
+<button
+    type="button"
+    onclick="removeCartItem({{ item.id }})"
+    class="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background">
+    <svg class="h-6 w-6 text-red-600 dark:text-red-500">
+        <use xlink:href="#close"></use>
+    </svg>
+</button>
+
                   </div>
                   <!-- Detail -->
                   <div class="row-span-2 space-y-4 xs:col-span-2 sm:col-span-3 xl:col-span-5">
@@ -418,6 +424,29 @@ function closeMobileSummaryModal() {
 mobileSummaryModal.addEventListener('click', (e) => {
   if (e.target === mobileSummaryModal) closeMobileSummaryModal();
 });
+</script>
+
+<script>
+function removeCartItem(itemId) {
+    fetch("{% url 'cart-remove' 0 %}".replace("0", itemId), {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ id: itemId })
+    })
+    .then(response => {
+        if (response.ok) {
+            // رفرش صفحه بعد از حذف موفق
+            location.reload();
+        } else {
+            console.error("Remove failed", response.status);
+        }
+    })
+    .catch(err => console.error("Error:", err));
+}
 </script>
 
 {% endblock %}
