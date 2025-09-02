@@ -314,6 +314,15 @@
 
                   </div>
                 </div>
+                {% empty %}
+                <div class="col-span-full flex flex-col items-center justify-center p-10 text-center text-gray-500">
+                  <svg class="mx-auto h-16 w-16 mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 17v-4h6v4m-6 0v4h6v-4m6-8H3m0 0v4m0-4v-4"/>
+                  </svg>
+                  <p class="text-lg font-semibold">هیچ محصولی یافت نشد</p>
+                  <p class="text-sm text-gray-400">لطفا بعدا دوباره بررسی کنید یا محصولات دیگر را مشاهده کنید.</p>
+                </div>
                 {% endfor %}
               </div>
             <div
