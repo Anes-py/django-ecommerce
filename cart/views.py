@@ -1,8 +1,10 @@
 from django.db.models import Prefetch
 from django.contrib import messages
 from django.views import generic
-from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.text import gettext_lazy as gt
+from django.shortcuts import get_object_or_404, redirect, reverse
+
 
 from products.models import Product
 from orders.models import Address
@@ -42,14 +44,15 @@ class AddToCartView(generic.View):
 
     def post(self, request, *args, **kwargs):
         form = AddToCartForm(request.POST)
+        product_id = kwargs.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+
         if not form.is_valid():
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect('product-detail', slug=product.slug)
         quantity = form.cleaned_data['quantity']
         color = form.cleaned_data['color']
         size = form.cleaned_data['size']
 
-        product_id = kwargs.get('product_id')
-        product = get_object_or_404(Product, id=product_id)
         if request.user.is_authenticated:
             cart, _ = Cart.objects.get_or_create(user=request.user)
         else:
@@ -63,9 +66,9 @@ class AddToCartView(generic.View):
         else:
             cart_item.quantity += quantity
         cart_item.save()
-        messages.success(request, "محصول با موفقیت به سبد خرید اضافه شد✅")
+        messages.success(request, gt("Product successfully added to the cart ✅"))
         request.session['old_session_key'] = request.session.session_key
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect('product-detail', slug=product.slug)
 
 
 class CartItemRemove(generic.View):
@@ -79,8 +82,7 @@ class CartItemRemove(generic.View):
             cart = get_object_or_404(Cart, session_key=request.session.session_key)
         item = get_object_or_404(CartItem, id=item_id, cart=cart)
         item.delete()
-        messages.success(request, "🗑️ محصول از سبد خرید حذف شد")
-        return redirect(request.META.get("HTTP_REFERER", "/"))
+        return redirect('cart-detail')
 
 
 class CartDelete(generic.View):
@@ -93,7 +95,7 @@ class CartDelete(generic.View):
             cart = get_object_or_404(Cart, session_key=request.session.session_key)
         cart.delete()
         messages.success(request, 'ایتم های سبد شما با موفقیت حدف شد✅ ')
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect('cart-detail')
 
 
 class CartUpdateView(generic.View):
@@ -126,8 +128,8 @@ class CartUpdateView(generic.View):
                 continue
 
         if updated or deleted:
-            messages.success(request, "سبد خرید به‌روزرسانی شد ✅")
+            messages.success(request, "Cart has been updated ✅")
         else:
-            messages.info(request, "هیچ تغییری در سبد خرید اعمال نشد")
+            messages.info(request, "No changes were made to the cart.✅")
 
-        return redirect(request.META.get("HTTP_REFERER", "/"))
+        return redirect('cart-detail')

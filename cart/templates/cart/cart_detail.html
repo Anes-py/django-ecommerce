@@ -38,12 +38,14 @@
             </h1>
             <form action="{% url 'cart-delete' %}" method="post">
               {% csrf_token %}
+              {% if cart.items.all %}
               <button type="submit" class="btn-red-nobg px-3 py-2 text-sm">
                 <span>
                   <svg class="h-6 w-6"><use xlink:href="#trash"></use></svg>
                 </span>
                 <span>حذف همه</span>
               </button>
+              {% endif %}
             </form>
           </div>
           <form action="{% url 'cart-update' %}" method="post">
