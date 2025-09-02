@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - صفحه یافت نشد</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 flex items-center justify-center min-h-screen font-sans">
+
+  <div class="text-center p-6 bg-white/20 backdrop-blur-md rounded-3xl shadow-xl max-w-lg mx-4">
+    <h1 class="text-9xl font-extrabold text-white mb-6 animate-bounce">404</h1>
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">اوه نه! صفحه‌ای که دنبال آن بودید پیدا نشد 😢</h2>
+    <p class="text-white/90 mb-6">ممکن است آدرس اشتباه وارد شده باشد یا صفحه حذف شده باشد.</p>
+    <a href="/" class="inline-block bg-white text-purple-600 font-bold px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-200">
+      بازگشت به خانه
+    </a>
+  </div>
+
+  <!-- انیمیشن تزئینی -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+    <span class="absolute bg-white/20 rounded-full w-6 h-6 animate-bounce-slow" style="top:10%; left:20%;"></span>
+    <span class="absolute bg-white/20 rounded-full w-8 h-8 animate-bounce-slower" style="top:50%; left:70%;"></span>
+    <span class="absolute bg-white/20 rounded-full w-4 h-4 animate-bounce" style="top:80%; left:40%;"></span>
+  </div>
+
+  <style>
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .animate-bounce-slow { animation: bounce-slow 3s infinite; }
+
+    @keyframes bounce-slower {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .animate-bounce-slower { animation: bounce-slower 4s infinite; }
+  </style>
+
+</body>
+</html>
