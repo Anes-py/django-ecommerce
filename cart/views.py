@@ -64,6 +64,7 @@ class AddToCartView(generic.View):
             cart_item.quantity += quantity
         cart_item.save()
         messages.success(request, "محصول با موفقیت به سبد خرید اضافه شد✅")
+        request.session['old_session_key'] = request.session.session_key
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
