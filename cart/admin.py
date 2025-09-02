@@ -4,10 +4,17 @@ from .models import Cart, CartItem
 
 class ItemInline(admin.TabularInline):
     model = CartItem
+    autocomplete_fields = ['product']
+
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = ['user', 'session_key']
+    search_fields = ['user', 'id']
     inlines = [
         ItemInline,
     ]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('user')
