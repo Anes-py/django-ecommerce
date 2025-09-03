@@ -3,8 +3,6 @@ from django.contrib.auth import get_user_model
 from django.utils.text import gettext_lazy as _
 from django.utils import timezone
 
-from phonenumber_field.modelfields import PhoneNumberField
-
 from products.models import Product
 
 
